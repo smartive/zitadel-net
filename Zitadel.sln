@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{E41E944E-1B83-4AA3-8DC5-1D8AFD387AE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2462186B-61A8-476C-9674-176570BBEC35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{47CEB49C-56A9-4BDF-BC66-54E407391D49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zitadel", "src\Zitadel\Zitadel.csproj", "{F6769E50-6690-4E96-8DD7-EA4EB4CDA91C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{BF13C638-6A5C-4BF6-89FF-1BAA3986F86A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{4533ABEB-FB66-4EF8-95D5-FD7F624A95EB}"
+ProjectSection(SolutionItems) = preProject
+	LICENSE = LICENSE
+	README.md = README.md
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zitadel.AuthN.Dev", "tests\Zitadel.AuthN.Dev\Zitadel.AuthN.Dev.csproj", "{9AD0581A-82BA-4E96-A1EE-722D579C26D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{2342B4AF-413F-4A67-80D5-3EDEF2DA435F}"
+ProjectSection(SolutionItems) = preProject
+	.gitignore = .gitignore
+	config\CodeAnalysis.targets = config\CodeAnalysis.targets
+	config\Common.targets = config\Common.targets
+	config\project.ruleset = config\project.ruleset
+	config\stylecop.json = config\stylecop.json
+EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6769E50-6690-4E96-8DD7-EA4EB4CDA91C} = {47CEB49C-56A9-4BDF-BC66-54E407391D49}
+		{BF13C638-6A5C-4BF6-89FF-1BAA3986F86A} = {E41E944E-1B83-4AA3-8DC5-1D8AFD387AE8}
+		{9AD0581A-82BA-4E96-A1EE-722D579C26D8} = {2462186B-61A8-476C-9674-176570BBEC35}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF13C638-6A5C-4BF6-89FF-1BAA3986F86A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF13C638-6A5C-4BF6-89FF-1BAA3986F86A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6769E50-6690-4E96-8DD7-EA4EB4CDA91C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6769E50-6690-4E96-8DD7-EA4EB4CDA91C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6769E50-6690-4E96-8DD7-EA4EB4CDA91C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6769E50-6690-4E96-8DD7-EA4EB4CDA91C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AD0581A-82BA-4E96-A1EE-722D579C26D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AD0581A-82BA-4E96-A1EE-722D579C26D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AD0581A-82BA-4E96-A1EE-722D579C26D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AD0581A-82BA-4E96-A1EE-722D579C26D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
