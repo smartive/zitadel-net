@@ -19,6 +19,16 @@ namespace Zitadel.Spa.Dev.Controller
         public object BearerAuthedGet()
             => Result();
 
+        [HttpGet("hd-jwt")]
+        [Authorize(AuthenticationSchemes = "ZitadelAuthHandlerJWTHostedDomain")]
+        public object HdJwtAuthedGet()
+            => Result();
+
+        [HttpGet("hd-bearer")]
+        [Authorize(AuthenticationSchemes = "ZitadelAuthHandlerBearerHostedDomain")]
+        public object HdBearerAuthedGet()
+            => Result();
+
         private object Result() => new
         {
             Ping = "Pong",

@@ -22,6 +22,6 @@ namespace Zitadel.Authentication.Options
 
         public string DiscoveryEndpoint { get; set; } = ZitadelDefaults.DiscoveryEndpoint;
 
-        public string? HostedDomain { get; set; }
+        public string? PrimaryDomain { get; set; }
     }
 }

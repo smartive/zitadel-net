@@ -15,5 +15,7 @@
         public const string DiscoveryEndpoint = "https://issuer.zitadel.ch/.well-known/openid-configuration";
 
         public const string RoleClaimName = "urn:zitadel:iam:org:project:roles";
+
+        public const string PrimaryDomainClaimName = "urn:zitadel:iam:org:domain:primary";
     }
 }

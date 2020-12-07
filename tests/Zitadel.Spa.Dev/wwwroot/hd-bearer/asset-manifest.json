@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/hd-bearer/static/css/main.d3aef3ac.chunk.css",
+    "main.js": "/hd-bearer/static/js/main.1f84db4e.chunk.js",
+    "main.js.map": "/hd-bearer/static/js/main.1f84db4e.chunk.js.map",
+    "runtime-main.js": "/hd-bearer/static/js/runtime-main.db7932c4.js",
+    "runtime-main.js.map": "/hd-bearer/static/js/runtime-main.db7932c4.js.map",
+    "static/css/2.37865b2a.chunk.css": "/hd-bearer/static/css/2.37865b2a.chunk.css",
+    "static/js/2.8ab5b71a.chunk.js": "/hd-bearer/static/js/2.8ab5b71a.chunk.js",
+    "static/js/2.8ab5b71a.chunk.js.map": "/hd-bearer/static/js/2.8ab5b71a.chunk.js.map",
+    "index.html": "/hd-bearer/index.html",
+    "precache-manifest.36bd386d44cf58b390009591b12a6f76.js": "/hd-bearer/precache-manifest.36bd386d44cf58b390009591b12a6f76.js",
+    "service-worker.js": "/hd-bearer/service-worker.js",
+    "static/css/2.37865b2a.chunk.css.map": "/hd-bearer/static/css/2.37865b2a.chunk.css.map",
+    "static/css/main.d3aef3ac.chunk.css.map": "/hd-bearer/static/css/main.d3aef3ac.chunk.css.map",
+    "static/js/2.8ab5b71a.chunk.js.LICENSE.txt": "/hd-bearer/static/js/2.8ab5b71a.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/hd-bearer/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.db7932c4.js",
+    "static/css/2.37865b2a.chunk.css",
+    "static/js/2.8ab5b71a.chunk.js",
+    "static/css/main.d3aef3ac.chunk.css",
+    "static/js/main.1f84db4e.chunk.js"
+  ]
+}

@@ -19,8 +19,22 @@ namespace Zitadel.Spa.Dev
                     "ZitadelAuthHandlerJWT",
                     o => o.ClientId = "84891356119558811@zitadel_net")
                 .AddZitadelAuthenticationHandler(
+                    "ZitadelAuthHandlerJWTHostedDomain",
+                    o =>
+                    {
+                        o.ClientId = "84891356119558811@zitadel_net";
+                        o.PrimaryDomain = "smartive.zitadel.ch";
+                    })
+                .AddZitadelAuthenticationHandler(
                     "ZitadelAuthHandlerBearer",
-                    o => o.ClientId = "84891241816386203@zitadel_net");
+                    o => o.ClientId = "84891241816386203@zitadel_net")
+                .AddZitadelAuthenticationHandler(
+                    "ZitadelAuthHandlerBearerHostedDomain",
+                    o =>
+                    {
+                        o.ClientId = "84891241816386203@zitadel_net";
+                        o.PrimaryDomain = "smartive.zitadel.ch";
+                    });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

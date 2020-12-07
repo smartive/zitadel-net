@@ -15,17 +15,18 @@ namespace Zitadel.Authentication.Validation
     public class ZitadelOpaqueTokenValidator : ISecurityTokenValidator
     {
         private const string AuthorizationHeader = "Authorization";
-        //TODO: Hosted domain check
 
         private static readonly HttpClient Client = new();
 
         private readonly ConfigurationManager<OpenIdConnectConfiguration> _configuration;
 
+        private readonly string? _primaryDomain;
         private string? _userInfoEndpoint;
         private string? _issuer;
 
-        public ZitadelOpaqueTokenValidator(string discoveryEndpoint)
+        public ZitadelOpaqueTokenValidator(string discoveryEndpoint, string? primaryDomain)
         {
+            _primaryDomain = primaryDomain;
             _configuration = new ConfigurationManager<OpenIdConnectConfiguration>(
                 discoveryEndpoint,
                 new OpenIdConnectConfigurationRetriever(),
@@ -66,11 +67,19 @@ namespace Zitadel.Authentication.Validation
                 .ReadFromJsonAsync<UserInfo>()
                 .Result;
 
+            if (_primaryDomain != null && userInfo.PrimaryDomain != _primaryDomain)
+            {
+                // The user-info does not contain a primary domain claim
+                // or it was the wrong value.
+                return new ClaimsPrincipal();
+            }
+
             var identity = new ClaimsIdentity(
                 new[]
                     {
                         Claim(ClaimTypes.NameIdentifier, userInfo.Id),
                         Claim("sub", userInfo.Id),
+                        Claim(ZitadelDefaults.PrimaryDomainClaimName, userInfo.PrimaryDomain),
 
                         Claim(ClaimTypes.Name, userInfo.Name),
                         Claim(ClaimTypes.GivenName, userInfo.GivenName),
@@ -139,7 +148,8 @@ namespace Zitadel.Authentication.Validation
             [JsonPropertyName(ZitadelDefaults.RoleClaimName)]
             public Dictionary<string, Dictionary<string, string>>? Roles { get; init; }
 
-            //TODO: Hosted domain
+            [JsonPropertyName(ZitadelDefaults.PrimaryDomainClaimName)]
+            public string? PrimaryDomain { get; init; }
         }
     }
 }

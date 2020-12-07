@@ -119,16 +119,19 @@ namespace Zitadel.Authentication
                             PropertyBag = new Dictionary<string, object>(),
                         };
 
-                        // TODO: Hosted Domain
-                        // if (!string.IsNullOrWhiteSpace(options.HostedDomain))
-                        // {
-                        //     o.TokenValidationParameters.PropertyBag.Add("hd", options.HostedDomain);
-                        // }
+                        if (!string.IsNullOrWhiteSpace(zitadelOptions.PrimaryDomain))
+                        {
+                            options.TokenValidationParameters.PropertyBag.Add(
+                                "primaryDomain",
+                                zitadelOptions.PrimaryDomain);
+                        }
 
                         options.SecurityTokenValidators.Clear();
-                        options.SecurityTokenValidators.Add(new ZitadelJwtTokenValidator());
+                        options.SecurityTokenValidators.Add(new ZitadelJwtTokenValidator(zitadelOptions.PrimaryDomain));
                         options.SecurityTokenValidators.Add(
-                            new ZitadelOpaqueTokenValidator(zitadelOptions.DiscoveryEndpoint));
+                            new ZitadelOpaqueTokenValidator(
+                                zitadelOptions.DiscoveryEndpoint,
+                                zitadelOptions.PrimaryDomain));
                     });
     }
 }

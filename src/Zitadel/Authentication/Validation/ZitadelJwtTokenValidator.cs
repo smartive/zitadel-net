@@ -1,5 +1,4 @@
-﻿using System.Buffers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -10,6 +9,13 @@ namespace Zitadel.Authentication.Validation
 {
     public class ZitadelJwtTokenValidator : JwtSecurityTokenHandler
     {
+        private readonly string? _primaryDomain;
+
+        public ZitadelJwtTokenValidator(string? primaryDomain = null)
+        {
+            _primaryDomain = primaryDomain;
+        }
+
         public override ClaimsPrincipal ValidateToken(
             string token,
             TokenValidationParameters validationParameters,
@@ -17,7 +23,12 @@ namespace Zitadel.Authentication.Validation
         {
             var principal = base.ValidateToken(token, validationParameters, out validatedToken);
 
-            // TODO: hosted domain check.
+            if (_primaryDomain != null && !principal.HasClaim(ZitadelDefaults.PrimaryDomainClaimName, _primaryDomain))
+            {
+                // The user-token does not contain a primary domain claim
+                // or it was the wrong value.
+                return new ClaimsPrincipal();
+            }
 
             var roles = principal.FindFirstValue(ZitadelDefaults.RoleClaimName);
             if (!string.IsNullOrWhiteSpace(roles))
