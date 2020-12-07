@@ -6,7 +6,6 @@ namespace Zitadel.AuthN.Dev.Pages
     {
         public void OnGet()
         {
-            
         }
     }
 }

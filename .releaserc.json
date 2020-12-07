@@ -1,0 +1,32 @@
+{
+  "verifyConditions": ["@semantic-release/github"],
+  "addChannel": ["@semantic-release/github"],
+  "prepare": [
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "./build.sh --no-logo --version ${nextRelease.version} --target Publish"
+      }
+    ]
+  ],
+  "publish": [
+    [
+      "@semantic-release/github",
+      {
+        "assets": [{ "path": "artifacts/*.nupkg" }]
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "./build.sh --no-logo --target Publish --nuget-source ${env.GH_NUGET_SOURCE} --nuget-api-key ${env.GH_NUGET_API_KEY}"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "./build.sh --no-logo --target Publish --nuget-source ${env.NUGET_SOURCE} --nuget-api-key ${env.NUGET_API_KEY}"
+      }
+    ]
+  ]
+}

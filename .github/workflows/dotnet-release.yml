@@ -1,0 +1,36 @@
+name: .NET Release
+
+on: [workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.100
+      - name: Test
+        run: ./build.sh --target test --no-logo
+  semantic-release:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.100
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          extra_plugins: |
+            @semantic-release/exec
+        env:
+          NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          GH_NUGET_SOURCE: 'https://nuget.pkg.github.com/caos/index.json'
+          GH_NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
