@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Authentification callback processing..</title>
+</head>
+
+<body>
+    <noscript>
+        You need to enable JavaScript to run this app.
+    </noscript>
+
+    <h1>Authentification callback processing...</h1>
+
+    <script src="oidc-client.min.js"></script>
+    <script>
+        new Oidc.UserManager({ response_mode: "query" }).signinRedirectCallback().then(function () {
+            window.location = "index.html";
+        }).catch(function (e) {
+            console.error(e);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Zitadel.Authentication.Options;
+using Zitadel.Authentication.Validation;
 
 namespace Zitadel.Authentication
 {
@@ -75,9 +79,56 @@ namespace Zitadel.Authentication
                     })
                 .Services;
 
-        public static AuthenticationBuilder AddZitadelAuthenticationHandler(this AuthenticationBuilder builder)
-        {
-            return builder;
-        }
+        public static AuthenticationBuilder AddZitadelAuthenticationHandler(
+            this AuthenticationBuilder builder,
+            Action<ZitadelHandlerOptions>? configureOptions = default)
+            => builder.AddZitadelAuthenticationHandler(ZitadelDefaults.HandlerAuthenticationScheme, configureOptions);
+
+        public static AuthenticationBuilder AddZitadelAuthenticationHandler(
+            this AuthenticationBuilder builder,
+            string authenticationScheme,
+            Action<ZitadelHandlerOptions>? configureOptions = default)
+            => builder.AddZitadelAuthenticationHandler(
+                authenticationScheme,
+                ZitadelDefaults.DisplayName,
+                configureOptions);
+
+        public static AuthenticationBuilder AddZitadelAuthenticationHandler(
+            this AuthenticationBuilder builder,
+            string authenticationScheme,
+            string displayName,
+            Action<ZitadelHandlerOptions>? configureOptions = default)
+            => builder
+                .AddJwtBearer(
+                    authenticationScheme,
+                    displayName,
+                    options =>
+                    {
+                        var zitadelOptions = new ZitadelHandlerOptions();
+                        configureOptions?.Invoke(zitadelOptions);
+
+                        options.Authority = zitadelOptions.Authority;
+                        options.Audience = zitadelOptions.ClientId;
+
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            ValidateAudience = zitadelOptions.ValidateAudience,
+                            ValidAudiences = zitadelOptions.ValidAudiences ?? new[] { zitadelOptions.ClientId },
+                            ValidIssuer = zitadelOptions.Issuer,
+                            PropertyBag = new Dictionary<string, object>(),
+                        };
+
+                        // TODO: Hosted Domain
+                        // if (!string.IsNullOrWhiteSpace(options.HostedDomain))
+                        // {
+                        //     o.TokenValidationParameters.PropertyBag.Add("hd", options.HostedDomain);
+                        // }
+
+                        options.SecurityTokenValidators.Clear();
+                        options.SecurityTokenValidators.Add(new ZitadelJwtTokenValidator());
+                        options.SecurityTokenValidators.Add(
+                            new ZitadelOpaqueTokenValidator(zitadelOptions.DiscoveryEndpoint));
+                    });
     }
 }

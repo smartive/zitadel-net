@@ -9,8 +9,6 @@ namespace Zitadel.Authentication
 {
     public class ZitadelProjectRolesClaimAction : ClaimAction
     {
-        private const string RolePropertyName = "urn:zitadel:iam:org:project:roles";
-
         public ZitadelProjectRolesClaimAction()
             : base(ClaimTypes.Role, ClaimValueTypes.String)
         {
@@ -18,7 +16,7 @@ namespace Zitadel.Authentication
 
         public override void Run(JsonElement userData, ClaimsIdentity identity, string issuer)
         {
-            if (!userData.TryGetProperty(RolePropertyName, out var roles))
+            if (!userData.TryGetProperty(ZitadelDefaults.RoleClaimName, out var roles))
             {
                 return;
             }
