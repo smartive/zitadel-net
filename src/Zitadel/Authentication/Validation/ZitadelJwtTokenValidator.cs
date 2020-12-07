@@ -7,7 +7,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Zitadel.Authentication.Validation
 {
-    public class ZitadelJwtTokenValidator : JwtSecurityTokenHandler
+    /// <summary>
+    /// <see cref="JwtSecurityTokenHandler"/> that verified JWT that
+    /// were issued by Zitadel. Additional logic is appended to verify
+    /// the primary domain (if any).
+    /// </summary>
+    internal class ZitadelJwtTokenValidator : JwtSecurityTokenHandler
     {
         private readonly string? _primaryDomain;
 

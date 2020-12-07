@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,19 +11,59 @@ using Zitadel.Authentication.Validation;
 
 namespace Zitadel.Authentication
 {
+    /// <summary>
+    /// Extensions for the <see cref="AuthenticationBuilder"/>
+    /// to add Zitadel login capabilities.
+    /// </summary>
     public static class AuthenticationBuilderExtensions
     {
+        /// <summary>
+        /// Add Zitadel authentication/authorization (via OpenIDConnect) to the application.
+        /// This is commonly used when the application delivers server-side
+        /// pages. This behaves like other external IDPs (e.g. AddGoogle, AddFacebook, ...).
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="configureOptions">
+        /// An optional action to configure the oidc options
+        /// (<see cref="OpenIdConnectOptions"/>).
+        /// </param>
+        /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
         public static AuthenticationBuilder AddZitadel(
             this AuthenticationBuilder builder,
             Action<OpenIdConnectOptions>? configureOptions = default)
             => builder.AddZitadel(ZitadelDefaults.AuthenticationScheme, configureOptions);
 
+        /// <summary>
+        /// Add Zitadel authentication/authorization (via OpenIDConnect) to the application.
+        /// This is commonly used when the application delivers server-side
+        /// pages. This behaves like other external IDPs (e.g. AddGoogle, AddFacebook, ...).
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="authenticationScheme">The name for the authentication scheme.</param>
+        /// <param name="configureOptions">
+        /// An optional action to configure the oidc options
+        /// (<see cref="OpenIdConnectOptions"/>).
+        /// </param>
+        /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
         public static AuthenticationBuilder AddZitadel(
             this AuthenticationBuilder builder,
             string authenticationScheme,
             Action<OpenIdConnectOptions>? configureOptions = default)
             => builder.AddZitadel(authenticationScheme, ZitadelDefaults.DisplayName, configureOptions);
 
+        /// <summary>
+        /// Add Zitadel authentication/authorization (via OpenIDConnect) to the application.
+        /// This is commonly used when the application delivers server-side
+        /// pages. This behaves like other external IDPs (e.g. AddGoogle, AddFacebook, ...).
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="authenticationScheme">The name for the authentication scheme.</param>
+        /// <param name="displayName">The display name for the authentication scheme.</param>
+        /// <param name="configureOptions">
+        /// An optional action to configure the oidc options
+        /// (<see cref="OpenIdConnectOptions"/>).
+        /// </param>
+        /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
         public static AuthenticationBuilder AddZitadel(
             this AuthenticationBuilder builder,
             string authenticationScheme,
@@ -39,26 +79,86 @@ namespace Zitadel.Authentication
                     options.UsePkce = true;
                     options.ResponseType = "code";
                     options.ClaimActions.Add(new ZitadelProjectRolesClaimAction());
-
                     configureOptions?.Invoke(options);
                 });
 
+        /// <summary>
+        /// Add Zitadel authentication/authorization (via OpenIDConnect) to the application.
+        /// In contrast to AddZitadel(...), this also adds and configures the external session
+        /// cookie. The external cookie is configured to a default with local https since
+        /// the same-site restrictions of the Chromium project apply.
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="configureOptions">
+        /// An optional action to configure the oidc options
+        /// (<see cref="OpenIdConnectOptions"/>).
+        /// </param>
+        /// <param name="configureCookieOptions">
+        /// An optional action to configure the cookie options
+        /// (<see cref="CookieAuthenticationOptions"/>).
+        /// </param>
+        /// <returns>The configured <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddZitadelWithSession(
             this AuthenticationBuilder builder,
-            Action<OpenIdConnectOptions>? configureOptions = default)
-            => builder.AddZitadelWithSession(ZitadelDefaults.AuthenticationScheme, configureOptions);
+            Action<OpenIdConnectOptions>? configureOptions = default,
+            Action<CookieAuthenticationOptions>? configureCookieOptions = default)
+            => builder.AddZitadelWithSession(
+                ZitadelDefaults.AuthenticationScheme,
+                configureOptions,
+                configureCookieOptions);
 
+        /// <summary>
+        /// Add Zitadel authentication/authorization (via OpenIDConnect) to the application.
+        /// In contrast to AddZitadel(...), this also adds and configures the external session
+        /// cookie. The external cookie is configured to a default with local https since
+        /// the same-site restrictions of the Chromium project apply.
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="authenticationScheme">The name for the authentication scheme.</param>
+        /// <param name="configureOptions">
+        /// An optional action to configure the oidc options
+        /// (<see cref="OpenIdConnectOptions"/>).
+        /// </param>
+        /// <param name="configureCookieOptions">
+        /// An optional action to configure the cookie options
+        /// (<see cref="CookieAuthenticationOptions"/>).
+        /// </param>
+        /// <returns>The configured <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddZitadelWithSession(
             this AuthenticationBuilder builder,
             string authenticationScheme,
-            Action<OpenIdConnectOptions>? configureOptions = default)
-            => builder.AddZitadelWithSession(authenticationScheme, ZitadelDefaults.DisplayName, configureOptions);
+            Action<OpenIdConnectOptions>? configureOptions = default,
+            Action<CookieAuthenticationOptions>? configureCookieOptions = default)
+            => builder.AddZitadelWithSession(
+                authenticationScheme,
+                ZitadelDefaults.DisplayName,
+                configureOptions,
+                configureCookieOptions);
 
+        /// <summary>
+        /// Add Zitadel authentication/authorization (via OpenIDConnect) to the application.
+        /// In contrast to AddZitadel(...), this also adds and configures the external session
+        /// cookie. The external cookie is configured to a default with local https since
+        /// the same-site restrictions of the Chromium project apply.
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="authenticationScheme">The name for the authentication scheme.</param>
+        /// <param name="displayName">The display name for the authentication scheme.</param>
+        /// <param name="configureOptions">
+        /// An optional action to configure the oidc options
+        /// (<see cref="OpenIdConnectOptions"/>).
+        /// </param>
+        /// <param name="configureCookieOptions">
+        /// An optional action to configure the cookie options
+        /// (<see cref="CookieAuthenticationOptions"/>).
+        /// </param>
+        /// <returns>The configured <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddZitadelWithSession(
             this AuthenticationBuilder builder,
             string authenticationScheme,
             string displayName,
-            Action<OpenIdConnectOptions>? configureOptions = default)
+            Action<OpenIdConnectOptions>? configureOptions = default,
+            Action<CookieAuthenticationOptions>? configureCookieOptions = default)
             => builder
                 .AddZitadel(
                     authenticationScheme,
@@ -76,14 +176,40 @@ namespace Zitadel.Authentication
                         options.Cookie.IsEssential = true;
                         options.Cookie.SameSite = SameSiteMode.None;
                         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                        configureCookieOptions?.Invoke(options);
                     })
                 .Services;
 
+        /// <summary>
+        /// Add the Zitadel authentication handler without caring for session handling.
+        /// This is typically used by Single Page Applications (SPA) that handle
+        /// the login flow and just send the received JWT or opaque token to an api.
+        /// This handler can manage JWT as well as opaque access tokens.
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="configureOptions">
+        /// An optional action to configure the zitadel handler options
+        /// (<see cref="ZitadelHandlerOptions"/>).
+        /// </param>
+        /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
         public static AuthenticationBuilder AddZitadelAuthenticationHandler(
             this AuthenticationBuilder builder,
             Action<ZitadelHandlerOptions>? configureOptions = default)
             => builder.AddZitadelAuthenticationHandler(ZitadelDefaults.HandlerAuthenticationScheme, configureOptions);
 
+        /// <summary>
+        /// Add the Zitadel authentication handler without caring for session handling.
+        /// This is typically used by Single Page Applications (SPA) that handle
+        /// the login flow and just send the received JWT or opaque token to an api.
+        /// This handler can manage JWT as well as opaque access tokens.
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="authenticationScheme">The name for the authentication scheme.</param>
+        /// <param name="configureOptions">
+        /// An optional action to configure the zitadel handler options
+        /// (<see cref="ZitadelHandlerOptions"/>).
+        /// </param>
+        /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
         public static AuthenticationBuilder AddZitadelAuthenticationHandler(
             this AuthenticationBuilder builder,
             string authenticationScheme,
@@ -93,6 +219,20 @@ namespace Zitadel.Authentication
                 ZitadelDefaults.DisplayName,
                 configureOptions);
 
+        /// <summary>
+        /// Add the Zitadel authentication handler without caring for session handling.
+        /// This is typically used by Single Page Applications (SPA) that handle
+        /// the login flow and just send the received JWT or opaque token to an api.
+        /// This handler can manage JWT as well as opaque access tokens.
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="authenticationScheme">The name for the authentication scheme.</param>
+        /// <param name="displayName">The display name for the authentication scheme.</param>
+        /// <param name="configureOptions">
+        /// An optional action to configure the zitadel handler options
+        /// (<see cref="ZitadelHandlerOptions"/>).
+        /// </param>
+        /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
         public static AuthenticationBuilder AddZitadelAuthenticationHandler(
             this AuthenticationBuilder builder,
             string authenticationScheme,
@@ -116,15 +256,7 @@ namespace Zitadel.Authentication
                             ValidateAudience = zitadelOptions.ValidateAudience,
                             ValidAudiences = zitadelOptions.ValidAudiences ?? new[] { zitadelOptions.ClientId },
                             ValidIssuer = zitadelOptions.Issuer,
-                            PropertyBag = new Dictionary<string, object>(),
                         };
-
-                        if (!string.IsNullOrWhiteSpace(zitadelOptions.PrimaryDomain))
-                        {
-                            options.TokenValidationParameters.PropertyBag.Add(
-                                "primaryDomain",
-                                zitadelOptions.PrimaryDomain);
-                        }
 
                         options.SecurityTokenValidators.Clear();
                         options.SecurityTokenValidators.Add(new ZitadelJwtTokenValidator(zitadelOptions.PrimaryDomain));

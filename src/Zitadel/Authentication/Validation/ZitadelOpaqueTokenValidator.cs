@@ -12,7 +12,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Zitadel.Authentication.Validation
 {
-    public class ZitadelOpaqueTokenValidator : ISecurityTokenValidator
+    /// <summary>
+    /// <see cref="ISecurityTokenValidator"/> that is able to handle opaque
+    /// access tokens that were issued by Zitadel.
+    /// </summary>
+    internal class ZitadelOpaqueTokenValidator : ISecurityTokenValidator
     {
         private const string AuthorizationHeader = "Authorization";
 

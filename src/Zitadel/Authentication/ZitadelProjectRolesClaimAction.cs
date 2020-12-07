@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 
 namespace Zitadel.Authentication
 {
-    public class ZitadelProjectRolesClaimAction : ClaimAction
+    /// <summary>
+    /// Claim action to fetch the citadel roles (if provided)
+    /// from the JWT onto the user identity.
+    /// </summary>
+    internal class ZitadelProjectRolesClaimAction : ClaimAction
     {
         public ZitadelProjectRolesClaimAction()
             : base(ClaimTypes.Role, ClaimValueTypes.String)
