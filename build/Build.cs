@@ -15,12 +15,16 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 [ShutdownDotNetAfterServerBuild]
 class Build : NukeBuild
 {
+    const short MaxReleaseNoteLength = 30000;
+
     public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
     [Parameter("Version of the nuget package to build.")] readonly string Version = string.Empty;
+
+    [Parameter("Optional release notes to append.")] readonly string ReleaseNotes = string.Empty;
 
     [Parameter("ApiKey to publish the packages.")] readonly string NugetApiKey = string.Empty;
 
@@ -34,6 +38,12 @@ class Build : NukeBuild
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
+
+    string PackageReleaseNotes => (ReleaseNotes.Length > MaxReleaseNoteLength
+        ? ReleaseNotes.Substring(0, MaxReleaseNoteLength)
+        : ReleaseNotes)
+        .Replace(",", "%2c")
+        .Replace(";", "%3b");
 
     Target Clean => _ => _
         .Before(Restore)
@@ -70,6 +80,7 @@ class Build : NukeBuild
         .Executes(() => DotNetPack(s => s
             .SetConfiguration(Configuration.Release)
             .SetVersion(Version)
+            .SetPackageReleaseNotes(PackageReleaseNotes)
             .SetOutputDirectory(ArtifactsDirectory)
             .SetProject(MainProject)));
 

@@ -1,16 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\config\Common.targets" />
-    <Import Project="..\..\config\CodeAnalysis.targets" />
+    <Import Project="..\..\config\Common.targets"/>
+    <Import Project="..\..\config\CodeAnalysis.targets"/>
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <Authors>Christoph Bühler</Authors>
+        <Title>Zitadel AuthN</Title>
+        <PackageId>Zitadel</PackageId>
+        <PackageTags>Zitadel;Authentication;Authorization;Middleware;asp.net core;oidc</PackageTags>
+        <PackageProjectUrl>https://github.com/caos/zitadel-net</PackageProjectUrl>
+        <Description>
+            This is the dotnet library for authentication and authorization
+            for https://zitadel.ch. The goal of the library is to
+            deliver a good developer experience like the packages from Microsoft
+            (e.g. "Microsoft.AspNetCore.Authentication.Google").
+        </Description>
+        <RepositoryUrl>https://github.com/caos/zitadel-net.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageIcon>icon.png</PackageIcon>
+    </PropertyGroup>
+
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0" />
+        <None Include="icon.png" Pack="true" PackagePath="\" Visible="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.0"/>
     </ItemGroup>
 
 </Project>

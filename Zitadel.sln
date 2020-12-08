@@ -25,6 +25,7 @@ ProjectSection(SolutionItems) = preProject
 	config\Common.targets = config\Common.targets
 	config\project.ruleset = config\project.ruleset
 	config\stylecop.json = config\stylecop.json
+	.releaserc.json = .releaserc.json
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zitadel.Spa.Dev", "tests\Zitadel.Spa.Dev\Zitadel.Spa.Dev.csproj", "{23DE9A2C-E9A0-458A-8878-9224C49FFB3B}"

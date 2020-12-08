@@ -3,7 +3,6 @@
     <PropertyGroup>
         <Nullable>enable</Nullable>
         <LangVersion>9</LangVersion>
-        <Authors>Christoph Bühler</Authors>
     </PropertyGroup>
 
     <ItemGroup>
