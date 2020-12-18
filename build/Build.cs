@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using GlobExpressions;
 using Nuke.Common;
@@ -26,9 +27,10 @@ class Build : NukeBuild
 
     [Parameter("Optional release notes to append.")] readonly string ReleaseNotes = string.Empty;
 
-    [Parameter("ApiKey to publish the packages.")] readonly string NugetApiKey = string.Empty;
+    [Parameter("Name of the environment variable that contains the api key.")] readonly string ApiKeyEnv = string.Empty;
 
-    [Parameter("Nuget source to publish to.")] readonly string NugetSource = string.Empty;
+    [Parameter("Name of the environment variable that contains the nuget source.")]
+    readonly string SourceEnv = string.Empty;
 
     [Solution] readonly Solution Solution;
 
@@ -40,8 +42,8 @@ class Build : NukeBuild
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
     string PackageReleaseNotes => (ReleaseNotes.Length > MaxReleaseNoteLength
-        ? ReleaseNotes.Substring(0, MaxReleaseNoteLength)
-        : ReleaseNotes)
+            ? ReleaseNotes.Substring(0, MaxReleaseNoteLength)
+            : ReleaseNotes)
         .Replace(",", "%2c")
         .Replace(";", "%3b");
 
@@ -86,11 +88,13 @@ class Build : NukeBuild
 
     Target Publish => _ => _
         .Requires(
-            () => !string.IsNullOrWhiteSpace(NugetApiKey) &&
-                  !string.IsNullOrWhiteSpace(NugetSource))
+            () => !string.IsNullOrWhiteSpace(ApiKeyEnv) &&
+                  !string.IsNullOrWhiteSpace(SourceEnv) &&
+                  !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(ApiKeyEnv)) &&
+                  !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(SourceEnv)))
         .Executes(() => DotNetNuGetPush(s => s
-            .SetSource(NugetSource)
-            .SetApiKey(NugetApiKey)
+            .SetSource(Environment.GetEnvironmentVariable(SourceEnv) ?? string.Empty)
+            .SetApiKey(Environment.GetEnvironmentVariable(ApiKeyEnv) ?? string.Empty)
             .CombineWith(Glob.Files(ArtifactsDirectory, "*.nupkg"), (ss, package) => ss
                 .SetTargetPath(ArtifactsDirectory / package))));
 }
