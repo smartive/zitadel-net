@@ -17,6 +17,11 @@
         public const string AuthenticationScheme = "Zitadel";
 
         /// <summary>
+        /// Authentication scheme name for local fake provider.
+        /// </summary>
+        public const string FakeAuthenticationScheme = "ZitadelLocalFake";
+
+        /// <summary>
         /// Default authentication scheme name for AddZitadelAuthenticationHandler().
         /// </summary>
         public const string HandlerAuthenticationScheme = "ZitadelAuthHandler";
