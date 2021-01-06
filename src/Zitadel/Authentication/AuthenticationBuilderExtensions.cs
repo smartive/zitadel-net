@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Zitadel.Authentication.Handler;
 using Zitadel.Authentication.Options;
 using Zitadel.Authentication.Validation;
 
@@ -265,5 +266,41 @@ namespace Zitadel.Authentication
                                 zitadelOptions.DiscoveryEndpoint,
                                 zitadelOptions.PrimaryDomain));
                     });
+
+        /// <summary>
+        /// Add a "fake" zitadel authentication. This should only be used for local
+        /// development to fake an authentication/authorization. All calls are authenticated
+        /// by default. If (e.g. for testing reasons) a specific call should NOT be authenticated,
+        /// attach the header "x-zitadel-fake-auth" with the value "false" to the request.
+        /// This specific request will then fail to authenticate.
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="configureOptions">Action to configure the <see cref="LocalFakeZitadelOptions"/>.</param>
+        /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
+        public static AuthenticationBuilder AddFakeZitadel(
+            this AuthenticationBuilder builder,
+            Action<LocalFakeZitadelOptions>? configureOptions)
+        {
+            var options = new LocalFakeZitadelOptions();
+            configureOptions?.Invoke(options);
+            return builder.AddFakeZitadel(options);
+        }
+
+        /// <summary>
+        /// Add a "fake" zitadel authentication. This should only be used for local
+        /// development to fake an authentication/authorization. All calls are authenticated
+        /// by default. If (e.g. for testing reasons) a specific call should NOT be authenticated,
+        /// attach the header "x-zitadel-fake-auth" with the value "false" to the request.
+        /// This specific request will then fail to authenticate.
+        /// </summary>
+        /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+        /// <param name="options">The <see cref="LocalFakeZitadelOptions"/> to use.</param>
+        /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
+        public static AuthenticationBuilder AddFakeZitadel(
+            this AuthenticationBuilder builder,
+            LocalFakeZitadelOptions options)
+            => builder.AddScheme<LocalFakeZitadelSchemeOptions, LocalFakeZitadelHandler>(
+                ZitadelDefaults.FakeAuthenticationScheme,
+                o => o.FakeZitadelOptions = options);
     }
 }
