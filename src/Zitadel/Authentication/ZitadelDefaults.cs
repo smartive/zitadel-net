@@ -11,6 +11,11 @@
         public const string DisplayName = "Zitadel";
 
         /// <summary>
+        /// Default display name of the fake handler.
+        /// </summary>
+        public const string FakeDisplayName = "ZitadelLocalFake";
+
+        /// <summary>
         /// Default authentication scheme name for AddZitadel() and
         /// AddZitadelWithSession().
         /// </summary>
