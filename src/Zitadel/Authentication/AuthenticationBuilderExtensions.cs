@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -190,13 +191,13 @@ namespace Zitadel.Authentication
         /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
         /// <param name="configureOptions">
         /// An optional action to configure the zitadel handler options
-        /// (<see cref="ZitadelHandlerOptions"/>).
+        /// (<see cref="ZitadelApiOptions"/>).
         /// </param>
         /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-        public static AuthenticationBuilder AddZitadelAuthenticationHandler(
+        public static AuthenticationBuilder AddZitadelApi(
             this AuthenticationBuilder builder,
-            Action<ZitadelHandlerOptions>? configureOptions = default)
-            => builder.AddZitadelAuthenticationHandler(ZitadelDefaults.HandlerAuthenticationScheme, configureOptions);
+            Action<ZitadelApiOptions>? configureOptions = default)
+            => builder.AddZitadelApi(ZitadelDefaults.ApiAuthenticationScheme, configureOptions);
 
         /// <summary>
         /// Add the Zitadel authentication handler without caring for session handling.
@@ -208,14 +209,14 @@ namespace Zitadel.Authentication
         /// <param name="authenticationScheme">The name for the authentication scheme.</param>
         /// <param name="configureOptions">
         /// An optional action to configure the zitadel handler options
-        /// (<see cref="ZitadelHandlerOptions"/>).
+        /// (<see cref="ZitadelApiOptions"/>).
         /// </param>
         /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-        public static AuthenticationBuilder AddZitadelAuthenticationHandler(
+        public static AuthenticationBuilder AddZitadelApi(
             this AuthenticationBuilder builder,
             string authenticationScheme,
-            Action<ZitadelHandlerOptions>? configureOptions = default)
-            => builder.AddZitadelAuthenticationHandler(
+            Action<ZitadelApiOptions>? configureOptions = default)
+            => builder.AddZitadelApi(
                 authenticationScheme,
                 ZitadelDefaults.DisplayName,
                 configureOptions);
@@ -231,21 +232,21 @@ namespace Zitadel.Authentication
         /// <param name="displayName">The display name for the authentication scheme.</param>
         /// <param name="configureOptions">
         /// An optional action to configure the zitadel handler options
-        /// (<see cref="ZitadelHandlerOptions"/>).
+        /// (<see cref="ZitadelApiOptions"/>).
         /// </param>
         /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-        public static AuthenticationBuilder AddZitadelAuthenticationHandler(
+        public static AuthenticationBuilder AddZitadelApi(
             this AuthenticationBuilder builder,
             string authenticationScheme,
             string displayName,
-            Action<ZitadelHandlerOptions>? configureOptions = default)
-            => builder
+            Action<ZitadelApiOptions>? configureOptions = default) =>
+            builder
                 .AddJwtBearer(
                     authenticationScheme,
                     displayName,
                     options =>
                     {
-                        var zitadelOptions = new ZitadelHandlerOptions();
+                        var zitadelOptions = new ZitadelApiOptions();
                         configureOptions?.Invoke(zitadelOptions);
 
                         options.Authority = zitadelOptions.Authority;
@@ -255,16 +256,15 @@ namespace Zitadel.Authentication
                         {
                             ValidateIssuerSigningKey = true,
                             ValidateAudience = zitadelOptions.ValidateAudience,
-                            ValidAudiences = zitadelOptions.ValidAudiences ?? new[] { zitadelOptions.ClientId },
+                            ValidAudiences = zitadelOptions.ValidAudiences?
+                                                 .Append(zitadelOptions.ClientId)
+                                                 .Distinct() ??
+                                             new[] { zitadelOptions.ClientId },
                             ValidIssuer = zitadelOptions.Issuer,
                         };
 
                         options.SecurityTokenValidators.Clear();
-                        options.SecurityTokenValidators.Add(new ZitadelJwtTokenValidator(zitadelOptions.PrimaryDomain));
-                        options.SecurityTokenValidators.Add(
-                            new ZitadelOpaqueTokenValidator(
-                                zitadelOptions.DiscoveryEndpoint,
-                                zitadelOptions.PrimaryDomain));
+                        options.SecurityTokenValidators.Add(new ZitadelApiValidator(zitadelOptions));
                     });
 
         /// <summary>

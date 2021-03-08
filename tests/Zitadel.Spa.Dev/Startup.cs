@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Zitadel.Authentication;
+using Zitadel.Authentication.Credentials;
+using Zitadel.Authorization;
 
 namespace Zitadel.Spa.Dev
 {
@@ -10,28 +12,53 @@ namespace Zitadel.Spa.Dev
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            const string basicAuthClientId = "97767109911765031@zitadel_net";
+            const string clientSecret = "NDNDmK5c1rGFElanXFxO61mcBKdonjdK7m7tH6sYUR0NlMKbztSgrrnRJGlwCkp8";
+            const string jwtAuthClientId = "97767083403766481@zitadel_net";
+            const string zitadelProjectId = "84856448403694484";
+
             services.AddControllers();
             services
-                .AddAuthorization()
+                .AddAuthorization(
+                    o => o.AddZitadelOrganizationRolePolicy("CaosUser", "69234230193872955", "Admin", "User"))
                 .AddAuthentication()
-                .AddZitadelAuthenticationHandler(
-                    "ZitadelAuthHandlerJWT",
-                    o => o.ClientId = "84891356119558811@zitadel_net")
-                .AddZitadelAuthenticationHandler(
-                    "ZitadelAuthHandlerJWTHostedDomain",
+                .AddJwtBearer()
+                .AddZitadelApi(
+                    "ZitadelApiJWT",
                     o =>
                     {
-                        o.ClientId = "84891356119558811@zitadel_net";
+                        // Api auth with basic auth
+                        o.ClientId = basicAuthClientId;
+                        o.BasicAuthCredentials = new(basicAuthClientId, clientSecret);
+                        o.ValidAudiences = new[] { zitadelProjectId };
+                    })
+                .AddZitadelApi(
+                    "ZitadelApiJWTHostedDomain",
+                    o =>
+                    {
+                        // Api auth with JWT profile
+                        o.ClientId = jwtAuthClientId;
+                        o.JwtProfileKey = new JwtPrivateKeyPath("./jwtProfileKey.json");
+                        o.ValidAudiences = new[] { zitadelProjectId };
                         o.PrimaryDomain = "smartive.zitadel.ch";
                     })
-                .AddZitadelAuthenticationHandler(
-                    "ZitadelAuthHandlerBearer",
-                    o => o.ClientId = "84891241816386203@zitadel_net")
-                .AddZitadelAuthenticationHandler(
-                    "ZitadelAuthHandlerBearerHostedDomain",
+                .AddZitadelApi(
+                    "ZitadelApiBearer",
                     o =>
                     {
-                        o.ClientId = "84891241816386203@zitadel_net";
+                        // Api auth with JWT profile
+                        o.ClientId = jwtAuthClientId;
+                        o.JwtProfileKey = new JwtPrivateKeyPath("./jwtProfileKey.json");
+                        o.ValidAudiences = new[] { zitadelProjectId };
+                    })
+                .AddZitadelApi(
+                    "ZitadelApiBearerHostedDomain",
+                    o =>
+                    {
+                        // Api auth with basic auth
+                        o.ClientId = basicAuthClientId;
+                        o.BasicAuthCredentials = new(basicAuthClientId, clientSecret);
+                        o.ValidAudiences = new[] { zitadelProjectId };
                         o.PrimaryDomain = "smartive.zitadel.ch";
                     });
         }
