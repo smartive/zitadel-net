@@ -1,4 +1,6 @@
-﻿namespace Zitadel.Authentication
+﻿using Zitadel.Authorization;
+
+namespace Zitadel.Authentication
 {
     /// <summary>
     /// A set of default values for Zitadel themed authentication/authorization.
@@ -27,9 +29,9 @@
         public const string FakeAuthenticationScheme = "ZitadelLocalFake";
 
         /// <summary>
-        /// Default authentication scheme name for AddZitadelAuthenticationHandler().
+        /// Default authentication scheme name for AddZitadelApi().
         /// </summary>
-        public const string HandlerAuthenticationScheme = "ZitadelAuthHandler";
+        public const string ApiAuthenticationScheme = "ZitadelApi";
 
         /// <summary>
         /// Default online (non self hosted) Zitadel issuer.
@@ -48,6 +50,11 @@
         public const string DiscoveryEndpoint = "https://issuer.zitadel.ch/.well-known/openid-configuration";
 
         /// <summary>
+        /// Path to the well-known endpoint of the OIDC config.
+        /// </summary>
+        public const string DiscoveryEndpointPath = "/.well-known/openid-configuration";
+
+        /// <summary>
         /// The name for the token claim (JWT or opaque via user-info endpoint)
         /// that contains rule allocations.
         /// </summary>
@@ -58,5 +65,17 @@
         /// that contains the scoped and used primary domain.
         /// </summary>
         public const string PrimaryDomainClaimName = "urn:zitadel:iam:org:domain:primary";
+
+        /// <summary>
+        /// Constructor for organisation specific role claims.
+        /// They are used to specify roles on a specific organization.
+        /// Check for those roles with the policies added with
+        /// <see cref="AuthorizationOptionsExtensions.AddZitadelOrganizationRolePolicy"/> or
+        /// inside a method with
+        /// <see cref="ClaimsPrincipalExtensions.IsInRole(System.Security.Claims.ClaimsPrincipal,string,string[])"/>.
+        /// </summary>
+        /// <param name="orgId">The id of the organization.</param>
+        /// <returns>A role name.</returns>
+        public static string OrganizationRoleClaimName(string orgId) => $"urn:zitadel:iam:org:{orgId}:project:roles";
     }
 }

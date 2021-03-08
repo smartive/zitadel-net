@@ -20,8 +20,8 @@ namespace Zitadel.Test.WebFactories
         {
             services
                 .AddAuthorization()
-                .AddAuthentication(ZitadelDefaults.HandlerAuthenticationScheme)
-                .AddZitadelAuthenticationHandler(o => o.ClientId = "84891356119558811@zitadel_net");
+                .AddAuthentication(ZitadelDefaults.ApiAuthenticationScheme)
+                .AddZitadelApi(o => o.ClientId = "84891356119558811@zitadel_net");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
