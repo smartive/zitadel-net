@@ -1,6 +1,10 @@
 name: .NET Release
 
-on: [workflow_dispatch]
+on:
+  push:
+    branches:
+      - master
+      - next
 
 jobs:
   test:
@@ -11,6 +15,8 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.100
+      - name: Setup dotnet tools
+        run: dotnet tool restore
       - name: Test
         run: ./build.sh --target test --no-logo
   semantic-release:
@@ -24,6 +30,8 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.100
+      - name: Setup dotnet tools
+        run: dotnet tool restore
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         with:
