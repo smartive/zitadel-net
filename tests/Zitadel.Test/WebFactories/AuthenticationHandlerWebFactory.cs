@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Zitadel.Authentication;
+using Zitadel.Authentication.Credentials;
 
 namespace Zitadel.Test.WebFactories
 {
@@ -21,7 +22,13 @@ namespace Zitadel.Test.WebFactories
             services
                 .AddAuthorization()
                 .AddAuthentication(ZitadelDefaults.ApiAuthenticationScheme)
-                .AddZitadelApi(o => o.ClientId = "84891356119558811@zitadel_net");
+                .AddZitadelApi(
+                    o =>
+                    {
+                        o.ClientId = "100962076121492209@zitadel_net";
+                        o.JwtProfileKey = new JwtPrivateKeyPath("api-application.json");
+                        o.ValidAudiences = new[] { "84856448403694484" };
+                    });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

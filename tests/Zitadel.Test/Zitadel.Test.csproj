@@ -25,4 +25,10 @@
       <ProjectReference Include="..\..\src\Zitadel\Zitadel.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="*.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

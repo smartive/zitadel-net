@@ -1,8 +1,10 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Xunit;
+using Zitadel.Authentication.Credentials;
 using Zitadel.Test.WebFactories;
 
 namespace Zitadel.Test.Authentication
@@ -35,12 +37,19 @@ namespace Zitadel.Test.Authentication
             result.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
         }
 
-        [Fact(Skip = "Until a solution for 'get an access token' is found.")]
-        public async Task Should_Return_Data_With_Jwt_Token()
+        [Fact]
+        public async Task Should_Return_Data_With_Token()
         {
+            var sa = await ServiceAccount.LoadFromJsonFileAsync("service-account.json");
+            var token = await sa.AuthenticateAsync(
+                new()
+                {
+                    ProjectAudiences = { "84856448403694484" },
+                });
             var client = _factory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new("Bearer", token);
             var result = await client.GetAsync("/authed");
-            result.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
+            result.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
     }
 }

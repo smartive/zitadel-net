@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\..\config\Common.targets" />
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <Authors>Christoph Bühler</Authors>
+        <Title>Zitadel API</Title>
+        <PackageId>Zitadel.Api</PackageId>
+        <PackageTags>Zitadel;API;gRPC</PackageTags>
+        <PackageProjectUrl>https://github.com/caos/zitadel-net</PackageProjectUrl>
+        <Description>
+            The API library for Zitadel. Implemented with gRPC,
+            it allows access to the API of any Zitadel instance (default:
+            https://api.zitadel.ch).
+        </Description>
+        <RepositoryUrl>https://github.com/caos/zitadel-net.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageIcon>icon.png</PackageIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="icon.png">
+            <Pack>true</Pack>
+            <PackagePath>\</PackagePath>
+            <Visible>false</Visible>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Zitadel\Zitadel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.15.6" />
+        <PackageReference Include="Grpc" Version="2.36.4" />
+        <PackageReference Include="Grpc.Core" Version="2.36.4" />
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.32.0" />
+        <PackageReference Include="Grpc.Net.Common" Version="2.36.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.36.4" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="proto/admin.proto" GrpcServices="Client">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/admin/proto/admin.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="proto/auth.proto" GrpcServices="Client">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/auth/proto/auth.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="proto/management.proto" GrpcServices="Client">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/management/proto/management.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="proto/message.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/message/proto/message.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="authoption/options.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/internal/protoc/protoc-gen-authoption/authoption/options.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="google/api/annotations.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/annotations.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="google/api/http.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/http.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="protoc-gen-swagger/options/annotations.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/grpc-ecosystem/grpc-gateway/v1/protoc-gen-swagger/options/annotations.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="protoc-gen-swagger/options/openapiv2.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/grpc-ecosystem/grpc-gateway/v1/protoc-gen-swagger/options/openapiv2.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="validate/validate.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/envoyproxy/protoc-gen-validate/main/validate/validate.proto</SourceUrl>
+        </Protobuf>
+    </ItemGroup>
+    
+    <Target Name="Update Protos" BeforeTargets="Build">
+        <Message Importance="high" Text="Refresh proto files in API" />
+        <Exec Command="dotnet dotnet-grpc refresh @(Protobuf, ' ')" WorkingDirectory="$(SolutionDir)\src\Zitadel.Api" />
+    </Target>
+
+</Project>
