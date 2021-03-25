@@ -1,6 +1,6 @@
 - name: Documentation
   href: docs/
-  homepage: docs/utilities.md
+  homepage: docs/overview.md
 - name: Zitadel
   href: zitadel/
   homepage: zitadel/index.md

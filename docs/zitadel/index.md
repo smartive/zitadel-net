@@ -1,6 +1,7 @@
-# KubeOps.Testing Api
+# Zitadel
 
-Here you'll find the code documentation of the `KubeOps.Testing` package.
+Here you'll find the code documentation of the `Zitadel` package.
 
-The purpose of the package is to support your integration tests for your
-custom operator. Have a look at the [documentation](../docs/testing.md) on how to test.
+The purpose of the package is to integrate the Zitadel authentication / authorization
+in the Microsoft ecosystem. It enables you to use Zitadel with webapps and apis
+in Kestrel.

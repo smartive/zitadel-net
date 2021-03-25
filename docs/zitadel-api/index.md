@@ -1,6 +1,15 @@
-# KubeOps.Testing Api
+# Zitadel gRPC Api
 
-Here you'll find the code documentation of the `KubeOps.Testing` package.
+Here you'll find the code documentation of the `Zitadel.Api` package.
 
-The purpose of the package is to support your integration tests for your
-custom operator. Have a look at the [documentation](../docs/testing.md) on how to test.
+This is the official API of Zitadel. With this package, you are able to access
+the api methods of Zitadel directly via code. Authenticate yourself with a user
+or a service account and call methods on Zitadel itself via gRPC.
+
+Such methods include (non exhaustive):
+
+- Fetch roles
+- Lock User
+- Fetch Projects
+- Create User
+- And so on...
