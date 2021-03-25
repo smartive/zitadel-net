@@ -36,6 +36,9 @@ jobs:
         with:
           dotnet-version: 5.0.100
 
+      - name: Setup dotnet tools
+        run: dotnet tool restore
+
       - name: Build
         run: ./build.sh --target compile --no-logo
 
