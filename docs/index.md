@@ -1,4 +1,4 @@
-# KubeOps - The Kubernetes Operator SDK
+# Zitadel .Net
 
 ![Code Security Testing](https://github.com/buehler/dotnet-operator-sdk/workflows/Code%20Security%20Testing/badge.svg)
 ![.NET Release](https://github.com/buehler/dotnet-operator-sdk/workflows/.NET%20Release/badge.svg)

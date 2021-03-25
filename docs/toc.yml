@@ -1,11 +1,11 @@
 - name: Documentation
   href: docs/
   homepage: docs/utilities.md
-# - name: KubeOps Api
-#   href: kube-ops/
-#   homepage: kube-ops/index.md
-# - name: KubeOps Testing Api
-#   href: kube-ops-testing/
-#   homepage: kube-ops-testing/index.md
-# - name: Changelog
-#   href: https://github.com/buehler/dotnet-operator-sdk/releases
+- name: Zitadel
+  href: zitadel/
+  homepage: zitadel/index.md
+- name: Zitadel gRPC API
+  href: zitadel-api/
+  homepage: zitadel-api/index.md
+- name: Changelog
+  href: https://github.com/caos/zitadel-net/releases
