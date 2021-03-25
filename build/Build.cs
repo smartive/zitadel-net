@@ -34,9 +34,6 @@ class Build : NukeBuild
 
     [Solution] readonly Solution Solution;
 
-    Project MainProject =>
-        Solution.AllProjects.First(p => p.Name == "Zitadel" && p.SolutionFolder.Name == "src");
-
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
@@ -84,7 +81,7 @@ class Build : NukeBuild
             .SetVersion(Version)
             .SetPackageReleaseNotes(PackageReleaseNotes)
             .SetOutputDirectory(ArtifactsDirectory)
-            .SetProject(MainProject)));
+            .SetProject(Solution)));
 
     Target Publish => _ => _
         .Requires(
