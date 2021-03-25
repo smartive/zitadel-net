@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\..\config\Common.targets" />
+
+    <PropertyGroup>
+        <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.15.6" />
+        <PackageReference Include="Grpc" Version="2.36.4" />
+        <PackageReference Include="Grpc.Core" Version="2.36.4" />
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.32.0" />
+        <PackageReference Include="Grpc.Net.Common" Version="2.36.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.36.4" PrivateAssets="All" />
+    </ItemGroup>
+
+<!--    https://stackoverflow.com/questions/40609267/determine-if-program-exe-is-available-before-using-it-in-an-exec-task-->
+
+    <ItemGroup>
+        <Protobuf Include="proto/admin.proto" GrpcServices="Client">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/admin/proto/admin.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="proto/auth.proto" GrpcServices="Client">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/auth/proto/auth.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="proto/management.proto" GrpcServices="Client">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/management/proto/management.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="proto/message.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/message/proto/message.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="authoption/options.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/internal/protoc/protoc-gen-authoption/authoption/options.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="google/api/annotations.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/annotations.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="google/api/http.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/http.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="protoc-gen-swagger/options/annotations.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/grpc-ecosystem/grpc-gateway/v1/protoc-gen-swagger/options/annotations.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="protoc-gen-swagger/options/openapiv2.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/grpc-ecosystem/grpc-gateway/v1/protoc-gen-swagger/options/openapiv2.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="validate/validate.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/envoyproxy/protoc-gen-validate/main/validate/validate.proto</SourceUrl>
+        </Protobuf>
+    </ItemGroup>
+
+</Project>
