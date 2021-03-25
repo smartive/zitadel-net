@@ -2,8 +2,38 @@
     <Import Project="..\..\config\Common.targets" />
 
     <PropertyGroup>
-        <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <Authors>Christoph Bühler</Authors>
+        <Title>Zitadel API</Title>
+        <PackageId>Zitadel.Api</PackageId>
+        <PackageTags>Zitadel;API;gRPC</PackageTags>
+        <PackageProjectUrl>https://github.com/caos/zitadel-net</PackageProjectUrl>
+        <Description>
+            The API library for Zitadel. Implemented with gRPC,
+            it allows access to the API of any Zitadel instance (default:
+            https://api.zitadel.ch).
+        </Description>
+        <RepositoryUrl>https://github.com/caos/zitadel-net.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageIcon>icon.png</PackageIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="icon.png">
+            <Pack>true</Pack>
+            <PackagePath>\</PackagePath>
+            <Visible>false</Visible>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Zitadel\Zitadel.csproj" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Google.Protobuf" Version="3.15.6" />
@@ -13,8 +43,6 @@
         <PackageReference Include="Grpc.Net.Common" Version="2.36.0" />
         <PackageReference Include="Grpc.Tools" Version="2.36.4" PrivateAssets="All" />
     </ItemGroup>
-
-<!--    https://stackoverflow.com/questions/40609267/determine-if-program-exe-is-available-before-using-it-in-an-exec-task-->
 
     <ItemGroup>
         <Protobuf Include="proto/admin.proto" GrpcServices="Client">
@@ -48,5 +76,10 @@
             <SourceUrl>https://raw.githubusercontent.com/envoyproxy/protoc-gen-validate/main/validate/validate.proto</SourceUrl>
         </Protobuf>
     </ItemGroup>
+    
+    <Target Name="Update Protos" BeforeTargets="Build">
+        <Message Importance="high" Text="Refresh proto files in API" />
+        <Exec Command="dotnet dotnet-grpc refresh @(Protobuf, ' ')" WorkingDirectory="$(SolutionDir)\src\Zitadel.Api" />
+    </Target>
 
 </Project>

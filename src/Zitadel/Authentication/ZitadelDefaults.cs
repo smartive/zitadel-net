@@ -1,4 +1,5 @@
-﻿using Zitadel.Authorization;
+﻿using Zitadel.Authentication.Credentials;
+using Zitadel.Authorization;
 
 namespace Zitadel.Authentication
 {
@@ -65,6 +66,23 @@ namespace Zitadel.Authentication
         /// that contains the scoped and used primary domain.
         /// </summary>
         public const string PrimaryDomainClaimName = "urn:zitadel:iam:org:domain:primary";
+
+        /// <summary>
+        /// This is the project id for the zitadel API of <a href="https://console.zitadel.ch">Zitadel.ch</a>.
+        /// This is needed for accessing the official zitadel API via grpc / rest endpoint
+        /// when using a <see cref="ServiceAccount"/> to authenticate.
+        /// </summary>
+        public const string ZitadelApiProjectId = "69234237810729019";
+
+        /// <summary>
+        /// The endpoint (url) of the official zitadel API.
+        /// </summary>
+        public const string ZitadelApiEndpoint = "https://api.zitadel.ch";
+
+        /// <summary>
+        /// Header which is used to provide context to grpc/rest api calls.
+        /// </summary>
+        public const string ZitadelOrgIdHeader = "x-zitadel-orgid";
 
         /// <summary>
         /// Constructor for organisation specific role claims.

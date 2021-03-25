@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
@@ -9,7 +10,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Jose;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Org.BouncyCastle.Crypto;
@@ -26,12 +26,11 @@ namespace Zitadel.Authentication.Credentials
     /// </para>
     /// <para>
     /// The mechanism is defined here:
-    /// <a href="https://docs.zitadel.ch/architecture/#JSON_Web_Token_JWT_Profile">Zitadel Docs</a>
+    /// <a href="https://docs.zitadel.ch/architecture/#JSON_Web_Token_JWT_Profile">Zitadel Docs</a>.
     /// </para>
     /// </summary>
     public record ServiceAccount
     {
-        private const string DiscoveryEndpointPath = "/.well-known/openid-configuration";
         private static readonly HttpClient HttpClient = new();
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace Zitadel.Authentication.Credentials
         public string Key { get; init; } = string.Empty;
 
         /// <summary>
-        /// Load an <see cref="ServiceAccount"/> from a file at a given (relative or absolute) path.
+        /// Load a <see cref="ServiceAccount"/> from a file at a given (relative or absolute) path.
         /// </summary>
         /// <param name="pathToJson">The relative or absolute filepath to the json file.</param>
         /// <returns>The parsed <see cref="ServiceAccount"/>.</returns>
@@ -125,16 +124,23 @@ namespace Zitadel.Authentication.Credentials
         /// <inheritdoc cref="LoadFromJsonStringAsync"/>
         public static ServiceAccount LoadFromJsonString(string json) => LoadFromJsonStringAsync(json).Result;
 
-        public async Task<string> AuthenticateAsync(string endpoint, string? discoveryEndpoint = null)
+        /// <summary>
+        /// Authenticate the given service account against the issuer in the options.
+        /// As example, this token can be used to communicate with API applications or
+        /// with the Zitadel API itself.
+        /// </summary>
+        /// <param name="authOptions"><see cref="AuthOptions"/> that contain the parameters for the authentication.</param>
+        /// <returns>An opaque access token which can be used to communciate with relying parties.</returns>
+        public async Task<string> AuthenticateAsync(AuthOptions authOptions)
         {
             var manager = new ConfigurationManager<OpenIdConnectConfiguration>(
-                DiscoveryEndpoint(discoveryEndpoint ?? endpoint),
+                DiscoveryEndpoint(authOptions.DiscoveryEndpoint ?? authOptions.Endpoint),
                 new OpenIdConnectConfigurationRetriever(),
                 new HttpDocumentRetriever(HttpClient));
 
             var oidcConfig = await manager.GetConfigurationAsync();
 
-            var jwt = await GetSignedJwtAsync(endpoint);
+            var jwt = await GetSignedJwtAsync(authOptions.Endpoint);
             var request = new HttpRequestMessage(HttpMethod.Post, oidcConfig.TokenEndpoint)
             {
                 Content = new FormUrlEncodedContent(
@@ -144,6 +150,7 @@ namespace Zitadel.Authentication.Credentials
                         new KeyValuePair<string?, string?>(
                             "assertion",
                             $"{jwt}"),
+                        new KeyValuePair<string?, string?>("scope", authOptions.CreateOidcScopes()),
                     }),
             };
 
@@ -156,10 +163,13 @@ namespace Zitadel.Authentication.Credentials
             return token?.AccessToken ?? throw new("Access token could not be parsed.");
         }
 
+        /// <inheritdoc cref="AuthenticateAsync"/>
+        public string Authenticate(AuthOptions authOptions) => AuthenticateAsync(authOptions).Result;
+
         private static string DiscoveryEndpoint(string discoveryEndpoint) =>
-            discoveryEndpoint.EndsWith(DiscoveryEndpointPath)
+            discoveryEndpoint.EndsWith(ZitadelDefaults.DiscoveryEndpointPath)
                 ? discoveryEndpoint
-                : discoveryEndpoint.TrimEnd('/') + DiscoveryEndpointPath;
+                : discoveryEndpoint.TrimEnd('/') + ZitadelDefaults.DiscoveryEndpointPath;
 
         private string GetSignedJwt(string issuer) => GetSignedJwtAsync(issuer).Result;
 
@@ -204,6 +214,64 @@ namespace Zitadel.Authentication.Credentials
         {
             [JsonPropertyName("access_token")]
             public string AccessToken { get; init; } = string.Empty;
+        }
+
+        /// <summary>
+        /// Options for the authentication with a <see cref="ServiceAccount"/>.
+        /// </summary>
+        public record AuthOptions
+        {
+            /// <summary>
+            /// Endpoint which will be called on the "token endpoint" to get an access token.
+            /// Defaults to <see cref="ZitadelDefaults.Issuer"/>.
+            /// </summary>
+            public string Endpoint { get; init; } = ZitadelDefaults.Issuer;
+
+            /// <summary>
+            /// If set, overwrites the discovery endpoint for <see cref="Endpoint"/>.
+            /// This may be used, if the discovery endpoint is not on the well-known url
+            /// of the endpoint. Beware that the well-known part ("/.well-known/openid-configuration")
+            /// is still attached to the url.
+            /// </summary>
+            public string? DiscoveryEndpoint { get; init; }
+
+            /// <summary>
+            /// If set, the scope for a primary domain ("urn:zitadel:iam:org:domain:primary:{PrimaryDomain}")
+            /// will be attached to the list of scopes for the access token of the service account.
+            /// </summary>
+            public string? PrimaryDomain { get; init; }
+
+            /// <summary>
+            /// Set a list of roles that must be attached to this service account to be
+            /// successfully authenticated. Translates to the role scope ("urn:zitadel:iam:org:project:role:{Role}").
+            /// </summary>
+            public IList<string> RequiredRoles { get; init; } = new List<string>();
+
+            /// <summary>
+            /// Set a list of audiences that are attached to the returned access token.
+            /// Translates to the additional audience scope ("urn:zitadel:iam:org:project:id:{ProjectId}:aud").
+            /// </summary>
+            public IList<string> ProjectAudiences { get; init; } = new List<string>();
+
+            /// <summary>
+            /// List of arbitrary additional scopes that are concatenated into the scope.
+            /// </summary>
+            public IList<string> AdditionalScopes { get; init; } = new List<string>();
+
+            internal string CreateOidcScopes() =>
+                string.Join(
+                    ' ',
+                    new[]
+                        {
+                            "openid",
+                            PrimaryDomain != null
+                                ? $"urn:zitadel:iam:org:domain:primary:{PrimaryDomain}"
+                                : string.Empty,
+                        }
+                        .Union(AdditionalScopes)
+                        .Union(ProjectAudiences.Select(p => $"urn:zitadel:iam:org:project:id:{p}:aud"))
+                        .Union(RequiredRoles.Select(r => $"urn:zitadel:iam:org:project:role:{r}"))
+                        .Where(s => !string.IsNullOrWhiteSpace(s)));
         }
     }
 }
