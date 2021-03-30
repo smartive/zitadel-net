@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Reactive.Linq;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -14,15 +15,17 @@ using Zitadel.Authentication.Options;
 
 namespace Zitadel.Authentication.Validation
 {
-    internal class ZitadelApiValidator : JwtSecurityTokenHandler
+    internal class ZitadelApiValidator : JwtSecurityTokenHandler, IDisposable
     {
         private const string AuthorizationHeader = "Authorization";
         private static readonly HttpClient Client = new();
 
         private readonly ZitadelApiOptions _options;
 
+        private readonly Func<string, HttpRequestMessage> _requestConstructor;
         private readonly ConfigurationManager<OpenIdConnectConfiguration> _configuration;
         private OpenIdConnectConfiguration? _oidcConfiguration;
+        private IDisposable? _appRenew;
 
         public ZitadelApiValidator(ZitadelApiOptions options)
         {
@@ -31,6 +34,12 @@ namespace Zitadel.Authentication.Validation
                 options.DiscoveryEndpoint,
                 new OpenIdConnectConfigurationRetriever(),
                 new HttpDocumentRetriever(Client));
+            _requestConstructor = RequestConstructor();
+        }
+
+        public void Dispose()
+        {
+            _appRenew?.Dispose();
         }
 
         public override bool CanReadToken(string token) => true;
@@ -58,7 +67,7 @@ namespace Zitadel.Authentication.Validation
                 validatedToken = new JwtSecurityToken();
             }
 
-            var response = Client.Send(PrepareRequest(token));
+            var response = Client.Send(_requestConstructor(token));
 
             if (!response.IsSuccessStatusCode)
             {
@@ -119,15 +128,14 @@ namespace Zitadel.Authentication.Validation
             return new(identity);
         }
 
-        private HttpRequestMessage PrepareRequest(string token)
+        private Func<string, HttpRequestMessage> RequestConstructor()
         {
+            _oidcConfiguration ??= _configuration.GetConfigurationAsync().Result;
             if (_options.BasicAuthCredentials == null && _options.JwtProfileKey == null)
             {
                 throw new ApplicationException(
                     "Neither BasicAuth nor JwtPrivateKey credentials configured in Zitadel API authentication.");
             }
-
-            _oidcConfiguration ??= _configuration.GetConfigurationAsync().Result;
 
             if (_options.JwtProfileKey != null)
             {
@@ -135,27 +143,37 @@ namespace Zitadel.Authentication.Validation
                     ? Application.LoadFromJsonString(_options.JwtProfileKey.Content)
                     : Application.LoadFromJsonFile(_options.JwtProfileKey.Path ?? string.Empty);
 
-                var jwt = app.GetSignedJwt(_options.Issuer);
+                string? jwt = null;
 
-                return new()
+                _appRenew = Observable
+                    .Timer(TimeSpan.Zero, TimeSpan.FromMinutes(55))
+                    .Select(_ => app.GetSignedJwt(_options.Issuer, TimeSpan.FromHours(1)))
+                    .Subscribe(appJwt => jwt = appJwt);
+
+                return token =>
                 {
-                    Method = HttpMethod.Post,
-                    RequestUri = new(_oidcConfiguration.IntrospectionEndpoint),
-                    Content = new FormUrlEncodedContent(
-                        new[]
-                        {
-                            new KeyValuePair<string?, string?>(
-                                "client_assertion_type",
-                                "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"),
-                            new KeyValuePair<string?, string?>(
-                                "client_assertion",
-                                $"{jwt}"),
-                            new KeyValuePair<string?, string?>("token", token),
-                        }),
+                    jwt ??= app.GetSignedJwt(_options.Issuer);
+
+                    return new()
+                    {
+                        Method = HttpMethod.Post,
+                        RequestUri = new(_oidcConfiguration.IntrospectionEndpoint),
+                        Content = new FormUrlEncodedContent(
+                            new[]
+                            {
+                                new KeyValuePair<string?, string?>(
+                                    "client_assertion_type",
+                                    "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"),
+                                new KeyValuePair<string?, string?>(
+                                    "client_assertion",
+                                    $"{jwt}"),
+                                new KeyValuePair<string?, string?>("token", token),
+                            }),
+                    };
                 };
             }
 
-            return new()
+            return token => new()
             {
                 Method = HttpMethod.Post,
                 RequestUri = new(_oidcConfiguration.IntrospectionEndpoint),
