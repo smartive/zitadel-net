@@ -117,7 +117,8 @@ namespace Zitadel.Authentication.Credentials
         public static Application LoadFromJsonString(string json) => LoadFromJsonStringAsync(json).Result;
 
         /// <inheritdoc cref="GetSignedJwtAsync"/>
-        public string GetSignedJwt(string issuer) => GetSignedJwtAsync(issuer).Result;
+        public string GetSignedJwt(string issuer, TimeSpan? lifeSpan = null) =>
+            GetSignedJwtAsync(issuer, lifeSpan).Result;
 
         /// <summary>
         /// Create a signed JWT token. It is signed with the RSA private
@@ -126,19 +127,25 @@ namespace Zitadel.Authentication.Credentials
         /// the application.
         /// </summary>
         /// <param name="issuer">The issuer that is targeted to verify the credentials.</param>
+        /// <param name="lifeSpan">The lifetime of the jwt token. Min: 1 second. Max: 1 hour. Defaults to 1 hour.</param>
         /// <returns>A string with a signed JWT token.</returns>
-        public async Task<string> GetSignedJwtAsync(string issuer)
+        public async Task<string> GetSignedJwtAsync(string issuer, TimeSpan? lifeSpan = null)
         {
             using var rsa = new RSACryptoServiceProvider();
             rsa.ImportParameters(await GetRsaParametersAsync());
+
+            if (lifeSpan != null && (lifeSpan < TimeSpan.FromSeconds(1) || lifeSpan > TimeSpan.FromHours(1)))
+            {
+                throw new ArgumentException("The lifespan is below 1 second or above 1 hour.", nameof(lifeSpan));
+            }
 
             return JWT.Encode(
                 new Dictionary<string, object>
                 {
                     { "iss", ClientId },
                     { "sub", ClientId },
-                    { "iat", DateTimeOffset.Now.ToUnixTimeSeconds() },
-                    { "exp", ((DateTimeOffset)DateTime.Now.AddMinutes(1)).ToUnixTimeSeconds() },
+                    { "iat", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
+                    { "exp", (DateTimeOffset.UtcNow + (lifeSpan ?? TimeSpan.FromHours(1))).ToUnixTimeSeconds() },
                     { "aud", issuer },
                 },
                 rsa,
