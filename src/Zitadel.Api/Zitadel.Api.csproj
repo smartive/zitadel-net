@@ -36,12 +36,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.15.7" />
-        <PackageReference Include="Grpc" Version="2.36.4" />
-        <PackageReference Include="Grpc.Core" Version="2.36.4" />
+        <PackageReference Include="Google.Protobuf" Version="3.15.8" />
+        <PackageReference Include="Grpc" Version="2.37.0" />
+        <PackageReference Include="Grpc.Core" Version="2.37.0" />
         <PackageReference Include="Grpc.Net.ClientFactory" Version="2.36.0" />
         <PackageReference Include="Grpc.Net.Common" Version="2.36.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.36.4" PrivateAssets="All" />
+        <PackageReference Include="Grpc.Tools" Version="2.37.0" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
