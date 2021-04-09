@@ -25,6 +25,8 @@ namespace Zitadel.Authorization
             params string[] roles) =>
             options.AddPolicy(
                 policyName,
-                policy => policy.RequireClaim(ZitadelDefaults.OrganizationRoleClaimName(organizationId), roles));
+                policy => policy
+                    .RequireAuthenticatedUser()
+                    .RequireClaim(ZitadelDefaults.OrganizationRoleClaimName(organizationId), roles));
     }
 }
