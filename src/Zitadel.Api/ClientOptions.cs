@@ -7,7 +7,7 @@ namespace Zitadel.Api
     /// <summary>
     /// Options for an API client.
     /// </summary>
-    public record ClientOptions
+    public class ClientOptions
     {
         /// <summary>
         /// The API endpoint for the client. This will be the base url for the api calls.

@@ -1,4 +1,5 @@
-﻿using System.Buffers;
+﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -36,10 +37,16 @@ namespace Zitadel.Authentication
                     .Deserialize<Dictionary<string, Dictionary<string, string>>>(bufferWriter.WrittenSpan);
 
             identity.AddClaims(
-                decoded?.Keys
-                    .Distinct()
-                    .Select(role => new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, issuer)) ??
-                new Claim[0]);
+                decoded?.SelectMany(
+                    role => role.Value
+                        .Select(
+                            org => new Claim(
+                                ZitadelDefaults.OrganizationRoleClaimName(org.Key),
+                                role.Key,
+                                ClaimValueTypes.String,
+                                issuer))
+                        .Append(new(ClaimTypes.Role, role.Key, ClaimValueTypes.String, issuer))) ??
+                Array.Empty<Claim>());
         }
     }
 }

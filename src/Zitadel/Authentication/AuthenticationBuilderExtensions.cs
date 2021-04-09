@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -80,7 +83,37 @@ namespace Zitadel.Authentication
                     options.CallbackPath = ZitadelDefaults.CallbackPath;
                     options.UsePkce = true;
                     options.ResponseType = "code";
+
+                    options.ClaimActions.Add(
+                        new UniqueJsonKeyClaimAction(ClaimTypes.NameIdentifier, ClaimValueTypes.String, "sub"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction(
+                            ZitadelDefaults.PrimaryDomainClaimName,
+                            ClaimValueTypes.String,
+                            ZitadelDefaults.PrimaryDomainClaimName));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction(ClaimTypes.Name, ClaimValueTypes.String, "name"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction(ClaimTypes.GivenName, ClaimValueTypes.String, "given_name"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction(ClaimTypes.Surname, ClaimValueTypes.String, "family_name"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction("nickname", ClaimValueTypes.String, "nickname"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction("preferred_username", ClaimValueTypes.String, "preferred_username"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction("gender", ClaimValueTypes.String, "gender"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction(ClaimTypes.Email, ClaimValueTypes.String, "email"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction("email_verified", ClaimValueTypes.Boolean, "email_verified"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction(ClaimTypes.Locality, ClaimValueTypes.String, "locale"));
+                    options.ClaimActions.Add(
+                        new JsonKeyClaimAction("locale", ClaimValueTypes.String, "locale"));
                     options.ClaimActions.Add(new ZitadelProjectRolesClaimAction());
+                    options.ClaimActions.Add(new DeleteClaimAction(ZitadelDefaults.RoleClaimName));
+
                     configureOptions?.Invoke(options);
                 });
 
