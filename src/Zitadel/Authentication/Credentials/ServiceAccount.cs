@@ -26,7 +26,8 @@ namespace Zitadel.Authentication.Credentials
     /// </para>
     /// <para>
     /// The mechanism is defined here:
-    /// <a href="https://docs.zitadel.ch/architecture/#JSON_Web_Token_JWT_Profile">Zitadel Docs</a>.
+    /// <a href="https://docs.zitadel.ch/docs/apis/openidoauth/grant-types#json-web-token-jwt-profile">JSON Web Token (JWT) Profile</a>.
+    /// <a href="https://docs.zitadel.ch/docs/guides/serviceusers#2-create-a-jwt-and-sign-with-private-key">Create a JWT and sigh it with the private key</a>.
     /// </para>
     /// </summary>
     public record ServiceAccount

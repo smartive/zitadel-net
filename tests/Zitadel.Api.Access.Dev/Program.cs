@@ -16,7 +16,7 @@ var api = Clients.ManagementService(
         }),
     });
 Console.WriteLine("Fetch Roles from Zitadel API");
-var roles = await api.SearchProjectRolesAsync(
+var roles = await api.ListProjectRolesAsync(
     new() { ProjectId = "84856448403694484" });
 Console.WriteLine("Roles:");
 foreach (var r in roles.Result)

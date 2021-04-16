@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net.Http;
-using Caos.Zitadel.Admin.Api.V1;
-using Caos.Zitadel.Auth.Api.V1;
-using Caos.Zitadel.Management.Api.V1;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Zitadel.Admin.V1;
+using Zitadel.Auth.V1;
 using Zitadel.Authentication;
+using Zitadel.Management.V1;
 
 namespace Zitadel.Api
 {
@@ -18,7 +18,7 @@ namespace Zitadel.Api
         /// Create a service client for the auth service.
         /// </summary>
         /// <param name="options">Options for the client like authorization method.</param>
-        /// <returns>The <see cref="Caos.Zitadel.Auth.Api.V1.AuthService.AuthServiceClient"/>.</returns>
+        /// <returns>The <see cref="Auth.V1.AuthService.AuthServiceClient"/>.</returns>
         public static AuthService.AuthServiceClient AuthService(ClientOptions options) =>
             GetClient<AuthService.AuthServiceClient>(options);
 
@@ -26,7 +26,7 @@ namespace Zitadel.Api
         /// Create a service client for the admin service.
         /// </summary>
         /// <param name="options">Options for the client like authorization method.</param>
-        /// <returns>The <see cref="Caos.Zitadel.Admin.Api.V1.AdminService.AdminServiceClient"/>.</returns>
+        /// <returns>The <see cref="Admin.V1.AdminService.AdminServiceClient"/>.</returns>
         public static AdminService.AdminServiceClient AdminService(ClientOptions options) =>
             GetClient<AdminService.AdminServiceClient>(options);
 
@@ -34,7 +34,7 @@ namespace Zitadel.Api
         /// Create a service client for the management service.
         /// </summary>
         /// <param name="options">Options for the client like authorization method.</param>
-        /// <returns>The <see cref="Caos.Zitadel.Management.Api.V1.ManagementService.ManagementServiceClient"/>.</returns>
+        /// <returns>The <see cref="Management.V1.ManagementService.ManagementServiceClient"/>.</returns>
         public static ManagementService.ManagementServiceClient ManagementService(ClientOptions options) =>
             GetClient<ManagementService.ManagementServiceClient>(options);
 

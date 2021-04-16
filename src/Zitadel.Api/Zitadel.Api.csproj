@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\..\config\Common.targets" />
+
+    <Import Project="..\..\config\Common.targets"/>
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
@@ -32,54 +33,86 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Zitadel\Zitadel.csproj" />
+        <ProjectReference Include="..\Zitadel\Zitadel.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.15.8" />
-        <PackageReference Include="Grpc" Version="2.37.0" />
-        <PackageReference Include="Grpc.Core" Version="2.37.0" />
-        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.36.0" />
-        <PackageReference Include="Grpc.Net.Common" Version="2.36.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.37.0" PrivateAssets="All" />
+        <PackageReference Include="Google.Protobuf" Version="3.15.8"/>
+        <PackageReference Include="Grpc" Version="2.37.0"/>
+        <PackageReference Include="Grpc.Core" Version="2.37.0"/>
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.36.0"/>
+        <PackageReference Include="Grpc.Net.Common" Version="2.36.0"/>
+        <PackageReference Include="Grpc.Tools" Version="2.37.0" PrivateAssets="All"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="proto/admin.proto" GrpcServices="Client">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/admin/proto/admin.proto</SourceUrl>
-        </Protobuf>
-        <Protobuf Include="proto/auth.proto" GrpcServices="Client">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/auth/proto/auth.proto</SourceUrl>
-        </Protobuf>
-        <Protobuf Include="proto/management.proto" GrpcServices="Client">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/management/proto/management.proto</SourceUrl>
-        </Protobuf>
-        <Protobuf Include="proto/message.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/pkg/grpc/message/proto/message.proto</SourceUrl>
-        </Protobuf>
-        <Protobuf Include="authoption/options.proto" GrpcServices="Client" Access="Internal">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/master/internal/protoc/protoc-gen-authoption/authoption/options.proto</SourceUrl>
-        </Protobuf>
         <Protobuf Include="google/api/annotations.proto" GrpcServices="Client" Access="Internal">
             <SourceUrl>https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/annotations.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="google/api/http.proto" GrpcServices="Client" Access="Internal">
             <SourceUrl>https://raw.githubusercontent.com/googleapis/googleapis/master/google/api/http.proto</SourceUrl>
         </Protobuf>
-        <Protobuf Include="protoc-gen-swagger/options/annotations.proto" GrpcServices="Client" Access="Internal">
-            <SourceUrl>https://raw.githubusercontent.com/grpc-ecosystem/grpc-gateway/v1/protoc-gen-swagger/options/annotations.proto</SourceUrl>
+        <Protobuf Include="protoc-gen-openapiv2/options/annotations.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/grpc-ecosystem/grpc-gateway/master/protoc-gen-openapiv2/options/annotations.proto</SourceUrl>
         </Protobuf>
-        <Protobuf Include="protoc-gen-swagger/options/openapiv2.proto" GrpcServices="Client" Access="Internal">
-            <SourceUrl>https://raw.githubusercontent.com/grpc-ecosystem/grpc-gateway/v1/protoc-gen-swagger/options/openapiv2.proto</SourceUrl>
+        <Protobuf Include="protoc-gen-openapiv2/options/openapiv2.proto" GrpcServices="Client" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/grpc-ecosystem/grpc-gateway/master/protoc-gen-openapiv2/options/openapiv2.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="validate/validate.proto" GrpcServices="Client" Access="Internal">
             <SourceUrl>https://raw.githubusercontent.com/envoyproxy/protoc-gen-validate/main/validate/validate.proto</SourceUrl>
         </Protobuf>
+        <Protobuf Include="zitadel/admin.proto" GrpcServices="Client">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/admin.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/app.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/app.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/auth.proto" GrpcServices="Client">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/auth.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/auth_n_key.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/auth_n_key.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/change.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/change.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/features.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/features.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/idp.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/idp.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/management.proto" GrpcServices="Client">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/management.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/member.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/member.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/message.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/message.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/object.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/object.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/options.proto" GrpcServices="None" Access="Internal">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/options.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/org.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/org.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/policy.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/policy.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/project.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/project.proto</SourceUrl>
+        </Protobuf>
+        <Protobuf Include="zitadel/user.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/user.proto</SourceUrl>
+        </Protobuf>
     </ItemGroup>
-    
-    <Target Name="Update Protos" BeforeTargets="Build">
-        <Message Importance="high" Text="Refresh proto files in API" />
-        <Exec Command="dotnet dotnet-grpc refresh @(Protobuf, ' ')" WorkingDirectory="$(SolutionDir)\src\Zitadel.Api" />
-    </Target>
 
+    <Target Name="Update Protos" BeforeTargets="Build">
+        <Message Importance="high" Text="Refresh proto files in API"/>
+        <Exec Command="dotnet dotnet-grpc refresh @(Protobuf, ' ')" WorkingDirectory="$(SolutionDir)\src\Zitadel.Api"/>
+    </Target>
 </Project>
