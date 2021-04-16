@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package caos.zitadel.api.v1;
+package zitadel.v1;
 
 option go_package = "github.com/caos/zitadel/pkg/grpc/message";
 
