@@ -184,8 +184,8 @@ namespace Zitadel.Authentication.Credentials
                 {
                     { "iss", UserId },
                     { "sub", UserId },
-                    { "iat", DateTimeOffset.Now.ToUnixTimeSeconds() },
-                    { "exp", ((DateTimeOffset)DateTime.Now.AddMinutes(1)).ToUnixTimeSeconds() },
+                    { "iat", DateTimeOffset.UtcNow.AddSeconds(-1).ToUnixTimeSeconds() },
+                    { "exp", ((DateTimeOffset)DateTime.UtcNow.AddMinutes(1)).ToUnixTimeSeconds() },
                     { "aud", issuer },
                 },
                 rsa,
