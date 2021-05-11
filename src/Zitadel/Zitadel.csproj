@@ -37,8 +37,8 @@
 
     <ItemGroup>
         <PackageReference Include="jose-jwt" Version="3.1.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.6" />
         <PackageReference Include="Portable.BouncyCastle" Version="1.8.10" />
         <PackageReference Include="System.Reactive" Version="5.0.0" />
     </ItemGroup>
