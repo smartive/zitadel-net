@@ -38,11 +38,11 @@
 
     <ItemGroup>
         <PackageReference Include="Google.Protobuf" Version="3.17.1"/>
-        <PackageReference Include="Grpc" Version="2.37.1"/>
-        <PackageReference Include="Grpc.Core" Version="2.37.1"/>
+        <PackageReference Include="Grpc" Version="2.38.0"/>
+        <PackageReference Include="Grpc.Core" Version="2.38.0"/>
         <PackageReference Include="Grpc.Net.ClientFactory" Version="2.37.0"/>
         <PackageReference Include="Grpc.Net.Common" Version="2.37.0"/>
-        <PackageReference Include="Grpc.Tools" Version="2.37.1" PrivateAssets="All"/>
+        <PackageReference Include="Grpc.Tools" Version="2.38.0" PrivateAssets="All"/>
     </ItemGroup>
 
     <ItemGroup>
