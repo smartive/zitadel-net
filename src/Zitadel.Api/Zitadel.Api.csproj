@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\config\Common.targets"/>
+    <Import Project="..\..\config\Common.targets" />
 
     <PropertyGroup>
         <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
@@ -33,16 +33,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Zitadel\Zitadel.csproj"/>
+        <ProjectReference Include="..\Zitadel\Zitadel.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.17.3"/>
-        <PackageReference Include="Grpc" Version="2.38.1"/>
-        <PackageReference Include="Grpc.Core" Version="2.38.1"/>
-        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.38.0"/>
-        <PackageReference Include="Grpc.Net.Common" Version="2.38.0"/>
-        <PackageReference Include="Grpc.Tools" Version="2.38.1" PrivateAssets="All"/>
+        <PackageReference Include="Google.Protobuf" Version="3.17.3" />
+        <PackageReference Include="Grpc" Version="2.38.1" />
+        <PackageReference Include="Grpc.Core" Version="2.38.1" />
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.38.0" />
+        <PackageReference Include="Grpc.Net.Common" Version="2.38.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.38.1" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
@@ -106,13 +106,16 @@
         <Protobuf Include="zitadel/project.proto" GrpcServices="None">
             <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/project.proto</SourceUrl>
         </Protobuf>
+        <Protobuf Include="zitadel/text.proto" GrpcServices="None">
+            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/text.proto</SourceUrl>
+        </Protobuf>
         <Protobuf Include="zitadel/user.proto" GrpcServices="None">
             <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/user.proto</SourceUrl>
         </Protobuf>
     </ItemGroup>
 
     <Target Name="UpdateProtos">
-        <Message Importance="high" Text="Refresh proto files in API"/>
-        <Exec Command="dotnet dotnet-grpc refresh @(Protobuf, ' ')" WorkingDirectory="$(SolutionDir)\src\Zitadel.Api"/>
+        <Message Importance="high" Text="Refresh proto files in API" />
+        <Exec Command="dotnet dotnet-grpc refresh @(Protobuf, ' ')" WorkingDirectory="$(MSBuildProjectDirectory)" />
     </Target>
 </Project>

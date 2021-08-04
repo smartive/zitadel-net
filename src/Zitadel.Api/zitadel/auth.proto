@@ -9,6 +9,7 @@ import "zitadel/policy.proto";
 import "zitadel/idp.proto";
 import "validate/validate.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
@@ -49,6 +50,17 @@ service AuthService {
         };
     }
 
+    // Returns the default languages
+    rpc GetSupportedLanguages(GetSupportedLanguagesRequest) returns (GetSupportedLanguagesResponse) {
+        option (google.api.http) = {
+            get: "/languages";
+        };
+
+        option (zitadel.v1.auth_option) = {
+            permission: "authenticated";
+        };
+    }
+
     // Returns my full blown user
     rpc GetMyUser(GetMyUserRequest) returns (GetMyUserResponse) {
         option (google.api.http) = {
@@ -65,7 +77,7 @@ service AuthService {
         option (google.api.http) = {
             post: "/users/me/changes/_search"
         };
-    
+
         option (zitadel.v1.auth_option) = {
             permission: "authenticated"
         };
@@ -82,13 +94,46 @@ service AuthService {
         };
     }
 
+    // Returns the refresh tokens of the authorized user
+    rpc ListMyRefreshTokens(ListMyRefreshTokensRequest) returns (ListMyRefreshTokensResponse) {
+        option (google.api.http) = {
+            post: "/users/me/tokens/refresh/_search"
+        };
+
+        option (zitadel.v1.auth_option) = {
+            permission: "authenticated"
+        };
+    }
+
+    // Revokes a single refresh token of the authorized user by its (token) id
+    rpc RevokeMyRefreshToken(RevokeMyRefreshTokenRequest) returns (RevokeMyRefreshTokenResponse) {
+        option (google.api.http) = {
+            delete: "/users/me/tokens/refresh/{id}"
+        };
+
+        option (zitadel.v1.auth_option) = {
+            permission: "authenticated"
+        };
+    }
+
+    // Revokes all refresh tokens of the authorized user
+    rpc RevokeAllMyRefreshTokens(RevokeAllMyRefreshTokensRequest) returns (RevokeAllMyRefreshTokensResponse) {
+        option (google.api.http) = {
+            post: "/users/me/tokens/refresh/_revoke_all"
+        };
+
+        option (zitadel.v1.auth_option) = {
+            permission: "authenticated"
+        };
+    }
+
     // Change the user name of the authorize user
     rpc UpdateMyUserName(UpdateMyUserNameRequest) returns (UpdateMyUserNameResponse) {
         option (google.api.http) = {
             put: "/users/me/username"
             body: "*"
         };
-    
+
         option (zitadel.v1.auth_option) = {
             permission: "authenticated"
         };
@@ -248,6 +293,17 @@ service AuthService {
         };
     }
 
+    // Remove my avatar
+    rpc RemoveMyAvatar(RemoveMyAvatarRequest) returns (RemoveMyAvatarResponse) {
+        option (google.api.http) = {
+            delete: "/users/me/avatar"
+        };
+
+        option (zitadel.v1.auth_option) = {
+            permission: "authenticated"
+        };
+    }
+
     // Returns a list of all linked identity providers (social logins, eg. Google, Microsoft, AD, etc.)
     rpc ListMyLinkedIDPs(ListMyLinkedIDPsRequest) returns (ListMyLinkedIDPsResponse) {
         option (google.api.http) = {
@@ -352,7 +408,7 @@ service AuthService {
         };
     }
 
-    // Returns all configured passwordless authentications of the authorized user
+    // Returns all configured passwordless authenticators of the authorized user
     rpc ListMyPasswordless(ListMyPasswordlessRequest) returns (ListMyPasswordlessResponse) {
         option (google.api.http) = {
             post: "/users/me/passwordless/_search"
@@ -362,11 +418,37 @@ service AuthService {
         };
     }
 
-    // Adds a new passwordless authentications to the authorized user
+    // Adds a new passwordless authenticator to the authorized user
     // Multiple passwordless authentications can be configured
     rpc AddMyPasswordless(AddMyPasswordlessRequest) returns (AddMyPasswordlessResponse) {
         option (google.api.http) = {
             post: "/users/me/passwordless"
+            body: "*"
+        };
+        option (zitadel.v1.auth_option) = {
+            permission: "authenticated"
+        };
+    }
+
+    // Adds a new passwordless authenticator link to the authorized user and returns it directly
+    // This link enables the user to register a new device if current passwordless devices are all platform authenticators
+    // e.g. User has already registered Windows Hello and wants to register FaceID on the iPhone
+    rpc AddMyPasswordlessLink(AddMyPasswordlessLinkRequest) returns (AddMyPasswordlessLinkResponse) {
+        option (google.api.http) = {
+            post: "/users/me/passwordless/_link"
+            body: "*"
+        };
+        option (zitadel.v1.auth_option) = {
+            permission: "authenticated"
+        };
+    }
+
+    // Adds a new passwordless authenticator link to the authorized user and sends it to the registered email address
+    // This link enables the user to register a new device if current passwordless devices are all platform authenticators
+    // e.g. User has already registered Windows Hello and wants to register FaceID on the iPhone
+    rpc SendMyPasswordlessLink(SendMyPasswordlessLinkRequest) returns (SendMyPasswordlessLinkResponse) {
+        option (google.api.http) = {
+            post: "/users/me/passwordless/_send_link"
             body: "*"
         };
         option (zitadel.v1.auth_option) = {
@@ -461,6 +543,14 @@ message HealthzRequest {}
 message HealthzResponse {}
 
 //This is an empty request
+message GetSupportedLanguagesRequest {}
+
+//This is an empty response
+message GetSupportedLanguagesResponse {
+    repeated string languages = 1;
+}
+
+//This is an empty request
 // the request parameters are read from the token-header
 message GetMyUserRequest {}
 
@@ -488,6 +578,28 @@ message ListMyUserSessionsRequest {}
 message ListMyUserSessionsResponse {
     repeated zitadel.user.v1.Session result = 1;
 }
+
+//This is an empty request
+message ListMyRefreshTokensRequest {}
+
+message ListMyRefreshTokensResponse {
+    zitadel.v1.ListDetails details = 1;
+    repeated zitadel.user.v1.RefreshToken result = 2;
+}
+
+message RevokeMyRefreshTokenRequest {
+    string id = 1 [(validate.rules).string = {min_len: 1, max_len: 200}];
+}
+
+message RevokeMyRefreshTokenResponse {
+    zitadel.v1.ObjectDetails details = 1;
+}
+
+//This is an empty request
+message RevokeAllMyRefreshTokensRequest {}
+
+//This is an empty response
+message RevokeAllMyRefreshTokensResponse {}
 
 message UpdateMyUserNameRequest {
     string user_name = 1 [(validate.rules).string = {min_len: 1, max_len: 200}];
@@ -603,6 +715,13 @@ message RemoveMyPhoneResponse {
     zitadel.v1.ObjectDetails details = 1;
 }
 
+//This is an empty request
+message RemoveMyAvatarRequest {}
+
+message RemoveMyAvatarResponse {
+    zitadel.v1.ObjectDetails details = 1;
+}
+
 message ListMyLinkedIDPsRequest {
     //list limitations and ordering
     zitadel.v1.ListQuery query = 1;
@@ -683,7 +802,7 @@ message RemoveMyAuthFactorU2FResponse {
 message ListMyPasswordlessRequest {}
 
 message ListMyPasswordlessResponse {
-    repeated zitadel.user.v1.WebAuthNToken result = 1; 
+    repeated zitadel.user.v1.WebAuthNToken result = 1;
 }
 
 //This is an empty request
@@ -692,6 +811,22 @@ message AddMyPasswordlessRequest {}
 message AddMyPasswordlessResponse {
     zitadel.user.v1.WebAuthNKey key = 1;
     zitadel.v1.ObjectDetails details = 2;
+}
+
+//This is an empty request
+message AddMyPasswordlessLinkRequest {}
+
+message AddMyPasswordlessLinkResponse {
+    zitadel.v1.ObjectDetails details = 1;
+    string link = 2;
+    google.protobuf.Duration expiration = 3;
+}
+
+//This is an empty request
+message SendMyPasswordlessLinkRequest {}
+
+message SendMyPasswordlessLinkResponse {
+    zitadel.v1.ObjectDetails details = 1;
 }
 
 message VerifyMyPasswordlessRequest {
