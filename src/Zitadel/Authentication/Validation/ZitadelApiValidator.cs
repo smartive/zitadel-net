@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Reactive.Linq;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Protocols;
@@ -12,6 +11,12 @@ using Microsoft.IdentityModel.Tokens;
 using Zitadel.Authentication.Credentials;
 using Zitadel.Authentication.Models;
 using Zitadel.Authentication.Options;
+
+#if NET5_0_OR_GREATER
+using System.Net.Http.Json;
+#elif NETCOREAPP3_1_OR_GREATER
+using System.Text.Json;
+#endif
 
 namespace Zitadel.Authentication.Validation
 {
@@ -67,7 +72,11 @@ namespace Zitadel.Authentication.Validation
                 validatedToken = new JwtSecurityToken();
             }
 
+#if NET5_0_OR_GREATER
             var response = Client.Send(_requestConstructor(token));
+#elif NETCOREAPP3_1_OR_GREATER
+            var response = Client.SendAsync(_requestConstructor(token)).Result;
+#endif
 
             if (!response.IsSuccessStatusCode)
             {
@@ -75,10 +84,18 @@ namespace Zitadel.Authentication.Validation
                 return new();
             }
 
+#if NET5_0_OR_GREATER
             var introspection = response
                 .Content
                 .ReadFromJsonAsync<IntrospectResponse>()
                 .Result;
+#elif NETCOREAPP3_1_OR_GREATER
+            var content = response
+                .Content
+                .ReadAsStringAsync()
+                .Result;
+            var introspection = JsonSerializer.Deserialize<IntrospectResponse>(content);
+#endif
 
             if (introspection == null)
             {
@@ -157,7 +174,13 @@ namespace Zitadel.Authentication.Validation
                     return new()
                     {
                         Method = HttpMethod.Post,
+#if NET5_0_OR_GREATER
                         RequestUri = new(_oidcConfiguration.IntrospectionEndpoint),
+#elif NETCOREAPP3_1_OR_GREATER
+                        RequestUri = new(
+                            _oidcConfiguration.AdditionalData["introspection_endpoint"]?.ToString() ??
+                            throw new("No Introspect Endpoint Found")),
+#endif
                         Content = new FormUrlEncodedContent(
                             new[]
                             {
@@ -176,7 +199,13 @@ namespace Zitadel.Authentication.Validation
             return token => new()
             {
                 Method = HttpMethod.Post,
+#if NET5_0_OR_GREATER
                 RequestUri = new(_oidcConfiguration.IntrospectionEndpoint),
+#elif NETCOREAPP3_1_OR_GREATER
+                RequestUri = new(
+                    _oidcConfiguration.AdditionalData["introspection_endpoint"]?.ToString() ??
+                    throw new("No Introspect Endpoint Found")),
+#endif
                 Headers = { { AuthorizationHeader, _options.BasicAuthCredentials!.HttpCredentials } },
                 Content = new FormUrlEncodedContent(new[] { new KeyValuePair<string?, string?>("token", token) }),
             };

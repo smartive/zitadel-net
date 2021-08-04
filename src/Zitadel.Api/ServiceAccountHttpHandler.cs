@@ -23,8 +23,10 @@ namespace Zitadel.Api
             _options = options;
         }
 
+#if NET5_0_OR_GREATER
         protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
             => SendAsync(request, cancellationToken).Result;
+#endif
 
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,

@@ -3,7 +3,7 @@
     <Import Project="..\..\config\Common.targets"/>
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -111,7 +111,7 @@
         </Protobuf>
     </ItemGroup>
 
-    <Target Name="Update Protos" BeforeTargets="Build">
+    <Target Name="UpdateProtos">
         <Message Importance="high" Text="Refresh proto files in API"/>
         <Exec Command="dotnet dotnet-grpc refresh @(Protobuf, ' ')" WorkingDirectory="$(SolutionDir)\src\Zitadel.Api"/>
     </Target>

@@ -10,12 +10,20 @@
         /// <summary>
         /// Path to the key file.
         /// </summary>
+#if NET5_0_OR_GREATER
         public string? Path { get; init; }
+#elif NETCOREAPP3_1_OR_GREATER
+        public string? Path { get; set; }
+#endif
 
         /// <summary>
         /// Direct json content of the jwt key.
         /// </summary>
+#if NET5_0_OR_GREATER
         public string? Content { get; init; }
+#elif NETCOREAPP3_1_OR_GREATER
+        public string? Content { get; set; }
+#endif
     }
 
     /// <summary>

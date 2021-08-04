@@ -1,0 +1,38 @@
+﻿@page
+@model Zitadel.AuthN.Dev.NetCore31.Pages.Authenticated
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Authed</title>
+</head>
+<body>
+<div>
+    <p>
+        <a href="/">Index</a>
+    </p>
+    <p>Authorized.</p>
+    <div>
+        <div>User Data</div>
+        <div>UserName: @User.Identity?.Name</div>
+        <div>Claims:</div>
+        <ul>
+            @foreach (var c in User.Claims)
+            {
+                <li>@c.Type : @c.Value</li>
+            }
+        </ul>
+        <ul>
+            <li>Is in role Admin: @User.IsInRole("Admin")</li>
+            <li>Is in role User: @User.IsInRole("User")</li>
+        </ul>
+    </div>
+    <div>
+        <form method="post">
+            <button type="submit">logout</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

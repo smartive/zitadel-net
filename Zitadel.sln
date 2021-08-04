@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zitadel.Api", "src\Zitadel.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zitadel.Api.Access.Dev", "tests\Zitadel.Api.Access.Dev\Zitadel.Api.Access.Dev.csproj", "{B51464E4-58A6-4C41-A0BF-35245F0DD862}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zitadel.AuthN.Dev.NetCore31", "tests\Zitadel.AuthN.Dev.NetCore31\Zitadel.AuthN.Dev.NetCore31.csproj", "{E8FD1C67-59E2-463F-8359-F43650E15C5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,7 @@ Global
 		{44543DC1-97C5-4525-8EE4-16E5389FDF4E} = {2462186B-61A8-476C-9674-176570BBEC35}
 		{0F83D36E-945F-4B70-A6E9-867C21C546EB} = {47CEB49C-56A9-4BDF-BC66-54E407391D49}
 		{B51464E4-58A6-4C41-A0BF-35245F0DD862} = {2462186B-61A8-476C-9674-176570BBEC35}
+		{E8FD1C67-59E2-463F-8359-F43650E15C5A} = {2462186B-61A8-476C-9674-176570BBEC35}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BF13C638-6A5C-4BF6-89FF-1BAA3986F86A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -77,5 +80,9 @@ Global
 		{B51464E4-58A6-4C41-A0BF-35245F0DD862}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B51464E4-58A6-4C41-A0BF-35245F0DD862}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B51464E4-58A6-4C41-A0BF-35245F0DD862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8FD1C67-59E2-463F-8359-F43650E15C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8FD1C67-59E2-463F-8359-F43650E15C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8FD1C67-59E2-463F-8359-F43650E15C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8FD1C67-59E2-463F-8359-F43650E15C5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
