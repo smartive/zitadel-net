@@ -25,7 +25,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="icon.png">
+        <None Include="icon.png">
             <Pack>true</Pack>
             <PackagePath>\</PackagePath>
             <Visible>false</Visible>
