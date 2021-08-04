@@ -234,15 +234,19 @@ namespace Zitadel.Authentication.Credentials
             return DotNetUtilities.ToRSAParameters(keyPair.Private as RsaPrivateCrtKeyParameters);
         }
 
+#if NET5_0_OR_GREATER
         private record AccessTokenResponse
         {
             [JsonPropertyName("access_token")]
-#if NET5_0_OR_GREATER
             public string AccessToken { get; init; } = string.Empty;
-#elif NETCOREAPP3_1_OR_GREATER
-            public string AccessToken { get; set; } = string.Empty;
-#endif
         }
+#elif NETCOREAPP3_1_OR_GREATER
+        private record AccessTokenResponse
+        {
+            [JsonPropertyName("access_token")]
+            public string AccessToken { get; set; } = string.Empty;
+        }
+#endif
 
         /// <summary>
         /// Options for the authentication with a <see cref="ServiceAccount"/>.
