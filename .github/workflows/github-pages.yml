@@ -16,7 +16,7 @@ jobs:
       - name: Setup dotnet tools
         run: dotnet tool restore
       - name: Setup MS Build
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.0.3
       - name: Install DocFX
         uses: crazy-max/ghaction-chocolatey@v1
         with:
