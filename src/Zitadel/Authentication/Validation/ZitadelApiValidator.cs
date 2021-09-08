@@ -14,6 +14,7 @@ using Zitadel.Authentication.Options;
 
 #if NET5_0_OR_GREATER
 using System.Net.Http.Json;
+
 #elif NETCOREAPP3_1_OR_GREATER
 using System.Text.Json;
 #endif
@@ -148,17 +149,18 @@ namespace Zitadel.Authentication.Validation
         private Func<string, HttpRequestMessage> RequestConstructor()
         {
             _oidcConfiguration ??= _configuration.GetConfigurationAsync().Result;
-            if (_options.BasicAuthCredentials == null && _options.JwtProfileKey == null)
+            if (_options.BasicAuthCredentials == null && _options.JwtProfileKey == null && _options.JwtProfile == null)
             {
                 throw new ApplicationException(
                     "Neither BasicAuth nor JwtPrivateKey credentials configured in Zitadel API authentication.");
             }
 
-            if (_options.JwtProfileKey != null)
+            if (_options.JwtProfileKey != null || _options.JwtProfile != null)
             {
-                var app = _options.JwtProfileKey.Content != null
-                    ? Application.LoadFromJsonString(_options.JwtProfileKey.Content)
-                    : Application.LoadFromJsonFile(_options.JwtProfileKey.Path ?? string.Empty);
+                var app = _options.JwtProfile ??
+                          (_options.JwtProfileKey?.Content != null
+                              ? Application.LoadFromJsonString(_options.JwtProfileKey.Content)
+                              : Application.LoadFromJsonFile(_options.JwtProfileKey?.Path ?? string.Empty));
 
                 string? jwt = null;
 
