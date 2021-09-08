@@ -30,6 +30,13 @@ namespace Zitadel.Authentication.Options
         public BasicAuthentication? BasicAuthCredentials { get; set; }
 
         /// <summary>
+        /// Correlates with <see cref="JwtProfileKey"/>. If the API application uses
+        /// a private key JWT (recommended), this property can be set to pass the
+        /// application object itself instead of a key path or key content.
+        /// </summary>
+        public Application? JwtProfile { get; set; }
+
+        /// <summary>
         /// If the API application uses a private key JWT (recommended) to authenticate
         /// itself against the IAM API, use this property to provide the key information.
         /// Either use <see cref="JwtPrivateKeyPath"/> to provide a filepath to
