@@ -13,6 +13,7 @@ namespace Zitadel.Authentication.Handler
     internal class LocalFakeZitadelHandler : AuthenticationHandler<LocalFakeZitadelSchemeOptions>
     {
         private const string FakeAuthHeader = "x-zitadel-fake-auth";
+        private const string FakeUserIdHeader = "x-zitadel-fake-user-id";
 
         public LocalFakeZitadelHandler(
             IOptionsMonitor<LocalFakeZitadelSchemeOptions> options,
@@ -30,9 +31,11 @@ namespace Zitadel.Authentication.Handler
                 return Task.FromResult(AuthenticateResult.Fail($@"The {FakeAuthHeader} was set with value ""false""."));
             }
 
+            var hasId = Context.Request.Headers.TryGetValue(FakeUserIdHeader, out var forceUserId);
+
             var claims = new List<Claim>
                 {
-                    new(ClaimTypes.NameIdentifier, Options.FakeZitadelOptions.FakeZitadelId),
+                    new(ClaimTypes.NameIdentifier, hasId ? forceUserId : Options.FakeZitadelOptions.FakeZitadelId),
                     new("sub", Options.FakeZitadelOptions.FakeZitadelId),
                 }.Concat(Options.FakeZitadelOptions.AdditionalClaims)
                 .Concat(Options.FakeZitadelOptions.Roles.Select(r => new Claim(ClaimTypes.Role, r)));
@@ -41,7 +44,7 @@ namespace Zitadel.Authentication.Handler
 
             return Task.FromResult(
                 AuthenticateResult.Success(
-                    new AuthenticationTicket(new ClaimsPrincipal(identity), ZitadelDefaults.FakeAuthenticationScheme)));
+                    new(new(identity), ZitadelDefaults.FakeAuthenticationScheme)));
         }
     }
 }
