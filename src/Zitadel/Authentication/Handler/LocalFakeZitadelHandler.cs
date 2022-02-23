@@ -36,7 +36,7 @@ namespace Zitadel.Authentication.Handler
             var claims = new List<Claim>
                 {
                     new(ClaimTypes.NameIdentifier, hasId ? forceUserId : Options.FakeZitadelOptions.FakeZitadelId),
-                    new("sub", Options.FakeZitadelOptions.FakeZitadelId),
+                    new("sub", hasId ? forceUserId : Options.FakeZitadelOptions.FakeZitadelId),
                 }.Concat(Options.FakeZitadelOptions.AdditionalClaims)
                 .Concat(Options.FakeZitadelOptions.Roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
