@@ -32,7 +32,7 @@ jobs:
         run: dotnet tool restore
       - name: Pack
         run: ./build.sh --no-logo --version 0.0.0-dev.${GITHUB_SHA::8} --release-notes 'This is a package built from master branch.' --target Pack
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: nuget-package
           path: artifacts/*.nupkg
