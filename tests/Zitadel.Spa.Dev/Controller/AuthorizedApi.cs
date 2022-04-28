@@ -11,7 +11,7 @@ namespace Zitadel.Spa.Dev.Controller
     public class AuthorizedApi : ControllerBase
     {
         [HttpGet("jwt")]
-        [Authorize(AuthenticationSchemes = "ZitadelApiJWT", Policy = "CaosUser")]
+        [Authorize(AuthenticationSchemes = "ZitadelApiJWT", Policy = "ZitadelUser")]
         public object JwtAuthedGet()
             => Result();
 
@@ -40,8 +40,8 @@ namespace Zitadel.Spa.Dev.Controller
             Claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList(),
             IsInAdminRole = User.IsInRole("Admin"),
             IsInUserRole = User.IsInRole("User"),
-            IsInCaosAdminRole = User.IsInRole("69234230193872955", "Admin"),
-            IsInCaosUserRole = User.IsInRole("69234230193872955", "User"),
+            IsInZitadelAdminRole = User.IsInRole("69234230193872955", "Admin"),
+            IsInZitadelUserRole = User.IsInRole("69234230193872955", "User"),
             IsInOtherAdminRole = User.IsInRole("69234230193871337", "Admin"),
         };
     }

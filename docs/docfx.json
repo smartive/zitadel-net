@@ -39,12 +39,12 @@
     "xrefService": ["https://xref.docs.microsoft.com/query?uid={uid}"],
     "globalMetadata": {
       "_appTitle": "Zitadel .Net Documentation",
-      "_appFooter": "© Copyright 2021 CAOS AG & Authors",
+      "_appFooter": "© Copyright 2022 ZITADEL & Authors",
       "_appFaviconPath": "images/icon.png"
     },
     "dest": "public",
     "sitemap": {
-      "baseUrl": "https://caos.github.io/zitadel-net/"
+      "baseUrl": "https://zitadel.github.io/zitadel-net/"
     },
     "template": ["statictoc"]
   }

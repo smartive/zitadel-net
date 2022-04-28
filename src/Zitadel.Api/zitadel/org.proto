@@ -22,12 +22,12 @@ message Org {
     ];
     string name = 4 [
         (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-            example: "\"CAOS AG\"";
+            example: "\"ZITADEL\"";
         }
     ];
     string primary_domain = 5 [
         (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-            example: "\"caos.ch\"";
+            example: "\"zitadel.ch\"";
         }
     ];
 }
@@ -47,7 +47,7 @@ message Domain {
     zitadel.v1.ObjectDetails details = 2;
     string domain_name = 3 [
         (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-            example: "\"caos.ch\"";
+            example: "\"zitadel.ch\"";
         }
     ];
     bool is_verified = 4 [
@@ -86,7 +86,7 @@ message OrgNameQuery {
     string name = 1 [
         (validate.rules).string = {max_len: 200},
         (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-            example: "\"caos ag\"";
+            example: "\"zitadel\"";
         }
     ];
     zitadel.v1.TextQueryMethod method = 2 [
@@ -101,7 +101,7 @@ message OrgDomainQuery {
     string domain = 1 [
         (validate.rules).string = {max_len: 200},
         (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-            example: "\"CAOS.C\"";
+            example: "\"ZITADEL.C\"";
         }
     ];
     zitadel.v1.TextQueryMethod method = 2 [
@@ -129,7 +129,7 @@ message DomainNameQuery {
     string name = 1 [
         (validate.rules).string = {max_len: 200},
         (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-            example: "\"caos.ch\"";
+            example: "\"zitadel.ch\"";
         }
     ];
     zitadel.v1.TextQueryMethod method = 2 [

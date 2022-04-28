@@ -20,7 +20,7 @@ namespace Zitadel.Spa.Dev
             services.AddControllers();
             services
                 .AddAuthorization(
-                    o => o.AddZitadelOrganizationRolePolicy("CaosUser", "69234230193872955", "Admin", "User"))
+                    o => o.AddZitadelOrganizationRolePolicy("ZitadelUser", "69234230193872955", "Admin", "User"))
                 .AddAuthentication()
                 .AddJwtBearer()
                 .AddZitadelApi(

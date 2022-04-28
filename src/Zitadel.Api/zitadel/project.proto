@@ -75,7 +75,7 @@ message GrantedProject {
     ];
     string project_owner_name = 9 [
         (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-            example: "\"CAOS AG\""
+            example: "\"ZITADEL\""
         }
     ];
 

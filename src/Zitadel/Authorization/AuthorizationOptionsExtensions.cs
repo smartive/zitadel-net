@@ -15,7 +15,7 @@ namespace Zitadel.Authorization
         /// from different Zitadel organizations.
         /// </summary>
         /// <param name="options">The options object to extend.</param>
-        /// <param name="policyName">Name of the policy (e.g. CaosUser).</param>
+        /// <param name="policyName">Name of the policy (e.g. ZitadelUser).</param>
         /// <param name="organizationId">The id of the organization from Zitadel.</param>
         /// <param name="roles">A list of roles that need to be fulfilled (one of them, at least).</param>
         public static void AddZitadelOrganizationRolePolicy(

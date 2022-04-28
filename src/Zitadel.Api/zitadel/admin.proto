@@ -28,7 +28,7 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
         version: "1.0";
         description: "This API is intended to configure and manage the IAM itself.";
         contact:{
-            name: "CAOS developers of ZITADEL"
+            name: "ZITADEL"
             url: "https://zitadel.ch"
             email: "hi@zitadel.ch"
         }
@@ -2114,7 +2114,7 @@ message IsOrgUniqueRequest {
     string name = 1 [
         (validate.rules).string = {min_len: 1, max_len: 200},
         (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-            example: "\"CAOS AG\"";
+            example: "\"ZITADEL\"";
             min_length: 1;
             max_length: 200;
         }
@@ -2122,7 +2122,7 @@ message IsOrgUniqueRequest {
     string domain = 2 [
         (validate.rules).string = {min_len: 1, max_len: 200},
         (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
-            example: "\"caos.ch\"";
+            example: "\"zitadel.ch\"";
             min_length: 1;
             max_length: 200;
         }
@@ -2189,7 +2189,7 @@ message SetUpOrgRequest {
             (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
                 min_length: 1;
                 max_length: 200;
-                example: "\"CAOS AG\"";
+                example: "\"ZITADEL\"";
             }
         ];
         string domain = 2 [
@@ -2197,7 +2197,7 @@ message SetUpOrgRequest {
             (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
                 description: "ZITADEL generates a domain (<org-name>.zitadel.ch) for an organisation, the field is not required";
                 max_length: 200;
-                example: "\"caos.ch\"";
+                example: "\"zitadel.ch\"";
             }
         ];
     }
@@ -2269,7 +2269,7 @@ message SetUpOrgRequest {
                 (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
                     description: "email address of the user. (spec: https://tools.ietf.org/html/rfc2822#section-3.4.1)";
                     min_length: 1;
-                    example: "\"gigi@caos.ch\"";
+                    example: "\"gigi@zitadel.ch\"";
                 }
             ];  //TODO: check if no value is allowed
             bool is_email_verified = 2;

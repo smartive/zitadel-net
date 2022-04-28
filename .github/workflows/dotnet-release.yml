@@ -41,5 +41,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-          GH_NUGET_SOURCE: 'https://nuget.pkg.github.com/caos/index.json'
+          GH_NUGET_SOURCE: 'https://nuget.pkg.github.com/zitadel/index.json'
           GH_NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}
