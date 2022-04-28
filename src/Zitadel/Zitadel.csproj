@@ -14,14 +14,14 @@
         <Title>Zitadel AuthN</Title>
         <PackageId>Zitadel</PackageId>
         <PackageTags>Zitadel;Authentication;Authorization;Middleware;asp.net core;oidc</PackageTags>
-        <PackageProjectUrl>https://github.com/caos/zitadel-net</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/zitadel/zitadel-net</PackageProjectUrl>
         <Description>
             This is the dotnet library for authentication and authorization
             for https://zitadel.ch. The goal of the library is to
             deliver a good developer experience like the packages from Microsoft
             (e.g. "Microsoft.AspNetCore.Authentication.Google").
         </Description>
-        <RepositoryUrl>https://github.com/caos/zitadel-net.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/zitadel/zitadel-net.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageIcon>icon.png</PackageIcon>

@@ -4,7 +4,7 @@ To use the Zitadel API as a client, you can use the provided `Zitadel.Api`
 package to directly interact with the [gRPC](https://grpc.io/) api.
 
 The package is generated from the official `*.proto` files of
-[the Zitadel repository](https://github.com/caos/zitadel).
+[the Zitadel repository](https://github.com/zitadel/zitadel).
 
 ## How To Use
 

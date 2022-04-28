@@ -12,13 +12,13 @@
         <Title>Zitadel API</Title>
         <PackageId>Zitadel.Api</PackageId>
         <PackageTags>Zitadel;API;gRPC</PackageTags>
-        <PackageProjectUrl>https://github.com/caos/zitadel-net</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/zitadel/zitadel-net</PackageProjectUrl>
         <Description>
             The API library for Zitadel. Implemented with gRPC,
             it allows access to the API of any Zitadel instance (default:
             https://api.zitadel.ch).
         </Description>
-        <RepositoryUrl>https://github.com/caos/zitadel-net.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/zitadel/zitadel-net.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageIcon>icon.png</PackageIcon>
@@ -62,55 +62,55 @@
             <SourceUrl>https://raw.githubusercontent.com/envoyproxy/protoc-gen-validate/main/validate/validate.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/admin.proto" GrpcServices="Client">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/admin.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/admin.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/app.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/app.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/app.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/auth.proto" GrpcServices="Client">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/auth.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/auth.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/auth_n_key.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/auth_n_key.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/auth_n_key.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/change.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/change.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/change.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/features.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/features.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/features.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/idp.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/idp.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/idp.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/management.proto" GrpcServices="Client">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/management.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/management.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/member.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/member.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/member.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/message.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/message.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/message.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/object.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/object.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/object.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/options.proto" GrpcServices="None" Access="Internal">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/options.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/options.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/org.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/org.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/org.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/policy.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/policy.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/policy.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/project.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/project.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/project.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/text.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/text.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/text.proto</SourceUrl>
         </Protobuf>
         <Protobuf Include="zitadel/user.proto" GrpcServices="None">
-            <SourceUrl>https://raw.githubusercontent.com/caos/zitadel/main/proto/zitadel/user.proto</SourceUrl>
+            <SourceUrl>https://raw.githubusercontent.com/zitadel/zitadel/main/proto/zitadel/user.proto</SourceUrl>
         </Protobuf>
     </ItemGroup>
 
