@@ -7,5 +7,5 @@
 
 Welcome to the repository of the Zitadel dotnet libraries.
 
-Please head over to [the documentation on github pages](https://caos.github.io/zitadel-net/)
+Please head over to [the documentation on github pages](https://zitadel.github.io/zitadel-net/)
 for further reading.
