@@ -4,51 +4,30 @@
     <Import Project="..\..\config\CodeAnalysis.targets" />
 
     <PropertyGroup>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <IsPackable>true</IsPackable>
         <Authors>Christoph Bühler</Authors>
         <Title>Zitadel AuthN</Title>
         <PackageId>Zitadel</PackageId>
-        <PackageTags>Zitadel;Authentication;Authorization;Middleware;asp.net core;oidc</PackageTags>
-        <PackageProjectUrl>https://github.com/caos/zitadel-net</PackageProjectUrl>
+        <PackageTags>Zitadel;Authentication;Authorization;Middleware;oidc</PackageTags>
         <Description>
-            This is the dotnet library for authentication and authorization
-            for https://zitadel.ch. The goal of the library is to
-            deliver a good developer experience like the packages from Microsoft
-            (e.g. "Microsoft.AspNetCore.Authentication.Google").
+            This package contains the library for authentication and authorization
+            against https://zitadel.cloud. The package gives easy configurable
+            options to integrate ZITADEL authentication with any web application
+            or web API.
+
+            Additionally, it provides convenience functions for Zitadel.gRPC clients.
         </Description>
-        <RepositoryUrl>https://github.com/caos/zitadel-net.git</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="icon.png">
-            <Pack>true</Pack>
-            <PackagePath>\</PackagePath>
-            <Visible>false</Visible>
-        </None>
+      <ProjectReference Include="..\Zitadel.Grpc\Zitadel.Grpc.csproj" />
     </ItemGroup>
-    
+
     <ItemGroup>
-        <PackageReference Include="jose-jwt" Version="3.2.0" />
-        <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
-        <PackageReference Include="System.Reactive" Version="5.0.0" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.16" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.16" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.24" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.24" />
+      <PackageReference Include="jose-jwt" Version="4.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.7" />
+      <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     </ItemGroup>
 
 </Project>

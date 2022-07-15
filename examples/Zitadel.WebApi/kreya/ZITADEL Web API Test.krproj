@@ -1,0 +1,20 @@
+{
+  "id": "86600f93-4c18-47aa-913f-21566a388c95",
+  "importStreams": [],
+  "authConfigs": [
+    {
+      "name": "Web API Test",
+      "providerName": "oidc",
+      "id": "f030f978-fcf8-4f50-af2a-ecce35f6a88f",
+      "options": {
+        "redirectUri": "https://localhost:8080/login-zitadel",
+        "clientId": "170105648950870273@library",
+        "scope": "openid profile",
+        "issuer": "https://zitadel-libraries-l8boqa.zitadel.cloud",
+        "clientAuthMethod": "none",
+        "grantType": "authorizationCode"
+      }
+    }
+  ],
+  "certificates": []
+}

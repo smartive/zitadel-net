@@ -1,0 +1,11 @@
+{
+  "settings": [
+    {
+      "options": {
+        "rest": {
+          "endpoint": "http://localhost:8080"
+        }
+      }
+    }
+  ]
+}

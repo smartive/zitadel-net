@@ -34,15 +34,20 @@ class Build : NukeBuild
 
     [Solution] readonly Solution Solution;
 
-    AbsolutePath SourceDirectory => RootDirectory / "src";
-    AbsolutePath TestsDirectory => RootDirectory / "tests";
-    AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
+    static AbsolutePath SourceDirectory => RootDirectory / "src";
+
+    static AbsolutePath TestsDirectory => RootDirectory / "tests";
+
+    static AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
     string PackageReleaseNotes => (ReleaseNotes.Length > MaxReleaseNoteLength
-            ? ReleaseNotes.Substring(0, MaxReleaseNoteLength)
+            ? ReleaseNotes[..MaxReleaseNoteLength]
             : ReleaseNotes)
         .Replace(",", "%2c")
-        .Replace(";", "%3b");
+        .Replace(";", "%3b")
+        .Replace("`", "%60")
+        .Replace("\"", "%22")
+        .Replace("'", "%27");
 
     Target Clean => _ => _
         .Before(Restore)
