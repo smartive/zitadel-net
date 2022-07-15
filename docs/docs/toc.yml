@@ -1,6 +1,0 @@
-- name: Overview
-  href: overview.md
-- name: Authentication / Authorization
-  href: authN.md
-- name: API Access
-  href: api.md
