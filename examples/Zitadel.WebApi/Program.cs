@@ -7,7 +7,7 @@ builder.Services
     .AddAuthorization()
     .AddAuthentication()
     .AddZitadelIntrospection(
-        "ZITADEL_JWT","",
+        "ZITADEL_JWT",
         o =>
         {
             o.Authority = "https://zitadel-libraries-l8boqa.zitadel.cloud/";
@@ -23,7 +23,7 @@ builder.Services
 }");
         })
     .AddZitadelIntrospection(
-        "ZITADEL_BASIC","",
+        "ZITADEL_BASIC",
         o =>
         {
             o.Authority = "https://zitadel-libraries-l8boqa.zitadel.cloud/";
