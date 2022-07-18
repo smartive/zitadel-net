@@ -27,5 +27,5 @@ public static class AuthorizationOptionsExtensions
             policyName,
             policy => policy
                 .RequireAuthenticatedUser()
-                .RequireClaim(ZitadelDefaults.OrganizationRoleClaimName(organizationId), roles));
+                .RequireClaim(ZitadelClaimTypes.OrganizationRole(organizationId), roles));
 }

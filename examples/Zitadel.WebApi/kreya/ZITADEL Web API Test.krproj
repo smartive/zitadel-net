@@ -9,7 +9,7 @@
       "options": {
         "redirectUri": "https://localhost:8080/login-zitadel",
         "clientId": "170105648950870273@library",
-        "scope": "openid profile",
+        "scope": "openid profile email",
         "issuer": "https://zitadel-libraries-l8boqa.zitadel.cloud",
         "clientAuthMethod": "none",
         "grantType": "authorizationCode"

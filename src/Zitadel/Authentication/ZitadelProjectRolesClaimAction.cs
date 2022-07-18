@@ -18,7 +18,7 @@ internal class ZitadelProjectRolesClaimAction : ClaimAction
 
     public override void Run(JsonElement userData, ClaimsIdentity identity, string issuer)
     {
-        if (!userData.TryGetProperty(ZitadelDefaults.RoleClaimName, out var roles))
+        if (!userData.TryGetProperty(ZitadelClaimTypes.Role, out var roles))
         {
             return;
         }
@@ -38,7 +38,7 @@ internal class ZitadelProjectRolesClaimAction : ClaimAction
                 role => role.Value
                     .Select(
                         org => new Claim(
-                            ZitadelDefaults.OrganizationRoleClaimName(org.Key),
+                            ZitadelClaimTypes.OrganizationRole(org.Key),
                             role.Key,
                             ClaimValueTypes.String,
                             issuer))

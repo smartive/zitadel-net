@@ -8,8 +8,8 @@ Welcome to the repository of the ZITADEL dotnet libraries.
 
 This repository contains two essential ZITADEL libraries:
 
-- [Zitadel](./src/Zitadel)
-- [Zitadel.gRPC](./src/Zitadel.Grpc)
+- [ZITADEL](./src/Zitadel)
+- [ZITADEL.gRPC](./src/Zitadel.Grpc)
 
 While Zitadel.gRPC is only the compiled proto files from the [ZITADEL source repository](https://github.com/zitadel/zitadel),
 the other lib contains various helpers and extensions to support ZITADEL.
@@ -34,4 +34,4 @@ The build directory uses ["nuke"](https://nuke.build/) to build the libraries.
 
 ##### License
 
-These libraries are licensed under the [Apache 2.0 License](LICENSE.md).
+These libraries are licensed under the [Apache 2.0 License](LICENSE).

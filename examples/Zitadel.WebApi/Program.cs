@@ -10,8 +10,7 @@ builder.Services
         "ZITADEL_JWT",
         o =>
         {
-            o.Authority = "https://zitadel-libraries-l8boqa.zitadel.cloud/";
-            o.ClientId = "170101999168192769@library";
+            o.Authority = "https://zitadel-libraries-l8boqa.zitadel.cloud";
             o.JwtProfile = Application.LoadFromJsonString(
                 @"
 {
@@ -29,6 +28,11 @@ builder.Services
             o.Authority = "https://zitadel-libraries-l8boqa.zitadel.cloud/";
             o.ClientId = "170102032621961473@library";
             o.ClientSecret = "KNkKW8nx3rlEKOeHNUcPx80tZTP1uZTjJESfdA3kMEK7urhX3ChFukTMQrtjvG70";
+        })
+    .AddZitadelFake("ZITADEL_FAKE",
+        o =>
+        {
+            o.FakeZitadelId = "1337";
         });
 
 var app = builder.Build();

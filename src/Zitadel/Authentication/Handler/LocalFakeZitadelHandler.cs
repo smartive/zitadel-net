@@ -37,10 +37,10 @@ internal class LocalFakeZitadelHandler : AuthenticationHandler<LocalFakeZitadelS
             }.Concat(Options.FakeZitadelOptions.AdditionalClaims)
             .Concat(Options.FakeZitadelOptions.Roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
-        var identity = new ClaimsIdentity(claims, ZitadelDefaults.MockAuthenticationScheme);
+        var identity = new ClaimsIdentity(claims, ZitadelDefaults.FakeAuthenticationScheme);
 
         return Task.FromResult(
             AuthenticateResult.Success(
-                new(new(identity), ZitadelDefaults.MockAuthenticationScheme)));
+                new(new(identity), ZitadelDefaults.FakeAuthenticationScheme)));
     }
 }

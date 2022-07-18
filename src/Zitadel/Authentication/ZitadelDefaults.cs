@@ -26,7 +26,7 @@ namespace Zitadel.Authentication
         /// <summary>
         /// Authentication scheme name for local fake provider.
         /// </summary>
-        public const string MockAuthenticationScheme = "ZITADEL-Mock";
+        public const string FakeAuthenticationScheme = "ZITADEL-Fake";
 
         /// <summary>
         /// Default callback path for local login redirection.
@@ -39,32 +39,8 @@ namespace Zitadel.Authentication
         public const string DiscoveryEndpointPath = "/.well-known/openid-configuration";
 
         /// <summary>
-        /// The name for the token claim (JWT or opaque via user-info endpoint)
-        /// that contains rule allocations.
-        /// </summary>
-        public const string RoleClaimName = "urn:zitadel:iam:org:project:roles";
-
-        /// <summary>
-        /// The name for the token claim (JWT or opaque via user-info endpoint)
-        /// that contains the scoped and used primary domain.
-        /// </summary>
-        public const string PrimaryDomainClaimName = "urn:zitadel:iam:org:domain:primary";
-
-        /// <summary>
         /// Header which is used to provide context to grpc/rest api calls.
         /// </summary>
         public const string ZitadelOrgIdHeader = "x-zitadel-orgid";
-
-        /// <summary>
-        /// Constructor for organisation specific role claims.
-        /// They are used to specify roles on a specific organization.
-        /// Check for those roles with the policies added with
-        /// <see cref="AuthorizationOptionsExtensions.AddZitadelOrganizationRolePolicy"/> or
-        /// inside a method with
-        /// <see cref="ClaimsPrincipalExtensions.IsInRole(ClaimsPrincipal,string,string[])"/>.
-        /// </summary>
-        /// <param name="orgId">The id of the organization.</param>
-        /// <returns>A role name.</returns>
-        public static string OrganizationRoleClaimName(string orgId) => $"urn:zitadel:iam:org:{orgId}:project:roles";
     }
 }

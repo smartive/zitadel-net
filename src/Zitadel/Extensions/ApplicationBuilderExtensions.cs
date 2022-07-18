@@ -84,9 +84,9 @@ public static class ApplicationBuilderExtensions
                     new UniqueJsonKeyClaimAction(ClaimTypes.NameIdentifier, ClaimValueTypes.String, "sub"));
                 options.ClaimActions.Add(
                     new JsonKeyClaimAction(
-                        ZitadelDefaults.PrimaryDomainClaimName,
+                        ZitadelClaimTypes.PrimaryDomain,
                         ClaimValueTypes.String,
-                        ZitadelDefaults.PrimaryDomainClaimName));
+                        ZitadelClaimTypes.PrimaryDomain));
                 options.ClaimActions.Add(
                     new JsonKeyClaimAction(ClaimTypes.Name, ClaimValueTypes.String, "name"));
                 options.ClaimActions.Add(
@@ -108,59 +108,26 @@ public static class ApplicationBuilderExtensions
                 options.ClaimActions.Add(
                     new JsonKeyClaimAction("locale", ClaimValueTypes.String, "locale"));
                 options.ClaimActions.Add(new ZitadelProjectRolesClaimAction());
-                options.ClaimActions.Add(new DeleteClaimAction(ZitadelDefaults.RoleClaimName));
+                options.ClaimActions.Add(new DeleteClaimAction(ZitadelClaimTypes.Role));
 
                 configureOptions?.Invoke(options);
             });
 
-    // /// <summary>
-    // /// Add the ZITADEL introspection handler without caring for session handling.
-    // /// This is typically used by Single Page Applications (SPA) that handle
-    // /// the login flow and just send the received JWT or opaque token to an api.
-    // /// This handler can manage JWT as well as opaque access tokens.
-    // /// </summary>
-    // /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
-    // /// <param name="configureOptions">
-    // /// An optional action to configure the ZITADEL handler options
-    // /// (<see cref="ZitadelIntrospectionOptions"/>).
-    // /// </param>
-    // /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-    // public static AuthenticationBuilder AddZitadelIntrospection(
-    //     this AuthenticationBuilder builder,
-    //     Action<ZitadelIntrospectionOptions>? configureOptions = default)
-    //     => builder.AddZitadelIntrospection(ZitadelDefaults.AuthenticationScheme, configureOptions);
-
-    // public static AuthenticationBuilder AddZitadelIntrospection(
-    //     this AuthenticationBuilder builder,
-    //     string authenticationScheme,
-    //     string displayName,
-    //     Action<ZitadelIntrospectionOptions>? configureOptions = default) =>
-    //     builder
-    //         .AddJwtBearer(
-    //             authenticationScheme,
-    //             displayName,
-    //             options =>
-    //             {
-    //                 var zitadelOptions = new ZitadelIntrospectionOptions();
-    //                 configureOptions?.Invoke(zitadelOptions);
-    //
-    //                 options.Authority = zitadelOptions.Authority;
-    //                 options.Audience = zitadelOptions.ClientId;
-    //
-    //                 options.TokenValidationParameters = new TokenValidationParameters
-    //                 {
-    //                     ValidateIssuerSigningKey = true,
-    //                     ValidateAudience = zitadelOptions.ValidateAudience,
-    //                     ValidAudiences = zitadelOptions.ValidAudiences?
-    //                                          .Append(zitadelOptions.ClientId)
-    //                                          .Distinct() ??
-    //                                      new[] { zitadelOptions.ClientId },
-    //                     ValidIssuer = zitadelOptions.Authority,
-    //                 };
-    //
-    //                 options.SecurityTokenValidators.Clear();
-    //                 options.SecurityTokenValidators.Add(new ZitadelIntrospectionHandler(zitadelOptions));
-    //             });
+    /// <summary>
+    /// Add the ZITADEL introspection handler without caring for session handling.
+    /// This is typically used by web APIs that only need to verify the access token that is presented.
+    /// This handler can manage JWT as well as opaque access tokens.
+    /// </summary>
+    /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
+    /// <param name="configureOptions">
+    /// An optional action to configure the ZITADEL handler options
+    /// (<see cref="ZitadelIntrospectionOptions"/>).
+    /// </param>
+    /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
+    public static AuthenticationBuilder AddZitadelIntrospection(
+        this AuthenticationBuilder builder,
+        Action<ZitadelIntrospectionOptions>? configureOptions = default)
+        => builder.AddZitadelIntrospection(ZitadelDefaults.AuthenticationScheme, configureOptions);
 
     public static AuthenticationBuilder AddZitadelIntrospection(
         this AuthenticationBuilder builder,
@@ -175,10 +142,11 @@ public static class ApplicationBuilderExtensions
                     {
                         ClientCredentialStyle = ClientCredentialStyle.AuthorizationHeader,
                         AuthorizationHeaderStyle = BasicAuthenticationHeaderStyle.Rfc6749,
+                        RoleClaimType = ZitadelClaimTypes.Role,
                     };
                     configureOptions?.Invoke(zitadelOptions);
 
-                    // copy all properties from zitadeloptions to options
+                    // copy all properties from zitadel-options to options
                     options.Authority = zitadelOptions.Authority;
                     options.Events = zitadelOptions.Events;
                     options.AuthenticationType = zitadelOptions.AuthenticationType;
@@ -213,7 +181,9 @@ public static class ApplicationBuilderExtensions
                         return;
                     }
 
+                    options.ClientId = null;
                     options.ClientSecret = null;
+                    options.ClientCredentialStyle = ClientCredentialStyle.PostBody;
                     options.Events.OnUpdateClientAssertion += async context =>
                     {
                         var jwt = await zitadelOptions.JwtProfile.GetSignedJwtAsync(options.Authority);
@@ -236,11 +206,11 @@ public static class ApplicationBuilderExtensions
     /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
     /// <param name="configureOptions">Action to configure the <see cref="LocalFakeZitadelOptions"/>.</param>
     /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-    public static AuthenticationBuilder AddZitadelMock(
+    public static AuthenticationBuilder AddZitadelFake(
         this AuthenticationBuilder builder,
         Action<LocalFakeZitadelOptions>? configureOptions)
-        => builder.AddZitadelMock(
-            ZitadelDefaults.MockAuthenticationScheme,
+        => builder.AddZitadelFake(
+            ZitadelDefaults.FakeAuthenticationScheme,
             configureOptions);
 
     /// <summary>
@@ -254,11 +224,11 @@ public static class ApplicationBuilderExtensions
     /// <param name="authenticationScheme">The name for the authentication scheme to be used.</param>
     /// <param name="configureOptions">Action to configure the <see cref="LocalFakeZitadelOptions"/>.</param>
     /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-    public static AuthenticationBuilder AddZitadelMock(
+    public static AuthenticationBuilder AddZitadelFake(
         this AuthenticationBuilder builder,
         string authenticationScheme,
         Action<LocalFakeZitadelOptions>? configureOptions)
-        => builder.AddZitadelMock(authenticationScheme, ZitadelDefaults.FakeDisplayName, configureOptions);
+        => builder.AddZitadelFake(authenticationScheme, ZitadelDefaults.FakeDisplayName, configureOptions);
 
     /// <summary>
     /// Add a "fake" ZITADEL authentication. This should only be used for local
@@ -272,7 +242,7 @@ public static class ApplicationBuilderExtensions
     /// <param name="displayName">The display name for the authentication scheme.</param>
     /// <param name="configureOptions">Action to configure the <see cref="LocalFakeZitadelOptions"/>.</param>
     /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-    public static AuthenticationBuilder AddZitadelMock(
+    public static AuthenticationBuilder AddZitadelFake(
         this AuthenticationBuilder builder,
         string authenticationScheme,
         string displayName,
@@ -280,7 +250,7 @@ public static class ApplicationBuilderExtensions
     {
         var options = new LocalFakeZitadelOptions();
         configureOptions?.Invoke(options);
-        return builder.AddZitadelMock(authenticationScheme, displayName, options);
+        return builder.AddZitadelFake(authenticationScheme, displayName, options);
     }
 
     /// <summary>
@@ -293,11 +263,11 @@ public static class ApplicationBuilderExtensions
     /// <param name="builder">The <see cref="AuthenticationBuilder"/> to configure.</param>
     /// <param name="options">The <see cref="LocalFakeZitadelOptions"/> to use.</param>
     /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-    public static AuthenticationBuilder AddZitadelMock(
+    public static AuthenticationBuilder AddZitadelFake(
         this AuthenticationBuilder builder,
         LocalFakeZitadelOptions options)
-        => builder.AddZitadelMock(
-            ZitadelDefaults.MockAuthenticationScheme,
+        => builder.AddZitadelFake(
+            ZitadelDefaults.FakeAuthenticationScheme,
             options);
 
     /// <summary>
@@ -311,11 +281,11 @@ public static class ApplicationBuilderExtensions
     /// <param name="authenticationScheme">The name for the authentication scheme to be used.</param>
     /// <param name="options">The <see cref="LocalFakeZitadelOptions"/> to use.</param>
     /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-    public static AuthenticationBuilder AddZitadelMock(
+    public static AuthenticationBuilder AddZitadelFake(
         this AuthenticationBuilder builder,
         string authenticationScheme,
         LocalFakeZitadelOptions options)
-        => builder.AddZitadelMock(authenticationScheme, ZitadelDefaults.FakeDisplayName, options);
+        => builder.AddZitadelFake(authenticationScheme, ZitadelDefaults.FakeDisplayName, options);
 
     /// <summary>
     /// Add a "fake" ZITADEL authentication. This should only be used for local
@@ -329,7 +299,7 @@ public static class ApplicationBuilderExtensions
     /// <param name="displayName">The display name for the authentication scheme.</param>
     /// <param name="options">The <see cref="LocalFakeZitadelOptions"/> to use.</param>
     /// <returns>The configured <see cref="AuthenticationBuilder"/>.</returns>
-    public static AuthenticationBuilder AddZitadelMock(
+    public static AuthenticationBuilder AddZitadelFake(
         this AuthenticationBuilder builder,
         string authenticationScheme,
         string displayName,
