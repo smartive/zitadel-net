@@ -12,6 +12,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://github.com/zitadel/zitadel-net</PackageProjectUrl>
         <RepositoryUrl>https://github.com/zitadel/zitadel-net.git</RepositoryUrl>
     </PropertyGroup>
