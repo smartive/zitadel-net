@@ -1,7 +1,7 @@
 # ZITADEL .NET
 
-[![.NET Release](https://github.com/caos/zitadel-net/actions/workflows/dotnet-release.yml/badge.svg)](https://github.com/caos/zitadel-net/actions/workflows/dotnet-release.yml)
-[![Code Security Testing](https://github.com/caos/zitadel-net/actions/workflows/security-analysis.yml/badge.svg)](https://github.com/caos/zitadel-net/actions/workflows/security-analysis.yml)
+[![.NET Release](https://github.com/zitadel/zitadel-net/actions/workflows/dotnet-release.yml/badge.svg)](https://github.com/zitadel/zitadel-net/actions/workflows/dotnet-release.yml)
+[![Code Security Testing](https://github.com/zitadel/zitadel-net/actions/workflows/security-analysis.yml/badge.svg)](https://github.com/zitadel/zitadel-net/actions/workflows/security-analysis.yml)
 [![Nuget](https://img.shields.io/nuget/v/Zitadel)](https://www.nuget.org/packages/Zitadel/)
 
 Welcome to the repository of the ZITADEL dotnet libraries.
