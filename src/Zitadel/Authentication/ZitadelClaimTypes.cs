@@ -6,7 +6,7 @@ namespace Zitadel.Authentication;
 /// <summary>
 /// Additional custom claim types for ZITADEL.
 /// </summary>
-public class ZitadelClaimTypes
+public static class ZitadelClaimTypes
 {
     /// <summary>
     /// The type (name) for the token claim (JWT or opaque via user-info endpoint)

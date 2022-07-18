@@ -3,7 +3,7 @@
 /// <summary>
 /// OIDC claim types to fetch certain claims from identities.
 /// </summary>
-public class OidcClaimTypes
+public static class OidcClaimTypes
 {
     /// <summary>
     /// The "user ID" claim type of the oidc profile.

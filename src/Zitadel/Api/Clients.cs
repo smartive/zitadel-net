@@ -37,19 +37,6 @@ public static class Clients
     public static ManagementService.ManagementServiceClient ManagementService(Options options) =>
         GetClient<ManagementService.ManagementServiceClient>(options);
 
-    // /// <summary>
-    // /// Create a system client with the given endpoint. To use the system API, it must be available
-    // /// on your ZITADEL instance (it must be a "root" ZITADEL). The user ID and RSA key (api key)
-    // /// are generated when configuring ZITADEL.
-    // /// </summary>
-    // /// <param name="endpoint">The API endpoint (e.g. https://my-zitadel.com).</param>
-    // /// <param name="userId">The user ID for the system API.</param>
-    // /// <param name="apiKey">The RSA private key for the user ID to generate a signed JWT.</param>
-    // /// <returns>The <see cref="System.V1.SystemService.SystemServiceClient"/>.</returns>
-    // public static SystemService.SystemServiceClient SystemService(string endpoint, string userId, string apiKey) =>
-    //     GetClient<SystemService.SystemServiceClient>(
-    //         new(endpoint, new SystemUserTokenProvider(userId, apiKey, endpoint)));
-
     private static TClient GetClient<TClient>(Options options)
         where TClient : ClientBase<TClient>
     {
