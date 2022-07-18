@@ -1,0 +1,15 @@
+{
+  "details": {
+    "path": "/unauthed",
+    "method": "GET",
+    "headers": []
+  },
+  "requests": [
+    {
+      "contentType": "none"
+    }
+  ],
+  "operationType": "unary",
+  "invokerName": "rest",
+  "typeHint": "GET"
+}

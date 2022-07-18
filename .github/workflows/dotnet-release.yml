@@ -3,7 +3,7 @@ name: .NET Release
 on:
   push:
     branches:
-      - master
+      - main
       - next
 
 jobs:
@@ -11,25 +11,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 5.0.302
+          dotnet-version: 6.0.302
       - name: Setup dotnet tools
         run: dotnet tool restore
       - name: Test
         run: ./build.sh --target test --no-logo
+
   semantic-release:
     runs-on: ubuntu-latest
     needs: test
     steps:
       - uses: actions/checkout@v3
         with:
+          submodules: true
           fetch-depth: 1
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 5.0.302
+          dotnet-version: 6.0.302
       - name: Setup dotnet tools
         run: dotnet tool restore
       - name: Semantic Release
@@ -41,5 +45,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NUGET_SOURCE: 'https://api.nuget.org/v3/index.json'
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-          GH_NUGET_SOURCE: 'https://nuget.pkg.github.com/caos/index.json'
+          GH_NUGET_SOURCE: 'https://nuget.pkg.github.com/zitadel/index.json'
           GH_NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}

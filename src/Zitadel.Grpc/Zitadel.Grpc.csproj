@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\..\config\Common.targets" />
+
+    <PropertyGroup>
+        <Authors>Christoph Bühler</Authors>
+        <Title>Zitadel gRPC</Title>
+        <PackageId>Zitadel.gRPC</PackageId>
+        <PackageTags>Zitadel;gRPC</PackageTags>
+        <Description>
+            This package contains the compiled *.proto definitions of the zitadel repository.
+            The main three proto files (management, admin and auth) provide client
+            implementations.
+        </Description>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.21.2" />
+        <PackageReference Include="Grpc" Version="2.46.3" />
+        <PackageReference Include="Grpc.Core" Version="2.46.3" />
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.47.0" />
+        <PackageReference Include="Grpc.Net.Common" Version="2.47.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.47.0" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="../../external/googleapis/google/api/annotations.proto;../../external/googleapis/google/api/http.proto" GrpcService="None" ProtoRoot="../../external/googleapis/" Access="Internal" />
+        <Protobuf Include="../../external/grpc-gateway/protoc-gen-openapiv2/options/openapiv2.proto;../../external/grpc-gateway/protoc-gen-openapiv2/options/annotations.proto" GrpcService="None" ProtoRoot="../../external/grpc-gateway/" Access="Internal" />
+        <Protobuf Include="../../external/protoc-gen-validate/validate/validate.proto" GrpcService="None" ProtoRoot="../../external/protoc-gen-validate/" Access="Internal" />
+        <Protobuf Include="../../external/zitadel/proto/**/*.proto" GrpcService="None" ProtoRoot="../../external/zitadel/proto/" AdditionalImportDirs="../../external/protoc-gen-validate/;../../external/grpc-gateway/;../../external/googleapis/" />
+        <Protobuf Update="../../external/zitadel/proto/zitadel/admin.proto;../../external/zitadel/proto/zitadel/auth.proto;../../external/zitadel/proto/zitadel/management.proto;../../external/zitadel/proto/zitadel/system.proto" GrpcService="Client" />
+    </ItemGroup>
+
+</Project>

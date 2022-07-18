@@ -1,10 +1,6 @@
 name: .NET Testing
 
 on:
-  push:
-    branches:
-      - '**'
-      - '!master'
   pull_request:
     branches:
       - '**'
@@ -14,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 5.0.302
+          dotnet-version: 6.0.302
       - name: Setup dotnet tools
         run: dotnet tool restore
       - name: Test

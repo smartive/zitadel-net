@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace Zitadel.Authentication.Options
 {
@@ -36,9 +35,9 @@ namespace Zitadel.Authentication.Options
         public LocalFakeZitadelOptions AddClaim(
             string type,
             string value,
-            string? valueType,
-            string? issuer,
-            string? originalIssuer) => AddClaim(new(type, value, valueType, issuer, originalIssuer));
+            string? valueType = null,
+            string? issuer = null,
+            string? originalIssuer = null) => AddClaim(new(type, value, valueType, issuer, originalIssuer));
 
         /// <summary>
         /// Add a claim to the <see cref="AdditionalClaims"/> list.

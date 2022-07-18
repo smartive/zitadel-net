@@ -1,9 +1,32 @@
 <Project>
 
     <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <LangVersion>9</LangVersion>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageProjectUrl>https://github.com/zitadel/zitadel-net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/zitadel/zitadel-net.git</RepositoryUrl>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <None Include="..\icon.png">
+            <Pack>true</Pack>
+            <PackagePath>\</PackagePath>
+            <Visible>false</Visible>
+        </None>
+        <None Include="README.md">
+            <Pack>true</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
