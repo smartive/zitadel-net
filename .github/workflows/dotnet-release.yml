@@ -14,7 +14,7 @@ jobs:
         with:
           submodules: true
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.302
       - name: Setup dotnet tools
@@ -31,7 +31,7 @@ jobs:
           submodules: true
           fetch-depth: 1
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.302
       - name: Setup dotnet tools
