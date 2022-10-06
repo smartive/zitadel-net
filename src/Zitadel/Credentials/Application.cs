@@ -122,11 +122,11 @@ public record Application
     /// JWT contains the required information for ZITADEL to verify
     /// the application.
     /// </summary>
-    /// <param name="issuer">The issuer that is targeted to verify the credentials.</param>
+    /// <param name="audience">The audience that is targeted to verify the credentials.</param>
     /// <param name="lifeSpan">The lifetime of the jwt token. Min: 1 second. Max: 1 hour. Defaults to 1 hour.</param>
     /// <returns>A string with a signed JWT token.</returns>
     /// <exception cref="ArgumentException">When the lifeSpan param is not within its bounds.</exception>
-    public async Task<string> GetSignedJwtAsync(string issuer, TimeSpan? lifeSpan = null)
+    public async Task<string> GetSignedJwtAsync(string audience, TimeSpan? lifeSpan = null)
     {
         using var rsa = new RSACryptoServiceProvider();
         rsa.ImportParameters(await GetRsaParametersAsync());
@@ -143,7 +143,7 @@ public record Application
                 { "sub", ClientId },
                 { "iat", DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
                 { "exp", (DateTimeOffset.UtcNow + (lifeSpan ?? TimeSpan.FromHours(1))).ToUnixTimeSeconds() },
-                { "aud", issuer },
+                { "aud", audience },
             },
             rsa,
             JwsAlgorithm.RS256,

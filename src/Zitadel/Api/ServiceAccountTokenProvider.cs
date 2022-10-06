@@ -7,27 +7,31 @@ namespace Zitadel.Api;
 /// <see cref="ServiceAccount"/> to fetch an authenticated access token.
 /// The token will be refreshed after the expiry date.
 /// </summary>
+/// <param name="Audience">The audience to authenticate against.</param>
 /// <param name="ServiceAccount">The service account credentials for the authentication.</param>
 /// <param name="AuthOptions">Specific authentication options for the service account.</param>
 public record ServiceAccountTokenProvider(
+    string Audience,
     ServiceAccount ServiceAccount,
     ServiceAccount.AuthOptions AuthOptions) : ITokenProvider
 {
-    DelegatingHandler ITokenProvider.CreateHandler() => new Handler(ServiceAccount, AuthOptions);
+    DelegatingHandler ITokenProvider.CreateHandler() => new Handler(Audience, ServiceAccount, AuthOptions);
 
     private class Handler : DelegatingHandler
     {
         private static readonly TimeSpan ServiceTokenLifetime = TimeSpan.FromHours(12);
 
+        private readonly string _audience;
         private readonly ServiceAccount _account;
         private readonly ServiceAccount.AuthOptions _options;
 
         private DateTime _tokenExpiryDate;
         private string? _token;
 
-        public Handler(ServiceAccount account, ServiceAccount.AuthOptions options)
+        public Handler(string audience, ServiceAccount account, ServiceAccount.AuthOptions options)
             : base(new HttpClientHandler())
         {
+            _audience = audience;
             _account = account;
             _options = options;
         }
@@ -47,7 +51,7 @@ public record ServiceAccountTokenProvider(
             // When the token is not fetched or it is expired, re-fetch a service account token.
             if (_token == null || _tokenExpiryDate < DateTime.UtcNow)
             {
-                _token = await _account.AuthenticateAsync(_options);
+                _token = await _account.AuthenticateAsync(_audience, _options);
                 _tokenExpiryDate = DateTime.UtcNow + ServiceTokenLifetime;
             }
 

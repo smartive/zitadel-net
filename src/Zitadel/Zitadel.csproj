@@ -4,7 +4,7 @@
     <Import Project="..\..\config\CodeAnalysis.targets" />
 
     <PropertyGroup>
-        <Authors>Christoph Bühler</Authors>
+        <Authors>Christoph Bühler, smartive AG</Authors>
         <Title>Zitadel AuthN</Title>
         <PackageId>Zitadel</PackageId>
         <PackageTags>Zitadel;Authentication;Authorization;Middleware;oidc</PackageTags>

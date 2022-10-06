@@ -1,10 +1,7 @@
 ﻿using System.Net;
-using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Xunit;
 using Zitadel.Test.WebFactories;
 

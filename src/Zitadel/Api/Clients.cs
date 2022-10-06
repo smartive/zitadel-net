@@ -4,7 +4,6 @@ using Zitadel.Admin.V1;
 using Zitadel.Auth.V1;
 using Zitadel.Authentication;
 using Zitadel.Management.V1;
-using Zitadel.System.V1;
 
 namespace Zitadel.Api;
 

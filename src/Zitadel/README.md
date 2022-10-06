@@ -46,13 +46,12 @@ var token = await serviceAccount.AuthenticateAsync();
 ## Accessing the ZITADEL API
 
 [ZITADEL.gRPC](../Zitadel.Grpc) provides the compiled proto files.
-The ZITADEL library provides helper functions to create the four
+The ZITADEL library provides helper functions to create the three
 types of "clients":
 
 - `AuthClient`
 - `AdminClient`
 - `ManagementClient`
-- `SystemClient`
 
 The [ZITADEL docs](https://docs.zitadel.com/docs/apis/introduction) describe
 the gRPC calls and how to use them.
@@ -84,9 +83,9 @@ client = Clients.AuthService(
     new(
         apiUrl,
         ITokenProvider.ServiceAccount(
-            serviceAccount,
             apiUrl,
-            apiProject)));
+            serviceAccount,
+            new(){ ApiAccess = true })));
 result = await client.GetMyUserAsync(new());
 Console.WriteLine($"User: {result.User}");
 ```

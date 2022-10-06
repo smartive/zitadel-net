@@ -14,7 +14,6 @@ var client = Clients.AuthService(new(apiUrl, ITokenProvider.Static(personalAcces
 var result = await client.GetMyUserAsync(new());
 Console.WriteLine($"User: {result.User}");
 
-const string apiProject = "170078979166961921";
 var serviceAccount = ServiceAccount.LoadFromJsonString(
     @"
 {
@@ -27,8 +26,8 @@ client = Clients.AuthService(
     new(
         apiUrl,
         ITokenProvider.ServiceAccount(
-            serviceAccount,
             apiUrl,
-            apiProject)));
+            serviceAccount,
+            new() { ApiAccess = true })));
 result = await client.GetMyUserAsync(new());
 Console.WriteLine($"User: {result.User}");
