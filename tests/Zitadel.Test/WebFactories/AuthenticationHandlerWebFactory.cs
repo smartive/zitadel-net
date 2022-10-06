@@ -93,7 +93,7 @@ public class AuthenticationHandlerWebFactory : WebApplicationFactory<Authenticat
     {
         public string Ping { get; init; }
 
-        public string? AuthType { get; init; }
+        public string AuthType { get; init; }
 
         public string UserId { get; init; }
 

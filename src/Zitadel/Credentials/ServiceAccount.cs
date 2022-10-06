@@ -233,7 +233,7 @@ namespace Zitadel.Credentials
             public bool ApiAccess { get; init; }
 
             /// <summary>
-            /// If set, overwrites the discovery endpoint for <see cref="Audience"/>.
+            /// If set, overwrites the discovery endpoint for the audience in the authentication.
             /// This may be used, if the discovery endpoint is not on the well-known url
             /// of the endpoint.
             /// </summary>
