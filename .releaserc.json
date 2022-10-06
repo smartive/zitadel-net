@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/semantic-release.json",
   "branches": [
     "main",
     {
@@ -6,16 +7,9 @@
       "prerelease": "prerelease"
     }
   ],
-  "plugins": ["@semantic-release/commit-analyzer", "@semantic-release/release-notes-generator", "@semantic-release/github"],
-  "prepare": [
-    [
-      "@semantic-release/exec",
-      {
-        "prepareCmd": "./build.sh --no-logo --version ${nextRelease.version} --release-notes '${nextRelease.notes}' --target Pack"
-      }
-    ]
-  ],
-  "publish": [
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
     [
       "@semantic-release/github",
       {
@@ -25,7 +19,17 @@
           }
         ]
       }
-    ],
+    ]
+  ],
+  "prepare": [
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "./build.sh --no-logo --version ${nextRelease.version} --release-notes '${nextRelease.notes}' --target Pack"
+      }
+    ]
+  ],
+  "publish": [
     [
       "@semantic-release/exec",
       {
