@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text.Json;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;

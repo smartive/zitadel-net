@@ -3,7 +3,7 @@
     <Import Project="..\..\config\Common.targets" />
 
     <PropertyGroup>
-        <Authors>Christoph Bühler</Authors>
+        <Authors>Christoph Bühler, smartive AG</Authors>
         <Title>Zitadel gRPC</Title>
         <PackageId>Zitadel.gRPC</PackageId>
         <PackageTags>Zitadel;gRPC</PackageTags>
