@@ -33,12 +33,6 @@
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "./build.sh --no-logo --target Publish --source-env GH_NUGET_SOURCE --api-key-env GH_NUGET_API_KEY"
-      }
-    ],
-    [
-      "@semantic-release/exec",
-      {
         "publishCmd": "./build.sh --no-logo --target Publish --source-env NUGET_SOURCE --api-key-env NUGET_API_KEY"
       }
     ]
