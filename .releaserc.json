@@ -7,20 +7,7 @@
       "prerelease": "prerelease"
     }
   ],
-  "plugins": [
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
-    [
-      "@semantic-release/github",
-      {
-        "assets": [
-          {
-            "path": "artifacts/*.nupkg"
-          }
-        ]
-      }
-    ]
-  ],
+  "plugins": ["@semantic-release/commit-analyzer", "@semantic-release/release-notes-generator", "@semantic-release/github"],
   "prepare": [
     [
       "@semantic-release/exec",
@@ -34,6 +21,16 @@
       "@semantic-release/exec",
       {
         "publishCmd": "./build.sh --no-logo --target Publish --source-env NUGET_SOURCE --api-key-env NUGET_API_KEY"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "artifacts/*.nupkg"
+          }
+        ]
       }
     ]
   ]
