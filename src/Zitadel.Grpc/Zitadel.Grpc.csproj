@@ -20,7 +20,7 @@
         <PackageReference Include="Grpc.Core" Version="2.46.6" />
         <PackageReference Include="Grpc.Net.ClientFactory" Version="2.51.0" />
         <PackageReference Include="Grpc.Net.Common" Version="2.51.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.51.0" PrivateAssets="All" />
+        <PackageReference Include="Grpc.Tools" Version="2.52.0" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
