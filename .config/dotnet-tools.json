@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "dotnet-grpc": {
-      "version": "2.51.0",
+      "version": "2.52.0",
       "commands": [
         "dotnet-grpc"
       ]
