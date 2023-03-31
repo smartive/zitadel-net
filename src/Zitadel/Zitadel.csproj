@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.1.0" />
+      <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2.0" />
       <PackageReference Include="jose-jwt" Version="4.1.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.15" />
