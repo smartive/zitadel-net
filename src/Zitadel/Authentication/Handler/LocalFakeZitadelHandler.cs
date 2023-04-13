@@ -32,8 +32,8 @@ internal class LocalFakeZitadelHandler : AuthenticationHandler<LocalFakeZitadelS
 
         var claims = new List<Claim>
             {
-                new(ClaimTypes.NameIdentifier, hasId ? forceUserId : Options.FakeZitadelOptions.FakeZitadelId),
-                new("sub", hasId ? forceUserId : Options.FakeZitadelOptions.FakeZitadelId),
+                new(ClaimTypes.NameIdentifier, hasId ? forceUserId.ToString() : Options.FakeZitadelOptions.FakeZitadelId),
+                new("sub", hasId ? forceUserId.ToString() : Options.FakeZitadelOptions.FakeZitadelId),
             }.Concat(Options.FakeZitadelOptions.AdditionalClaims)
             .Concat(Options.FakeZitadelOptions.Roles.Select(r => new Claim(ClaimTypes.Role, r)));
 

@@ -1,25 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>smartive/renovate-config"],
-  "git-submodules": {
-    "enabled": true,
-    "packageRules": [
-      {
-        "matchFiles": [".gitmodules"],
-        "matchDepNames": "external/zitadel",
-        "groupName": "zitadel upstream",
-        "groupSlug": "zitadel-upstream",
-        "semanticCommitType": "fix",
-        "semanticCommitScope": "zitadel upstream"
-      },
-      {
-        "matchFiles": [".gitmodules"],
-        "excludeDepNames": "external/zitadel",
-        "groupName": "external submodules",
-        "groupSlug": "submodules",
-        "semanticCommitType": "chore",
-        "semanticCommitScope": "submodules"
-      }
-    ]
-  }
+  "extends": ["github>smartive/renovate-config", "github>smartive/renovate-config:with-submodules"]
 }
