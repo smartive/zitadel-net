@@ -4,7 +4,6 @@
     <Import Project="..\..\config\CodeAnalysis.targets" />
 
     <PropertyGroup>
-        <Authors>Christoph Bühler, smartive AG</Authors>
         <Title>Zitadel AuthN</Title>
         <PackageId>Zitadel</PackageId>
         <PackageTags>Zitadel;Authentication;Authorization;Middleware;oidc</PackageTags>
@@ -26,9 +25,17 @@
       <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2.0" />
       <PackageReference Include="jose-jwt" Version="4.1.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.16" />
       <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     </ItemGroup>
+    
+    <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.16" />
+    </ItemGroup>
 
+    <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.5" />
+    </ItemGroup>
+    
 </Project>

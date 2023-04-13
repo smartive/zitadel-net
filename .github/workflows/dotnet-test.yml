@@ -7,7 +7,14 @@ on:
 
 jobs:
   test:
+    name: Test (.NET ${{ matrix.version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        version:
+          - 6.x
+          - 7.x
     steps:
       - uses: actions/checkout@v3
         with:
@@ -15,8 +22,22 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.302
+          dotnet-version: ${{ matrix.version }}
       - name: Setup dotnet tools
         run: dotnet tool restore
       - name: Test
-        run: ./build.sh --target test --no-logo
+        run: dotnet test --configuration Release
+
+  result:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: Results
+    needs: [ test ]
+    steps:
+      - run: |
+          result="${{ needs.test.result }}"
+          if [[ $result == "success" || $result == "skipped" ]]; then
+            exit 0
+          else
+            exit 1
+          fi

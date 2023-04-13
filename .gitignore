@@ -4,14 +4,12 @@
 *.userosscache
 *.sln.docstates
 
-# Ci things
+# CI things
 tools/
 nuget/
 artifacts/
 coverage/
-.tmp/
-.nuke/temp
-.nuke/build.schema.json
+build/
 
 # Build results
 [Dd]ebug/

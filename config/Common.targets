@@ -1,9 +1,11 @@
 <Project>
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <Authors>Christoph Bühler, smartive AG</Authors>
+        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>11</LangVersion>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
@@ -13,8 +15,8 @@
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageIcon>icon.png</PackageIcon>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageProjectUrl>https://github.com/zitadel/zitadel-net</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/zitadel/zitadel-net.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/smartive/zitadel-net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/smartive/zitadel-net.git</RepositoryUrl>
     </PropertyGroup>
     
     <ItemGroup>
