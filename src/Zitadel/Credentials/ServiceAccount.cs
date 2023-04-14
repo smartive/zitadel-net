@@ -154,12 +154,19 @@ namespace Zitadel.Credentials
 
             var response = await HttpClient.SendAsync(request);
 
-            var token = await response
-                .EnsureSuccessStatusCode()
-                .Content
-                .ReadFromJsonAsync<AccessTokenResponse>();
-
-            return token?.AccessToken ?? throw new("Access token could not be parsed.");
+            try
+            {
+                var token = await response
+                    .EnsureSuccessStatusCode()
+                    .Content
+                    .ReadFromJsonAsync<AccessTokenResponse>();
+                return token?.AccessToken ?? throw new("Access token could not be parsed.");
+            }
+            catch (HttpRequestException e)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException(err, e);
+            }
         }
 
         /// <inheritdoc cref="AuthenticateAsync"/>
@@ -182,7 +189,7 @@ namespace Zitadel.Credentials
                     { "iss", UserId },
                     { "sub", UserId },
                     { "iat", DateTimeOffset.UtcNow.AddSeconds(-1).ToUnixTimeSeconds() },
-                    { "exp", ((DateTimeOffset)DateTime.UtcNow.AddMinutes(1)).ToUnixTimeSeconds() },
+                    { "exp", DateTimeOffset.UtcNow.AddMinutes(1).ToUnixTimeSeconds() },
                     { "aud", audience },
                 },
                 rsa,
