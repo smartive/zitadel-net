@@ -6,6 +6,7 @@ public static class TestData
 {
     public const string ApiUrl = "https://zitadel-libraries-l8boqa.zitadel.cloud";
     public const string PersonalAccessToken = "ge85fvmgTX4XAhjpF0XGpelB2vn9LZanJaqmUQDuf7iTpKVowb44LFl-86pqY2mfJCEoIOk";
+    public const string OrgId = "170079925099823361";
 
     public const string ApplicationJson = @"
     {

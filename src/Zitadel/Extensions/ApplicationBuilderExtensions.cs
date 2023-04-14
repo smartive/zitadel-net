@@ -1,11 +1,11 @@
 ﻿using System.Security.Claims;
+using System.Text.Json;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect.Claims;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Zitadel.Authentication;
 using Zitadel.Authentication.Handler;
 using Zitadel.Authentication.Options;
@@ -175,6 +175,41 @@ public static class ApplicationBuilderExtensions
                     options.ForwardDefaultSelector = zitadelOptions.ForwardDefaultSelector;
                     options.ForwardSignIn = zitadelOptions.ForwardSignIn;
                     options.ForwardSignOut = zitadelOptions.ForwardSignOut;
+
+                    options.Events.OnTokenValidated += context =>
+                    {
+                        var roleClaims = context.Principal?.Claims.Where(c => c.Type == context.Options.RoleClaimType);
+                        if (roleClaims is null)
+                        {
+                            return Task.CompletedTask;
+                        }
+
+                        var roleIdentity = new ClaimsIdentity(
+                            roleClaims
+                                .Select(
+                                    c => JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(
+                                        c.Value))
+                                .OfType<Dictionary<string, Dictionary<string, string>>>()
+                                .SelectMany(
+                                    dict => dict.SelectMany(
+                                        role => role.Value
+                                            .Select(
+                                                org => new Claim(
+                                                    ZitadelClaimTypes.OrganizationRole(org.Key),
+                                                    role.Key,
+                                                    ClaimValueTypes.String,
+                                                    context.Options.ClaimsIssuer))
+                                            .Append(
+                                                new(
+                                                    ClaimTypes.Role,
+                                                    role.Key,
+                                                    ClaimValueTypes.String,
+                                                    context.Options.ClaimsIssuer)))));
+
+                        context.Principal?.AddIdentity(roleIdentity);
+
+                        return Task.CompletedTask;
+                    };
 
                     if (zitadelOptions.JwtProfile == null)
                     {
