@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using System.Security.Claims;
 using FluentAssertions;
 using Xunit;
+using Zitadel.Authentication;
 using Zitadel.Test.WebFactories;
 
 namespace Zitadel.Test.Authentication;
@@ -41,5 +43,18 @@ public class ZitadelAuthenticationHandlerTest : IClassFixture<AuthenticationHand
         client.DefaultRequestHeaders.Authorization = new("Bearer", TestData.PersonalAccessToken);
         var result = await client.GetAsync("/authed");
         result.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+    
+    [Fact]
+    public async Task Should_Attach_Roles_To_Claims()
+    {
+        var client = _factory.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new("Bearer", TestData.PersonalAccessToken);
+        var result = await client.GetAsync("/authed");
+        var parsed = await result.Content.ReadFromJsonAsync<AuthenticationHandlerWebFactory.Authed>();
+        parsed.Claims.Should().Contain(c => c.Key == ClaimTypes.Role);
+        parsed.Claims.Should().Contain(c => c.Key == ZitadelClaimTypes.OrganizationRole(TestData.OrgId));
+        parsed.Claims.Should().Contain(c => c.Value == "test-1");
+        parsed.Claims.Should().Contain(c => c.Value == "test-2");
     }
 }

@@ -1,7 +1,6 @@
 # ZITADEL .NET
 
-[![.NET Release](https://github.com/zitadel/zitadel-net/actions/workflows/dotnet-release.yml/badge.svg)](https://github.com/zitadel/zitadel-net/actions/workflows/dotnet-release.yml)
-[![Code Security Testing](https://github.com/zitadel/zitadel-net/actions/workflows/security-analysis.yml/badge.svg)](https://github.com/zitadel/zitadel-net/actions/workflows/security-analysis.yml)
+[![.NET Release](https://github.com/smartive/zitadel-net/actions/workflows/dotnet-release.yml/badge.svg)](https://github.com/smartive/zitadel-net/actions/workflows/dotnet-release.yml)
 [![Nuget](https://img.shields.io/nuget/v/Zitadel)](https://www.nuget.org/packages/Zitadel/)
 
 Welcome to the repository of the ZITADEL dotnet libraries.
@@ -29,8 +28,6 @@ To set up the dev environment you merely only need to:
 
 - use `git submodule update --init` to initialize the submodules
 - install the [.NET SDK](https://dotnet.microsoft.com/download)
-
-The build directory uses ["nuke"](https://nuke.build/) to build the libraries.
 
 ##### License
 
