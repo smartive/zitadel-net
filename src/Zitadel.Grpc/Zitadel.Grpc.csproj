@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <Import Project="..\..\config\Common.targets" />
 
@@ -14,16 +14,15 @@
     </PropertyGroup>
     
     <ItemGroup>
+        <PackageReference Include="Google.Api.CommonProtos" Version="2.9.0" />
         <PackageReference Include="Google.Protobuf" Version="3.22.3" />
         <PackageReference Include="Grpc" Version="2.46.6" />
-        <PackageReference Include="Grpc.Core" Version="2.46.6" />
         <PackageReference Include="Grpc.Net.ClientFactory" Version="2.52.0" />
         <PackageReference Include="Grpc.Net.Common" Version="2.52.0" />
         <PackageReference Include="Grpc.Tools" Version="2.54.0" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="../../external/googleapis/google/api/annotations.proto;../../external/googleapis/google/api/http.proto" GrpcService="None" ProtoRoot="../../external/googleapis/" Access="Internal" />
         <Protobuf Include="../../external/grpc-gateway/protoc-gen-openapiv2/options/openapiv2.proto;../../external/grpc-gateway/protoc-gen-openapiv2/options/annotations.proto" GrpcService="None" ProtoRoot="../../external/grpc-gateway/" Access="Internal" />
         <Protobuf Include="../../external/protoc-gen-validate/validate/validate.proto" GrpcService="None" ProtoRoot="../../external/protoc-gen-validate/" Access="Internal" />
         <Protobuf Include="../../external/zitadel/proto/**/*.proto" GrpcService="None" ProtoRoot="../../external/zitadel/proto/" AdditionalImportDirs="../../external/protoc-gen-validate/;../../external/grpc-gateway/;../../external/googleapis/" />
