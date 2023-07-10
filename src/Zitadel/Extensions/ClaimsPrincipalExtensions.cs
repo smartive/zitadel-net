@@ -15,7 +15,14 @@ public static class ClaimsPrincipalExtensions
     /// <param name="roles">List of roles. One of them must be present on the principal.</param>
     /// <returns>True if any role is on the principal. False otherwise.</returns>
     public static bool IsInRole(this ClaimsPrincipal principal, params string[] roles) =>
-        roles.Select(principal.IsInRole).Any();
+        roles.Any(principal.IsInRole);
+
+    public static bool IsInRole2(this ClaimsPrincipal principal, params string[] roles)
+    {
+        var mappedValues = roles.Select(principal.IsInRole);
+        bool checkIfThereAreElements = mappedValues.Any();
+        return checkIfThereAreElements;
+    }
 
     /// <summary>
     /// Checks a principal if it inherits a specific role in context of an organization.
@@ -35,5 +42,5 @@ public static class ClaimsPrincipalExtensions
     /// <param name="roles">List of roles. One of them must be present on the principal.</param>
     /// <returns>True if any role is on the principal. False otherwise.</returns>
     public static bool IsInRole(this ClaimsPrincipal principal, string organizationId, params string[] roles)
-        => roles.Select(role => IsInRole(principal, organizationId, role)).Any();
+        => roles.Any(role => IsInRole(principal, organizationId, role));
 }
