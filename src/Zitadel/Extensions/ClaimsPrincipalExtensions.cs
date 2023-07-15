@@ -17,13 +17,6 @@ public static class ClaimsPrincipalExtensions
     public static bool IsInRole(this ClaimsPrincipal principal, params string[] roles) =>
         roles.Any(principal.IsInRole);
 
-    public static bool IsInRole2(this ClaimsPrincipal principal, params string[] roles)
-    {
-        var mappedValues = roles.Select(principal.IsInRole);
-        bool checkIfThereAreElements = mappedValues.Any();
-        return checkIfThereAreElements;
-    }
-
     /// <summary>
     /// Checks a principal if it inherits a specific role in context of an organization.
     /// </summary>
