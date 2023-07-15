@@ -56,4 +56,13 @@ public class ClaimsPrincipalExtensionsTest
         claimsPrincipal.Verify(c => c.IsInRole("negative"), Times.Exactly(3));
         claimsPrincipal.VerifyNoOtherCalls();
     }
+
+    [Fact]
+    public void IsFalseForNoGivenRoles()
+    {
+        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, Array.Empty<string>() );
+
+        Assert.False(actual);
+        claimsPrincipal.VerifyNoOtherCalls();
+    }
 }
