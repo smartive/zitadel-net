@@ -31,6 +31,17 @@ public class FakeAuthenticationHandlerWebFactory : WebApplicationFactory<FakeAut
                         new("foo", "bar"),
                     };
                     options.Roles = new List<string> { "User" };
+
+                    options.Events.OnZitadelFakeAuth = context =>
+                    {
+                        if (context.FakeZitadelId == "4321")
+                        {
+                            context.AddClaim("bar", "foo");
+                            context.AddRole("Admin");
+                        }
+                        
+                        return Task.CompletedTask;
+                    };
                 });
     }
 

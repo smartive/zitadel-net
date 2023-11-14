@@ -49,4 +49,22 @@ public class ZitadelFakeAuthenticationHandler : IClassFixture<FakeAuthentication
         result?.UserId.Should().Be("1234");
         result?.Claims.Should().Contain(claim => claim.Key == ClaimTypes.Role && claim.Value == "User");
     }
+
+    [Fact]
+    public async Task Should_TriggerCallback()
+    {
+        var client = _factory.CreateClient();
+        var request = new HttpRequestMessage(HttpMethod.Get, "/authed")
+        {
+            Headers = { { "x-zitadel-fake-user-id", "4321" } },
+        };
+        var result = await client.SendAsync(request);
+        var content = await result.Content.ReadFromJsonAsync<AuthenticationHandlerWebFactory.Authed>();
+        
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        content?.AuthType.Should().Be("ZITADEL-Fake");
+        content?.UserId.Should().Be("4321");
+        content?.Claims.Should().Contain(claim => claim.Key == "bar" && claim.Value == "foo");
+        content?.Claims.Should().Contain(claim => claim.Key == ClaimTypes.Role && claim.Value == "Admin");
+    }
 }
