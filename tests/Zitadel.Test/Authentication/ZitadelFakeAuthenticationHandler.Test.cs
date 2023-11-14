@@ -51,7 +51,7 @@ public class ZitadelFakeAuthenticationHandler : IClassFixture<FakeAuthentication
     }
 
     [Fact]
-    public async Task Should_TriggerCallback()
+    public async Task Should_Trigger_Callback()
     {
         var client = _factory.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Get, "/authed")
