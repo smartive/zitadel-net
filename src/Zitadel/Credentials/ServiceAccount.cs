@@ -134,7 +134,7 @@ namespace Zitadel.Credentials
             var manager = new ConfigurationManager<OpenIdConnectConfiguration>(
                 authOptions.DiscoveryEndpoint ?? DiscoveryEndpoint(audience),
                 new OpenIdConnectConfigurationRetriever(),
-                new HttpDocumentRetriever(HttpClient));
+                new HttpDocumentRetriever(HttpClient) { RequireHttps = authOptions.RequireHttps ?? true });
 
             var oidcConfig = await manager.GetConfigurationAsync();
 
@@ -245,6 +245,11 @@ namespace Zitadel.Credentials
             /// of the endpoint.
             /// </summary>
             public string? DiscoveryEndpoint { get; init; }
+
+            /// <summary>
+            /// Requires Https secure channel for sending requests. This is turned ON by default for security reasons. It is RECOMMENDED that you do not allow retrieval from http addresses by default.
+            /// </summary>
+            public bool? RequireHttps { get; init; }
 
             /// <summary>
             /// Set a list of roles that must be attached to this service account to be
