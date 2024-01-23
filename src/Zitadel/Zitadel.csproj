@@ -1,19 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\config\Common.targets"/>
-    <Import Project="..\..\config\CodeAnalysis.targets"/>
-
     <PropertyGroup>
-        <Title>Zitadel AuthN</Title>
+        <Title>Zitadel</Title>
         <PackageId>Zitadel</PackageId>
-        <PackageTags>Zitadel;Authentication;Authorization;Middleware;oidc</PackageTags>
+        <PackageTags>Zitadel;Authentication;Authorization;Middleware;oidc;gRPC;API</PackageTags>
         <Description>
             This package contains the library for authentication and authorization
             against https://zitadel.cloud. The package gives easy configurable
             options to integrate ZITADEL authentication with any web application
             or web API.
 
-            Additionally, it provides convenience functions for Zitadel.gRPC clients.
+            Additionally, it functions as a client library for easy to use
+            API access. This allows consumers to easily manage ZITADEL resources via
+            the provided gRPC clients.
         </Description>
     </PropertyGroup>
 
@@ -36,6 +35,11 @@
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.15"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.15"/>
+    </ItemGroup>
+    
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.1"/>
     </ItemGroup>
 
 </Project>
