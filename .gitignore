@@ -26,3 +26,6 @@ bld/
 # Testing results
 coverage.json
 coverage.info
+
+# Generated Stuff
+*.g.cs
