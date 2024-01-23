@@ -22,7 +22,6 @@ ProjectSection(SolutionItems) = preProject
 	config\project.ruleset = config\project.ruleset
 	config\stylecop.json = config\stylecop.json
 	.releaserc.json = .releaserc.json
-	.gitmodules = .gitmodules
 	renovate.json = renovate.json
 EndProjectSection
 EndProject

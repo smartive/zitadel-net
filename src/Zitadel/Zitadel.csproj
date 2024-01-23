@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\config\Common.targets" />
-    <Import Project="..\..\config\CodeAnalysis.targets" />
+    <Import Project="..\..\config\Common.targets"/>
+    <Import Project="..\..\config\CodeAnalysis.targets"/>
 
     <PropertyGroup>
         <Title>Zitadel AuthN</Title>
@@ -18,24 +18,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Zitadel.Grpc\Zitadel.Grpc.csproj" />
+        <PackageReference Include="BouncyCastle.Cryptography" Version="2.2.1"/>
+        <PackageReference Include="Google.Protobuf" Version="3.25.2"/>
+        <PackageReference Include="Grpc" Version="2.46.6"/>
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.60.0"/>
+        <PackageReference Include="Grpc.Net.Common" Version="2.60.0"/>
+        <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2.0"/>
+        <PackageReference Include="jose-jwt" Version="4.1.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="BouncyCastle.Cryptography" Version="2.2.1" />
-      <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2.0" />
-      <PackageReference Include="jose-jwt" Version="4.1.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    </ItemGroup>
-    
     <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.26" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.26" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.26"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.26"/>
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.15" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.15" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.15"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.15"/>
     </ItemGroup>
-    
+
 </Project>
