@@ -1,11 +1,14 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
+
 using IdentityModel.Client;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect.Claims;
 using Microsoft.Extensions.DependencyInjection;
+
 using Zitadel.Authentication;
 using Zitadel.Authentication.Handler;
 using Zitadel.Authentication.Options;

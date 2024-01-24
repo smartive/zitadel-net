@@ -1,6 +1,7 @@
 ﻿using System.Buffers;
 using System.Security.Claims;
 using System.Text.Json;
+
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 
 namespace Zitadel.Authentication;
@@ -9,13 +10,8 @@ namespace Zitadel.Authentication;
 /// Claim action to fetch the citadel roles (if provided)
 /// from the JWT onto the user identity.
 /// </summary>
-internal class ZitadelProjectRolesClaimAction : ClaimAction
+internal class ZitadelProjectRolesClaimAction() : ClaimAction(ClaimTypes.Role, ClaimValueTypes.String)
 {
-    public ZitadelProjectRolesClaimAction()
-        : base(ClaimTypes.Role, ClaimValueTypes.String)
-    {
-    }
-
     public override void Run(JsonElement userData, ClaimsIdentity identity, string issuer)
     {
         if (!userData.TryGetProperty(ZitadelClaimTypes.Role, out var roles))

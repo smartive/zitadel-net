@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
+
 using Zitadel.Authentication;
 
 namespace Zitadel.Extensions;
@@ -6,6 +8,10 @@ namespace Zitadel.Extensions;
 /// <summary>
 /// Extensions for <see cref="ClaimsPrincipal"/>.
 /// </summary>
+[SuppressMessage(
+    "Minor Code Smell",
+    """S6605:Collection-specific "Exists" method should be used instead of the "Any" extension""",
+    Justification = "The collections are so small that the performance impact is negligible.")]
 public static class ClaimsPrincipalExtensions
 {
     /// <summary>

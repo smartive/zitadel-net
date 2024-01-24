@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
+
 using Zitadel.Admin.V1;
 using Zitadel.Auth.V1;
 using Zitadel.Authentication;
@@ -60,7 +61,9 @@ public static class Clients
         var serviceType = typeof(TClient);
 
         return Activator.CreateInstance(serviceType, channel) as TClient ??
-               throw new($"Could not instantiate type {serviceType}");
+               throw new TypeInitializationException(
+                   serviceType.FullName,
+                   new($"Could not instantiate type {serviceType}"));
     }
 
     /// <summary>

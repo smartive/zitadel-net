@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using Zitadel.Authentication;
 
 namespace Zitadel.WebApi.Controller;
@@ -17,7 +19,7 @@ public class AuthorizedApi : ControllerBase
     [Authorize(AuthenticationSchemes = "ZITADEL_BASIC")]
     public object BasicGet()
         => Result();
-    
+
     [HttpGet("mock")]
     [Authorize(AuthenticationSchemes = "ZITADEL_FAKE")]
     public object FakeGet()
