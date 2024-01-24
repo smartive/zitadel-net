@@ -27,7 +27,7 @@
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="\" />
         <None Include="$(MSBuildThisFileDirectory)\..\LICENSE" Pack="true" PackagePath="\" />
-        <None Include="$(MSBuildThisFileDirectory)\..\icon.png">
+        <None Include="$(MSBuildThisFileDirectory)\icon.png">
             <Pack>true</Pack>
             <PackagePath>\</PackagePath>
             <Visible>false</Visible>
