@@ -1,0 +1,17 @@
+version: v1
+managed:
+  enabled: true
+  csharp_namespace: 
+    
+plugins:
+  - plugin: buf.build/protocolbuffers/csharp
+    out: src/Zitadel/Api/Generated
+    opt: 
+      - base_namespace=
+      - file_extension=.g.cs
+  - plugin: buf.build/grpc/csharp
+    out: src/Zitadel/Api/Generated
+    opt:
+      - base_namespace=
+      - no_server
+      - file_suffix=Grpc.g.cs

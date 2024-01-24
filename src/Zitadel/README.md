@@ -33,8 +33,7 @@ authenticate against ZITADEL to fetch a valid access token:
 
 ```csharp
 var serviceAccount = ServiceAccount.LoadFromJsonString(
-    @"
-{
+@"{
   ""type"": ""serviceaccount"",
   ""keyId"": ""key id"",
   ""key"": ""RSA KEY"",
@@ -45,16 +44,12 @@ var token = await serviceAccount.AuthenticateAsync();
 
 ## Accessing the ZITADEL API
 
-[ZITADEL.gRPC](../Zitadel.Grpc) provides the compiled proto files.
-The ZITADEL library provides helper functions to create the three
-types of "clients":
+This package also provides the compiled proto files.
+The ZITADEL library provides helper functions to create the various clients
+to manage resources.
 
-- `AuthClient`
-- `AdminClient`
-- `ManagementClient`
-
-The [ZITADEL docs](https://docs.zitadel.com/docs/apis/introduction) describe
-the gRPC calls and how to use them.
+The [ZITADEL API Reference](https://zitadel.com/docs/apis/introduction) describes
+the gRPC clients, calls, and how to use them.
 
 As an example, one may use the `AuthClient` to fetch the user information.
 
@@ -87,6 +82,18 @@ client = Clients.AuthService(
             serviceAccount,
             new(){ ApiAccess = true })));
 result = await client.GetMyUserAsync(new());
+Console.WriteLine($"User: {result.User}");
+```
+
+You can also create the clients by yourself:
+
+```csharp
+var accessToken = "fetch it somehow";
+var channel = GrpcChannel.ForAddress("https://my-zitadel-api.com");
+var client = new AuthService.AuthServiceClient(channel);
+var result = await client.GetMyUserAsync(
+    new(),
+    new Metadata { { "Authorization", $"Bearer {accessToken}" } });
 Console.WriteLine($"User: {result.User}");
 ```
 

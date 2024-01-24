@@ -1,7 +1,11 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Authentication;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+
 using Jose;
+
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
@@ -126,6 +130,10 @@ public record Application
     /// <param name="lifeSpan">The lifetime of the jwt token. Min: 1 second. Max: 1 hour. Defaults to 1 hour.</param>
     /// <returns>A string with a signed JWT token.</returns>
     /// <exception cref="ArgumentException">When the lifeSpan param is not within its bounds.</exception>
+    [SuppressMessage(
+        "Critical Vulnerability",
+        "S4426:Cryptographic keys should be robust",
+        Justification = "The key is loaded from a file that is not accessible from the outside.")]
     public async Task<string> GetSignedJwtAsync(string audience, TimeSpan? lifeSpan = null)
     {
         using var rsa = new RSACryptoServiceProvider();
@@ -162,7 +170,7 @@ public record Application
 
         if (pemReader.ReadObject() is not AsymmetricCipherKeyPair keyPair)
         {
-            throw new("RSA Keypair could not be read.");
+            throw new AuthenticationException("RSA Keypair could not be read.");
         }
 
         return DotNetUtilities.ToRSAParameters(keyPair.Private as RsaPrivateCrtKeyParameters);

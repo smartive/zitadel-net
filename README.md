@@ -5,15 +5,11 @@
 
 Welcome to the repository of the ZITADEL dotnet libraries.
 
-This repository contains two essential ZITADEL libraries:
+This repository contains authentication and resource management for ZITADEL in .NET.
+It can be used to create a ASP.NET application (with internal session management)
+or WebAPIs with OIDC introspection. Further, the compiled proto resources of the
+ZITADEL source repository are included to access the API of ZITADEL and manage resources.
 
-- [ZITADEL](./src/Zitadel)
-- [ZITADEL.gRPC](./src/Zitadel.Grpc)
-
-While Zitadel.gRPC is only the compiled proto files from the [ZITADEL source repository](https://github.com/zitadel/zitadel),
-the other lib contains various helpers and extensions to support ZITADEL.
-
-Both libraries contain a readme file to document the library and the usage itself
 as well as the [examples](./examples) folder which contains several examples
 for accessing the [API of ZITADEL](./examples/Zitadel.ApiAccess)
 or using it in a [WebApp](./examples/Zitadel.AspNet.AuthN) or

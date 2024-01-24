@@ -8,13 +8,8 @@ public record StaticTokenProvider(string Token) : ITokenProvider
 {
     DelegatingHandler ITokenProvider.CreateHandler() => new Handler(Token);
 
-    private class Handler : DelegatingHandler
+    private sealed class Handler(string token) : DelegatingHandler(new HttpClientHandler())
     {
-        private readonly string _token;
-
-        public Handler(string token)
-            : base(new HttpClientHandler()) => _token = token;
-
         protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken) =>
             SendAsync(request, cancellationToken).Result;
 
@@ -27,7 +22,7 @@ public record StaticTokenProvider(string Token) : ITokenProvider
                 return base.SendAsync(request, cancellationToken);
             }
 
-            request.Headers.Authorization = new("Bearer", _token);
+            request.Headers.Authorization = new("Bearer", token);
             return base.SendAsync(request, cancellationToken);
         }
     }
