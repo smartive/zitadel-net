@@ -20,10 +20,8 @@ or using it in a [WebApp](./examples/Zitadel.AspNet.AuthN) or
 To help developing the libraries, you may just open an issue or create a pull request
 to this repository.
 
-To set up the dev environment you merely only need to:
-
-- use `git submodule update --init` to initialize the submodules
-- install the [.NET SDK](https://dotnet.microsoft.com/download)
+To set up the dev environment you merely only need to
+install the [.NET SDK](https://dotnet.microsoft.com/download) and you are good to go.
 
 ##### License
 
