@@ -1,13 +1,16 @@
 using System.Security.Claims;
+
 using Moq;
+
 using Xunit;
+
 using Zitadel.Extensions;
 
 namespace Zitadel.Test.Extensions;
 
 public class ClaimsPrincipalExtensionsTest
 {
-    private Mock<ClaimsPrincipal> claimsPrincipal;
+    private readonly Mock<ClaimsPrincipal> claimsPrincipal;
 
     public ClaimsPrincipalExtensionsTest()
     {
@@ -60,7 +63,7 @@ public class ClaimsPrincipalExtensionsTest
     [Fact]
     public void IsFalseForNoGivenRoles()
     {
-        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, Array.Empty<string>() );
+        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, Array.Empty<string>());
 
         Assert.False(actual);
         claimsPrincipal.VerifyNoOtherCalls();

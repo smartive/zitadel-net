@@ -1,0 +1,60 @@
+<Project>
+    <PropertyGroup>
+        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>true</IsPackable>
+        <LangVersion>12</LangVersion>
+        <Authors>Christoph Bühler, smartive AG</Authors>
+        <Owner>cbuehler</Owner>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageProjectUrl>https://github.com/smartive/zitadel-net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/smartive/zitadel-net.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicense>Apache-2.0</PackageLicense>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\" />
+        <None Include="$(MSBuildThisFileDirectory)\..\LICENSE" Pack="true" PackagePath="\" />
+        <None Include="$(MSBuildThisFileDirectory)\icon.png">
+            <Pack>true</Pack>
+            <PackagePath>\</PackagePath>
+            <Visible>false</Visible>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference
+                Include="StyleCop.Analyzers"
+                Version="1.2.0-beta.507"
+                PrivateAssets="all"
+                Condition="$(MSBuildProjectExtension) == '.csproj'" />
+        <PackageReference
+                Include="SonarAnalyzer.CSharp"
+                Version="9.17.0.82934"
+                PrivateAssets="all"
+                Condition="$(MSBuildProjectExtension) == '.csproj'" />
+        <PackageReference Include="Roslynator.Analyzers" Version="4.9.0" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>$(MSBuildProjectName).Test</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <!--So that internals are visible to the Moq library-->
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+</Project>

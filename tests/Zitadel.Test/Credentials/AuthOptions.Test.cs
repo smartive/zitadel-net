@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
+
 using Xunit;
+
 using Zitadel.Credentials;
 
 namespace Zitadel.Test.Credentials;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+
 using Zitadel.Authentication;
 
 namespace Zitadel.Extensions;

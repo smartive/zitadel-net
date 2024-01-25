@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using Zitadel.Authentication;
 using Zitadel.Extensions;
 
@@ -26,10 +28,7 @@ public class FakeAuthenticationHandlerWebFactory : WebApplicationFactory<FakeAut
                 options =>
                 {
                     options.FakeZitadelId = "1234";
-                    options.AdditionalClaims = new List<Claim>
-                    {
-                        new("foo", "bar"),
-                    };
+                    options.AdditionalClaims = new List<Claim> { new("foo", "bar"), };
                     options.Roles = new List<string> { "User" };
 
                     options.Events.OnZitadelFakeAuth = context =>
@@ -66,8 +65,8 @@ public class FakeAuthenticationHandlerWebFactory : WebApplicationFactory<FakeAut
                                 new Authed
                                 {
                                     Ping = "Pong",
-                                    AuthType = context.User.Identity?.AuthenticationType,
-                                    UserId = context.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                                    AuthType = context.User.Identity?.AuthenticationType ?? string.Empty,
+                                    UserId = context.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty,
                                     Claims = context.User.Claims.Select(
                                             c => new KeyValuePair<string, string>(c.Type, c.Value))
                                         .ToList(),
@@ -100,18 +99,18 @@ public class FakeAuthenticationHandlerWebFactory : WebApplicationFactory<FakeAut
 
     internal record Unauthed
     {
-        public string Ping { get; init; }
+        public string Ping { get; init; } = null!;
     }
 
     internal record Authed
     {
-        public string Ping { get; init; }
+        public string Ping { get; init; } = null!;
 
-        public string AuthType { get; init; }
+        public string AuthType { get; init; } = null!;
 
-        public string UserId { get; init; }
+        public string UserId { get; init; } = null!;
 
-        public List<KeyValuePair<string, string>> Claims { get; init; }
+        public List<KeyValuePair<string, string>> Claims { get; init; } = null!;
     }
 
     #endregion

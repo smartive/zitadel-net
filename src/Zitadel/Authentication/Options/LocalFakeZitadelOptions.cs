@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using Zitadel.Authentication.Events;
 
 namespace Zitadel.Authentication.Options

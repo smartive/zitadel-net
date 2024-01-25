@@ -1,8 +1,12 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
+
 using FluentAssertions;
+
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
+
 using Xunit;
+
 using Zitadel.Authentication;
 
 namespace Zitadel.Test.Authentication;
@@ -45,22 +49,24 @@ public class ZitadelProjectRolesClaimActionTest
     }
 
     private JsonElement WithRoles => JsonDocument.Parse(
-            @"
-{
-  ""iss"": ""https://issuer.zitadel.ch"",
-  ""urn:zitadel:iam:org:project:roles"": {
-    ""Admin"": {
-      ""foo"": ""bar""
-    },
-    ""User"": {
-      ""foo"": ""bar""
-    }
-  }
-}
-")
+            """
+
+            {
+              "iss": "https://issuer.zitadel.ch",
+              "urn:zitadel:iam:org:project:roles": {
+                "Admin": {
+                  "foo": "bar"
+                },
+                "User": {
+                  "foo": "bar"
+                }
+              }
+            }
+
+            """)
         .RootElement;
 
     private JsonElement WithoutRoles => JsonDocument.Parse(
-            @"{""iss"": ""https://issuer.zitadel.ch""}")
+            """{"iss": "https://issuer.zitadel.ch"}""")
         .RootElement;
 }

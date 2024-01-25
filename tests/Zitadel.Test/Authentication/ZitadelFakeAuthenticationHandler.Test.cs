@@ -1,25 +1,22 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http.Json;
 using System.Security.Claims;
+
 using FluentAssertions;
+
 using Xunit;
+
 using Zitadel.Test.WebFactories;
 
 namespace Zitadel.Test.Authentication;
 
-public class ZitadelFakeAuthenticationHandler : IClassFixture<FakeAuthenticationHandlerWebFactory>
+public class ZitadelFakeAuthenticationHandler(FakeAuthenticationHandlerWebFactory factory)
+    : IClassFixture<FakeAuthenticationHandlerWebFactory>
 {
-    private readonly FakeAuthenticationHandlerWebFactory _factory;
-
-    public ZitadelFakeAuthenticationHandler(FakeAuthenticationHandlerWebFactory factory)
-    {
-        _factory = factory;
-    }
-
     [Fact]
     public async Task Should_Be_Able_To_Call_Unauthorized_Endpoint()
     {
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
         var result =
             await client.GetFromJsonAsync("/unauthed", typeof(AuthenticationHandlerWebFactory.Unauthed)) as
                 AuthenticationHandlerWebFactory.Unauthed;
@@ -30,7 +27,7 @@ public class ZitadelFakeAuthenticationHandler : IClassFixture<FakeAuthentication
     [Fact]
     public async Task Should_Return_Unauthorized_With_The_Fail_Header()
     {
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Get, "/authed")
         {
             Headers = { { "x-zitadel-fake-auth", "false" } },
@@ -42,7 +39,7 @@ public class ZitadelFakeAuthenticationHandler : IClassFixture<FakeAuthentication
     [Fact]
     public async Task Should_Return_Authorized()
     {
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
         var result = await client.GetFromJsonAsync("/authed", typeof(AuthenticationHandlerWebFactory.Authed)) as
             AuthenticationHandlerWebFactory.Authed;
         result?.AuthType.Should().Be("ZITADEL-Fake");
@@ -53,7 +50,7 @@ public class ZitadelFakeAuthenticationHandler : IClassFixture<FakeAuthentication
     [Fact]
     public async Task Should_Trigger_Callback()
     {
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
         var request = new HttpRequestMessage(HttpMethod.Get, "/authed")
         {
             Headers = { { "x-zitadel-fake-user-id", "4321" } },

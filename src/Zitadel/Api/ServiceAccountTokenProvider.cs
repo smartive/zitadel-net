@@ -17,24 +17,13 @@ public record ServiceAccountTokenProvider(
 {
     DelegatingHandler ITokenProvider.CreateHandler() => new Handler(Audience, ServiceAccount, AuthOptions);
 
-    private class Handler : DelegatingHandler
+    private sealed class Handler(string audience, ServiceAccount account, ServiceAccount.AuthOptions options)
+        : DelegatingHandler(new HttpClientHandler())
     {
         private static readonly TimeSpan ServiceTokenLifetime = TimeSpan.FromHours(12);
 
-        private readonly string _audience;
-        private readonly ServiceAccount _account;
-        private readonly ServiceAccount.AuthOptions _options;
-
         private DateTime _tokenExpiryDate;
         private string? _token;
-
-        public Handler(string audience, ServiceAccount account, ServiceAccount.AuthOptions options)
-            : base(new HttpClientHandler())
-        {
-            _audience = audience;
-            _account = account;
-            _options = options;
-        }
 
         protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
             => SendAsync(request, cancellationToken).Result;
@@ -51,7 +40,7 @@ public record ServiceAccountTokenProvider(
             // When the token is not fetched or it is expired, re-fetch a service account token.
             if (_token == null || _tokenExpiryDate < DateTime.UtcNow)
             {
-                _token = await _account.AuthenticateAsync(_audience, _options);
+                _token = await account.AuthenticateAsync(audience, options);
                 _tokenExpiryDate = DateTime.UtcNow + ServiceTokenLifetime;
             }
 
