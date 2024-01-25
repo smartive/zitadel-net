@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using IdentityModel;
 
 namespace Zitadel.Authentication.Events.Context
 {
@@ -7,7 +8,7 @@ namespace Zitadel.Authentication.Events.Context
         /// <summary>
         /// The created ClaimsIdentity.
         /// </summary>
-        public ClaimsIdentity Identity { get; set; }
+        public ClaimsIdentity Identity { get; init; }
 
         /// <summary>
         /// The claims of the created ClaimsIdentity.
@@ -18,7 +19,16 @@ namespace Zitadel.Authentication.Events.Context
         /// The "user-id" of the fake user.
         /// Either set by the options or via HTTP header.
         /// </summary>
-        public string FakeZitadelId => new ClaimsPrincipal(Identity).FindFirstValue("sub");
+        public string FakeZitadelId => new ClaimsPrincipal(Identity).FindFirstValue("sub")!;
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="identity">The created ClaimsIdentity.</param>
+        public LocalFakeZitadelAuthContext(ClaimsIdentity identity)
+        {
+            Identity = identity;
+        }
 
         /// <summary>
         /// Add a claim to the <see cref="AdditionalClaims"/> list.
@@ -67,6 +77,8 @@ namespace Zitadel.Authentication.Events.Context
         /// Note: the roles are actually "claims" but this method exists
         /// for convenience.
         /// </summary>
+        /// <param name="roles">The roles to add.</param>
+        /// <returns>The <see cref="LocalFakeZitadelAuthContext"/> for chaining.</returns>
         public LocalFakeZitadelAuthContext AddRoles(string[] roles)
         {
             foreach (var role in roles)

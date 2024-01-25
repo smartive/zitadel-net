@@ -40,11 +40,7 @@ internal class LocalFakeZitadelHandler : AuthenticationHandler<LocalFakeZitadelS
         var identity = new ClaimsIdentity(claims, ZitadelDefaults.FakeAuthenticationScheme);
 
         // Callback to enable users to manipulate the ClaimsIdentity before it is used.
-        Options.FakeZitadelOptions.Events.OnZitadelFakeAuth.Invoke(
-            new()
-            {
-                Identity = identity
-            });
+        Options.FakeZitadelOptions.Events.OnZitadelFakeAuth.Invoke(new(identity));
 
         return Task.FromResult(
             AuthenticateResult.Success(
