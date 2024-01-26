@@ -33,12 +33,12 @@ namespace Zitadel.Credentials
     /// </summary>
     public record ServiceAccount
     {
-        private static readonly HttpClient HttpClient = new();
-
         /// <summary>
         /// The key type.
         /// </summary>
         public const string Type = "serviceaccount";
+
+        private static readonly HttpClient HttpClient = new();
 
         /// <summary>
         /// The user id associated with this service account.
@@ -204,10 +204,7 @@ namespace Zitadel.Credentials
                 },
                 rsa,
                 JwsAlgorithm.RS256,
-                new Dictionary<string, object>
-                {
-                    { "kid", KeyId },
-                });
+                new Dictionary<string, object> { { "kid", KeyId }, });
         }
 
         private async Task<RSAParameters> GetRsaParametersAsync()
@@ -223,12 +220,6 @@ namespace Zitadel.Credentials
             }
 
             return DotNetUtilities.ToRSAParameters(keyPair.Private as RsaPrivateCrtKeyParameters);
-        }
-
-        private sealed record AccessTokenResponse
-        {
-            [JsonPropertyName("access_token")]
-            public string AccessToken { get; init; } = string.Empty;
         }
 
         /// <summary>
@@ -283,8 +274,7 @@ namespace Zitadel.Credentials
                     ' ',
                     new[]
                         {
-                            "openid",
-                            ApiAccess
+                            "openid", ApiAccess
                                 ? ApiAccessScope
                                 : string.Empty,
                         }
@@ -292,6 +282,12 @@ namespace Zitadel.Credentials
                         .Union(ProjectAudiences.Select(p => $"urn:zitadel:iam:org:project:id:{p}:aud"))
                         .Union(RequiredRoles.Select(r => $"urn:zitadel:iam:org:project:role:{r}"))
                         .Where(s => !string.IsNullOrWhiteSpace(s)));
+        }
+
+        private sealed record AccessTokenResponse
+        {
+            [JsonPropertyName("access_token")]
+            public string AccessToken { get; init; } = string.Empty;
         }
     }
 }
