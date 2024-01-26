@@ -5,6 +5,12 @@ using Zitadel.Admin.V1;
 using Zitadel.Auth.V1;
 using Zitadel.Authentication;
 using Zitadel.Management.V1;
+using Zitadel.Oidc.V2beta;
+using Zitadel.Org.V2beta;
+using Zitadel.Session.V2beta;
+using Zitadel.Settings.V2beta;
+using Zitadel.System.V1;
+using Zitadel.User.V2beta;
 
 namespace Zitadel.Api;
 
@@ -14,14 +20,6 @@ namespace Zitadel.Api;
 public static class Clients
 {
     /// <summary>
-    /// Create a service client for the auth service.
-    /// </summary>
-    /// <param name="options">Options for the client like authorization method.</param>
-    /// <returns>The <see cref="Auth.V1.AuthService.AuthServiceClient"/>.</returns>
-    public static AuthService.AuthServiceClient AuthService(Options options) =>
-        GetClient<AuthService.AuthServiceClient>(options);
-
-    /// <summary>
     /// Create a service client for the admin service.
     /// </summary>
     /// <param name="options">Options for the client like authorization method.</param>
@@ -30,12 +28,68 @@ public static class Clients
         GetClient<AdminService.AdminServiceClient>(options);
 
     /// <summary>
+    /// Create a service client for the auth service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="Auth.V1.AuthService.AuthServiceClient"/>.</returns>
+    public static AuthService.AuthServiceClient AuthService(Options options) =>
+        GetClient<AuthService.AuthServiceClient>(options);
+
+    /// <summary>
     /// Create a service client for the management service.
     /// </summary>
     /// <param name="options">Options for the client like authorization method.</param>
     /// <returns>The <see cref="Management.V1.ManagementService.ManagementServiceClient"/>.</returns>
     public static ManagementService.ManagementServiceClient ManagementService(Options options) =>
         GetClient<ManagementService.ManagementServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the oidc service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="OIDCService.OIDCServiceClient"/>.</returns>
+    public static OIDCService.OIDCServiceClient OidcService(Options options) =>
+        GetClient<OIDCService.OIDCServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the organization service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="OrganizationService.OrganizationServiceClient"/>.</returns>
+    public static OrganizationService.OrganizationServiceClient OrganizationService(Options options) =>
+        GetClient<OrganizationService.OrganizationServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the session service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="SessionService.SessionServiceClient"/>.</returns>
+    public static SessionService.SessionServiceClient SessionService(Options options) =>
+        GetClient<SessionService.SessionServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the settings service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="SettingsService.SettingsServiceClient"/>.</returns>
+    public static SettingsService.SettingsServiceClient SettingsService(Options options) =>
+        GetClient<SettingsService.SettingsServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the system service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="SystemService.SystemServiceClient"/>.</returns>
+    public static SystemService.SystemServiceClient SystemService(Options options) =>
+        GetClient<SystemService.SystemServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the user service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="UserService.UserServiceClient"/>.</returns>
+    public static UserService.UserServiceClient UserService(Options options) =>
+        GetClient<UserService.UserServiceClient>(options);
 
     private static TClient GetClient<TClient>(Options options)
         where TClient : ClientBase<TClient>

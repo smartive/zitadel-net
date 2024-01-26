@@ -37,7 +37,7 @@
     <ItemGroup>
         <PackageReference
                 Include="StyleCop.Analyzers"
-                Version="1.2.0-beta.507"
+                Version="1.2.0-beta.556"
                 PrivateAssets="all"
                 Condition="$(MSBuildProjectExtension) == '.csproj'" />
         <PackageReference
@@ -45,7 +45,7 @@
                 Version="9.17.0.82934"
                 PrivateAssets="all"
                 Condition="$(MSBuildProjectExtension) == '.csproj'" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.9.0" PrivateAssets="All" />
+        <PackageReference Include="Roslynator.Analyzers" Version="4.10.0" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
