@@ -14,6 +14,7 @@ builder.Services
             o.Authority = "https://zitadel-libraries-l8boqa.zitadel.cloud/";
             o.ClientId = "170088295403946241@library";
             o.SignInScheme = IdentityConstants.ExternalScheme;
+            o.SaveTokens = true;
         })
     .AddExternalCookie()
     .Configure(
