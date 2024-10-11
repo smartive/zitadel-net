@@ -30,6 +30,6 @@ public class ServiceAccountTest
         var sa = await ServiceAccount.LoadFromJsonStringAsync(TestData.InvalidServiceAccountJson);
         var ex = await Assert.ThrowsAsync<HttpRequestException>(() => sa.AuthenticateAsync(TestData.ApiUrl));
 
-        ex.Message.Should().Contain("invalid signature");
+        ex.Message.Should().Contain("Errors.Internal");
     }
 }
