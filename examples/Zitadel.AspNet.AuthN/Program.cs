@@ -33,6 +33,6 @@ app.UseRouting();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+app.MapRazorPages();
 
 await app.RunAsync();

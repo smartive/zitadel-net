@@ -37,7 +37,7 @@ internal class LocalFakeZitadelHandler(
             .Concat(Options.FakeZitadelOptions.Roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
         var identity = new ClaimsIdentity(claims, ZitadelDefaults.FakeAuthenticationScheme);
-      
+
         Options.FakeZitadelOptions.Events.OnZitadelFakeAuth.Invoke(new(identity));
 
         return Task.FromResult(

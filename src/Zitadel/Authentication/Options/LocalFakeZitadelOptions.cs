@@ -2,7 +2,7 @@ using System.Security.Claims;
 
 using Zitadel.Authentication.Events;
 
-namespace Zitadel.Authentication.Options
+namespace Zitadel.Authentication.Options;
 
 public class LocalFakeZitadelOptions
 {

@@ -57,7 +57,7 @@ public class ZitadelFakeAuthenticationHandler(FakeAuthenticationHandlerWebFactor
         };
         var result = await client.SendAsync(request);
         var content = await result.Content.ReadFromJsonAsync<AuthenticationHandlerWebFactory.Authed>();
-        
+
         result.StatusCode.Should().Be(HttpStatusCode.OK);
         content?.AuthType.Should().Be("ZITADEL-Fake");
         content?.UserId.Should().Be("4321");
