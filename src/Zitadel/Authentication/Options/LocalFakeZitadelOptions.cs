@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
+
+using Zitadel.Authentication.Events;
 
 namespace Zitadel.Authentication.Options
 {
@@ -21,6 +23,11 @@ namespace Zitadel.Authentication.Options
         /// for convenience.
         /// </summary>
         public IEnumerable<string> Roles { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Gets or sets the <see cref="LocalFakeZitadelEvents"/> used to enable mocking authentication data dynamically.
+        /// </summary>
+        public LocalFakeZitadelEvents Events { get; set; } = new LocalFakeZitadelEvents();
 
         /// <summary>
         /// Add a claim to the <see cref="AdditionalClaims"/> list.
