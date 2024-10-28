@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using IdentityModel;
 
 namespace Zitadel.Authentication.Events.Context
 {
@@ -13,7 +12,7 @@ namespace Zitadel.Authentication.Events.Context
         {
             Identity = identity;
         }
-        
+
         /// <summary>
         /// The created ClaimsIdentity.
         /// </summary>
