@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +27,17 @@ public class FakeAuthenticationHandlerWebFactory : WebApplicationFactory<FakeAut
                     options.FakeZitadelId = "1234";
                     options.AdditionalClaims = new List<Claim> { new("foo", "bar"), };
                     options.Roles = new List<string> { "User" };
+                    
+                    options.Events.OnZitadelFakeAuth = context =>
+                    {
+                        if (context.FakeZitadelId == "4321")
+                        {
+                            context.AddClaim("bar", "foo");
+                            context.AddRole("Admin");
+                        }
+                        
+                        return Task.CompletedTask;
+                    };
                 });
     }
 

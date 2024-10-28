@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 
 using Microsoft.AspNetCore.Authentication;
@@ -37,6 +37,8 @@ internal class LocalFakeZitadelHandler(
             .Concat(Options.FakeZitadelOptions.Roles.Select(r => new Claim(ClaimTypes.Role, r)));
 
         var identity = new ClaimsIdentity(claims, ZitadelDefaults.FakeAuthenticationScheme);
+      
+        Options.FakeZitadelOptions.Events.OnZitadelFakeAuth.Invoke(new(identity));
 
         return Task.FromResult(
             AuthenticateResult.Success(
