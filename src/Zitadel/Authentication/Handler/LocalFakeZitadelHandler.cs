@@ -9,20 +9,11 @@ using Zitadel.Authentication.Options;
 
 namespace Zitadel.Authentication.Handler;
 
-#if NET8_0_OR_GREATER
 internal class LocalFakeZitadelHandler(
     IOptionsMonitor<LocalFakeZitadelSchemeOptions> options,
     ILoggerFactory logger,
     UrlEncoder encoder)
     : AuthenticationHandler<LocalFakeZitadelSchemeOptions>(options, logger, encoder)
-#else
-internal class LocalFakeZitadelHandler(
-    IOptionsMonitor<LocalFakeZitadelSchemeOptions> options,
-    ILoggerFactory logger,
-    UrlEncoder encoder,
-    ISystemClock clock)
-    : AuthenticationHandler<LocalFakeZitadelSchemeOptions>(options, logger, encoder, clock)
-#endif
 {
     private const string FakeAuthHeader = "x-zitadel-fake-auth";
     private const string FakeUserIdHeader = "x-zitadel-fake-user-id";
@@ -38,7 +29,9 @@ internal class LocalFakeZitadelHandler(
 
         var claims = new List<Claim>
             {
-                new(ClaimTypes.NameIdentifier, hasId ? forceUserId.ToString() : Options.FakeZitadelOptions.FakeZitadelId),
+                new(
+                    ClaimTypes.NameIdentifier,
+                    hasId ? forceUserId.ToString() : Options.FakeZitadelOptions.FakeZitadelId),
                 new("sub", hasId ? forceUserId.ToString() : Options.FakeZitadelOptions.FakeZitadelId),
             }.Concat(Options.FakeZitadelOptions.AdditionalClaims)
             .Concat(Options.FakeZitadelOptions.Roles.Select(r => new Claim(ClaimTypes.Role, r)));
