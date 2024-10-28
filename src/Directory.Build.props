@@ -1,11 +1,11 @@
 <Project>
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
         <LangVersion>12</LangVersion>
-        <Authors>Christoph Bühler, smartive AG</Authors>
+        <Authors>Christoph Bühler</Authors>
         <Owner>cbuehler</Owner>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
@@ -42,10 +42,10 @@
                 Condition="$(MSBuildProjectExtension) == '.csproj'" />
         <PackageReference
                 Include="SonarAnalyzer.CSharp"
-                Version="9.19.0.84025"
+                Version="9.32.0.97167"
                 PrivateAssets="all"
                 Condition="$(MSBuildProjectExtension) == '.csproj'" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.10.0" PrivateAssets="All" />
+        <PackageReference Include="Roslynator.Analyzers" Version="4.12.9" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
