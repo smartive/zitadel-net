@@ -6,6 +6,15 @@ namespace Zitadel.Authentication.Events.Context
     public class LocalFakeZitadelAuthContext
     {
         /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="identity">The created ClaimsIdentity.</param>
+        public LocalFakeZitadelAuthContext(ClaimsIdentity identity)
+        {
+            Identity = identity;
+        }
+        
+        /// <summary>
         /// The created ClaimsIdentity.
         /// </summary>
         public ClaimsIdentity Identity { get; init; }
@@ -22,17 +31,8 @@ namespace Zitadel.Authentication.Events.Context
         public string FakeZitadelId => new ClaimsPrincipal(Identity).FindFirstValue("sub")!;
 
         /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="identity">The created ClaimsIdentity.</param>
-        public LocalFakeZitadelAuthContext(ClaimsIdentity identity)
-        {
-            Identity = identity;
-        }
-
-        /// <summary>
-        /// Add a claim to the <see cref="AdditionalClaims"/> list.
-        /// This is a convenience method for modifying <see cref="AdditionalClaims"/>.
+        /// Add a claim to the <see cref="Claims"/> list.
+        /// This is a convenience method for modifying <see cref="Claims"/>.
         /// </summary>
         /// <param name="type">Type of the claim (examples: <see cref="ClaimTypes"/>).</param>
         /// <param name="value">The value.</param>
@@ -48,8 +48,8 @@ namespace Zitadel.Authentication.Events.Context
             string? originalIssuer = null) => AddClaim(new(type, value, valueType, issuer, originalIssuer));
 
         /// <summary>
-        /// Add a claim to the <see cref="AdditionalClaims"/> list.
-        /// This is a convenience method for modifying <see cref="AdditionalClaims"/>.
+        /// Add a claim to the <see cref="Claims"/> list.
+        /// This is a convenience method for modifying <see cref="Claims"/>.
         /// </summary>
         /// <param name="claim">The claim to add.</param>
         /// <returns>The <see cref="LocalFakeZitadelAuthContext"/> for chaining.</returns>
