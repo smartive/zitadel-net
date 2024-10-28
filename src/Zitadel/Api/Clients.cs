@@ -5,17 +5,18 @@ using Zitadel.Admin.V1;
 using Zitadel.Auth.V1;
 using Zitadel.Authentication;
 using Zitadel.Management.V1;
-using Zitadel.Oidc.V2beta;
-using Zitadel.Org.V2beta;
-using Zitadel.Session.V2beta;
-using Zitadel.Settings.V2beta;
+using Zitadel.Oidc.V2;
+using Zitadel.Org.V2;
+using Zitadel.Session.V2;
+using Zitadel.Settings.V2;
 using Zitadel.System.V1;
-using Zitadel.User.V2beta;
+using Zitadel.User.V2;
 
 namespace Zitadel.Api;
 
 /// <summary>
 /// Helper class to instantiate (gRPC) api service clients for the ZITADEL API with correct settings.
+/// All other versions are still available, but the latest version is used by default.
 /// </summary>
 public static class Clients
 {

@@ -155,10 +155,7 @@ public record Application
             },
             rsa,
             JwsAlgorithm.RS256,
-            new Dictionary<string, object>
-            {
-                { "kid", KeyId },
-            });
+            new Dictionary<string, object> { { "kid", KeyId }, });
     }
 
     private async Task<RSAParameters> GetRsaParametersAsync()

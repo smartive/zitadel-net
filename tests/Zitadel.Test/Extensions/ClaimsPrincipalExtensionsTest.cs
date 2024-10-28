@@ -53,7 +53,8 @@ public class ClaimsPrincipalExtensionsTest
     [Fact]
     public void IsNotInNoneOfTheGivenRoles()
     {
-        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, new[] { "negative", "negative", "negative" });
+        bool actual =
+            ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, new[] { "negative", "negative", "negative" });
 
         Assert.False(actual);
         claimsPrincipal.Verify(c => c.IsInRole("negative"), Times.Exactly(3));

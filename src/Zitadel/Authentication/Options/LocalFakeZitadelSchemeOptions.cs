@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 
-namespace Zitadel.Authentication.Options
+namespace Zitadel.Authentication.Options;
+
+internal class LocalFakeZitadelSchemeOptions : AuthenticationSchemeOptions
 {
-    internal class LocalFakeZitadelSchemeOptions : AuthenticationSchemeOptions
-    {
-        public LocalFakeZitadelOptions FakeZitadelOptions { get; set; } = new();
-    }
+    public LocalFakeZitadelOptions FakeZitadelOptions { get; set; } = new();
 }

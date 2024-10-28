@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Security.Claims;
 
 using Microsoft.AspNetCore.Builder;
@@ -38,7 +35,7 @@ public class FakeAuthenticationHandlerWebFactory : WebApplicationFactory<FakeAut
                             context.AddClaim("bar", "foo");
                             context.AddRole("Admin");
                         }
-                        
+
                         return Task.CompletedTask;
                     };
                 });
