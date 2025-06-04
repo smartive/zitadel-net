@@ -23,7 +23,7 @@
         <PackageReference Include="Grpc.Net.ClientFactory" Version="2.71.0" />
         <PackageReference Include="Grpc.Net.Common" Version="2.71.0" />
         <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2.0"/>
-        <PackageReference Include="jose-jwt" Version="5.1.1" />
+        <PackageReference Include="jose-jwt" Version="5.2.0" />
     </ItemGroup>
     
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
