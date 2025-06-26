@@ -20,8 +20,37 @@ or using it in a [WebApp](./examples/Zitadel.AspNet.AuthN) or
 To help developing the libraries, you may just open an issue or create a pull request
 to this repository.
 
-To set up the dev environment you merely only need to
-install the [.NET SDK](https://dotnet.microsoft.com/download) and you are good to go.
+#### Prerequisites
+
+To set up the dev environment, you need to install:
+
+1. [.NET SDK](https://dotnet.microsoft.com/download) (8.x or later)
+2. [Buf CLI](https://buf.build/docs/installation) - for protobuf code generation
+3. [Just](https://github.com/casey/just) - task runner (installed via dotnet tools)
+
+#### Building the Project
+
+Follow these steps to build the project:
+
+1. **Install .NET tools (including Just):**
+   ```bash
+   dotnet tool restore
+   ```
+
+2. **Generate gRPC code (required before first build):**
+   ```bash
+   just generate-grpc
+   ```
+
+3. **Build the project:**
+   ```bash
+   dotnet build
+   ```
+
+4. **Run tests:**
+   ```bash
+   dotnet test --configuration Release
+   ```
 
 ##### License
 
