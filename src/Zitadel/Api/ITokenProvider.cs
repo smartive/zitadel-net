@@ -34,5 +34,10 @@ public interface ITokenProvider
             options);
     }
 
-    internal DelegatingHandler CreateHandler();
+    /// <summary>
+    /// Creates the delegating handler for the token provider.
+    /// Made public to allow custom ITokenProvider implementations outside Zitadel.Net.
+    /// </summary>
+    public DelegatingHandler CreateHandler();
 }
+
