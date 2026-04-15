@@ -17,18 +17,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
-        <PackageReference Include="Google.Protobuf" Version="3.34.1" />
-        <PackageReference Include="Grpc" Version="2.46.6"/>
-        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.80.0" />
-        <PackageReference Include="Grpc.Net.Common" Version="2.80.0" />
-        <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" Version="6.2.0"/>
-        <PackageReference Include="jose-jwt" Version="5.3.0" />
+        <PackageReference Include="BouncyCastle.Cryptography" />
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Grpc" />
+        <PackageReference Include="Grpc.Net.ClientFactory" />
+        <PackageReference Include="Grpc.Net.Common" />
+        <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" />
+        <PackageReference Include="jose-jwt" />
     </ItemGroup>
     
     <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.6" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
     </ItemGroup>
 
 </Project>
