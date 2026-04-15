@@ -15,11 +15,11 @@ jobs:
         version:
           - 8.x
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: bufbuild/buf-setup-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup .NET
