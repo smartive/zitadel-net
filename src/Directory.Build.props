@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
@@ -42,7 +42,7 @@
                 Condition="$(MSBuildProjectExtension) == '.csproj'" />
         <PackageReference
                 Include="SonarAnalyzer.CSharp"
-                Version="9.32.0.97167"
+                Version="10.23.0.137933"
                 PrivateAssets="all"
                 Condition="$(MSBuildProjectExtension) == '.csproj'" />
         <PackageReference Include="Roslynator.Analyzers" Version="4.15.0" PrivateAssets="All" />
