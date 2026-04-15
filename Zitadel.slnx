@@ -1,0 +1,27 @@
+<Solution>
+  <Folder Name="/config/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path=".releaserc.json" />
+    <File Path="renovate.json" />
+  </Folder>
+  <Folder Name="/examples/">
+    <Project Path="examples/Zitadel.ApiAccess/Zitadel.ApiAccess.csproj" />
+    <Project Path="examples/Zitadel.AspNet.AuthN/Zitadel.AspNet.AuthN.csproj" />
+    <Project Path="examples/Zitadel.WebApi/Zitadel.WebApi.csproj" />
+  </Folder>
+  <Folder Name="/solution/">
+    <File Path="buf.gen.yaml" />
+    <File Path="justfile" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <File Path="src/Directory.Build.props" />
+    <Project Path="src/Zitadel/Zitadel.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <File Path="tests/Directory.Build.props" />
+    <Project Path="tests/Zitadel.Test/Zitadel.Test.csproj" />
+  </Folder>
+</Solution>
