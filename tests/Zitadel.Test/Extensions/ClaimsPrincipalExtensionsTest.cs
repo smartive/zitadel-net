@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-using Moq;
+using NSubstitute;
 
 using Xunit;
 
@@ -10,63 +10,63 @@ namespace Zitadel.Test.Extensions;
 
 public class ClaimsPrincipalExtensionsTest
 {
-    private readonly Mock<ClaimsPrincipal> claimsPrincipal;
+    private readonly ClaimsPrincipal claimsPrincipal;
 
     public ClaimsPrincipalExtensionsTest()
     {
-        claimsPrincipal = new();
-        claimsPrincipal.Setup(c => c.IsInRole("negative")).Returns(false);
-        claimsPrincipal.Setup(c => c.IsInRole("positive")).Returns(true);
+        claimsPrincipal = Substitute.For<ClaimsPrincipal>();
+        claimsPrincipal.IsInRole("negative").Returns(false);
+        claimsPrincipal.IsInRole("positive").Returns(true);
     }
 
     [Fact]
     public void IsInSingleRole()
     {
-        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, new[] { "positive" });
+        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal, new[] { "positive" });
 
         Assert.True(actual);
-        claimsPrincipal.Verify(c => c.IsInRole("positive"), Times.Once);
-        claimsPrincipal.VerifyNoOtherCalls();
+        claimsPrincipal.Received(1).IsInRole("positive");
+        Assert.Single(claimsPrincipal.ReceivedCalls());
     }
 
     [Fact]
     public void IsInOneOfTheGivenRoles()
     {
-        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, new[] { "negative", "positive" });
+        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal, new[] { "negative", "positive" });
 
         Assert.True(actual);
-        claimsPrincipal.Verify(c => c.IsInRole("positive"), Times.Once);
-        claimsPrincipal.Verify(c => c.IsInRole("negative"), Times.Once);
-        claimsPrincipal.VerifyNoOtherCalls();
+        claimsPrincipal.Received(1).IsInRole("positive");
+        claimsPrincipal.Received(1).IsInRole("negative");
+        Assert.Equal(2, claimsPrincipal.ReceivedCalls().Count());
     }
 
     [Fact]
     public void IsNotInRole()
     {
-        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, new[] { "negative" });
+        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal, new[] { "negative" });
 
         Assert.False(actual);
-        claimsPrincipal.Verify(c => c.IsInRole("negative"), Times.Once);
-        claimsPrincipal.VerifyNoOtherCalls();
+        claimsPrincipal.Received(1).IsInRole("negative");
+        Assert.Single(claimsPrincipal.ReceivedCalls());
     }
 
     [Fact]
     public void IsNotInNoneOfTheGivenRoles()
     {
         bool actual =
-            ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, new[] { "negative", "negative", "negative" });
+            ClaimsPrincipalExtensions.IsInRole(claimsPrincipal, new[] { "negative", "negative", "negative" });
 
         Assert.False(actual);
-        claimsPrincipal.Verify(c => c.IsInRole("negative"), Times.Exactly(3));
-        claimsPrincipal.VerifyNoOtherCalls();
+        claimsPrincipal.Received(3).IsInRole("negative");
+        Assert.Equal(3, claimsPrincipal.ReceivedCalls().Count());
     }
 
     [Fact]
     public void IsFalseForNoGivenRoles()
     {
-        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal.Object, Array.Empty<string>());
+        bool actual = ClaimsPrincipalExtensions.IsInRole(claimsPrincipal, Array.Empty<string>());
 
         Assert.False(actual);
-        claimsPrincipal.VerifyNoOtherCalls();
+        Assert.Empty(claimsPrincipal.ReceivedCalls());
     }
 }
