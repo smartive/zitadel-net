@@ -3,7 +3,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
         <PackageReference Include="NSubstitute" />
-        <PackageReference Update="FluentAssertions" />
+        <PackageReference Update="AwesomeAssertions" />
         <PackageReference Update="Microsoft.NET.Test.Sdk" />
         <PackageReference Update="xunit" />
         <PackageReference Update="xunit.runner.visualstudio">
