@@ -10,11 +10,11 @@ jobs:
   semantic-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: bufbuild/buf-setup-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup .NET
@@ -26,7 +26,7 @@ jobs:
       - name: Generate gRPC code
         run: just generate-grpc
       - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v3
+        uses: cycjimmy/semantic-release-action@v6
         with:
           semantic_version: 19
           extra_plugins: |
