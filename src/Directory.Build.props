@@ -53,7 +53,7 @@
             <_Parameter1>$(MSBuildProjectName).Test</_Parameter1>
         </AssemblyAttribute>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-            <!--So that internals are visible to the Moq library-->
+            <!--So that internals are visible to dynamic proxy-based test doubles-->
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
