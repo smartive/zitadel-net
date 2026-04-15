@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Security.Claims;
 
-using FluentAssertions;
+using AwesomeAssertions;
 
 using Xunit;
 
