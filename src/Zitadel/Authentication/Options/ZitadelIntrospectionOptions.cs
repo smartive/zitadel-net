@@ -1,7 +1,5 @@
 ﻿using IdentityModel.AspNetCore.OAuth2Introspection;
 
-using Zitadel.Credentials;
-
 namespace Zitadel.Authentication.Options;
 
 /// <summary>
@@ -26,5 +24,5 @@ public class ZitadelIntrospectionOptions : OAuth2IntrospectionOptions
     /// the client assertion is added.
     /// </para>
     /// </summary>
-    public Application? JwtProfile { get; set; }
+    public global::Zitadel.Credentials.Application? JwtProfile { get; set; }
 }
