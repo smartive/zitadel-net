@@ -1,7 +1,8 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
 
-using IdentityModel.Client;
+using Duende.AspNetCore.Authentication.OAuth2Introspection;
+using Duende.IdentityModel.Client;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
@@ -157,7 +158,6 @@ public static class ApplicationBuilderExtensions
                     options.ClientId = zitadelOptions.ClientId;
                     options.ClientSecret = zitadelOptions.ClientSecret;
                     options.DiscoveryPolicy = zitadelOptions.DiscoveryPolicy;
-                    options.EnableCaching = zitadelOptions.EnableCaching;
                     options.IntrospectionEndpoint = zitadelOptions.IntrospectionEndpoint;
                     options.SaveToken = zitadelOptions.SaveToken;
                     options.TokenRetriever = zitadelOptions.TokenRetriever;
@@ -222,9 +222,16 @@ public static class ApplicationBuilderExtensions
                     options.ClientId = null;
                     options.ClientSecret = null;
                     options.ClientCredentialStyle = ClientCredentialStyle.PostBody;
+                    var authority = options.Authority;
+                    if (string.IsNullOrWhiteSpace(authority))
+                    {
+                        throw new InvalidOperationException(
+                            "Authority must be configured when JwtProfile is used for introspection.");
+                    }
+
                     options.Events.OnUpdateClientAssertion += async context =>
                     {
-                        var jwt = await zitadelOptions.JwtProfile.GetSignedJwtAsync(options.Authority);
+                        var jwt = await zitadelOptions.JwtProfile.GetSignedJwtAsync(authority);
                         context.ClientAssertion = new()
                         {
                             Type = ZitadelIntrospectionOptions.JwtBearerClientAssertionType,
