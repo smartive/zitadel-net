@@ -1,4 +1,4 @@
-﻿using IdentityModel.AspNetCore.OAuth2Introspection;
+﻿using Duende.AspNetCore.Authentication.OAuth2Introspection;
 
 namespace Zitadel.Authentication.Options;
 
