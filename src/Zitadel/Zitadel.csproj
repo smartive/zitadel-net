@@ -22,7 +22,7 @@
         <PackageReference Include="Grpc" />
         <PackageReference Include="Grpc.Net.ClientFactory" />
         <PackageReference Include="Grpc.Net.Common" />
-        <PackageReference Include="IdentityModel.AspNetCore.OAuth2Introspection" />
+        <PackageReference Include="Duende.AspNetCore.Authentication.OAuth2Introspection" />
         <PackageReference Include="jose-jwt" />
     </ItemGroup>
     
