@@ -1,22 +1,33 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
 
+using Zitadel.Action.V2;
 using Zitadel.Admin.V1;
+using Zitadel.Analytics.V2beta;
+using Zitadel.Application.V2;
 using Zitadel.Auth.V1;
 using Zitadel.Authentication;
+using Zitadel.Authorization.V2;
+using Zitadel.Feature.V2;
+using Zitadel.Idp.V2;
+using Zitadel.Instance.V2;
+using Zitadel.InternalPermission.V2;
 using Zitadel.Management.V1;
 using Zitadel.Oidc.V2;
 using Zitadel.Org.V2;
+using Zitadel.Project.V2;
+using Zitadel.Saml.V2;
 using Zitadel.Session.V2;
 using Zitadel.Settings.V2;
 using Zitadel.System.V1;
 using Zitadel.User.V2;
+using Zitadel.Webkey.V2;
 
 namespace Zitadel.Api;
 
 /// <summary>
-/// Helper class to instantiate (gRPC) api service clients for the ZITADEL API with correct settings.
-/// All other versions are still available, but the latest version is used by default.
+/// Provides static methods to create and configure instances of gRPC API service clients for the ZITADEL API.
+/// The clients are instantiated with default or specified options to ensure proper connectivity and authentication.
 /// </summary>
 public static class Clients
 {
@@ -43,6 +54,70 @@ public static class Clients
     /// <returns>The <see cref="Management.V1.ManagementService.ManagementServiceClient"/>.</returns>
     public static ManagementService.ManagementServiceClient ManagementService(Options options) =>
         GetClient<ManagementService.ManagementServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the application service.
+    /// </summary>
+    /// <param name="options">Options for the client, including endpoint and authorization method.</param>
+    /// <returns>The <see cref="Application.V2.ApplicationService.ApplicationServiceClient"/>.</returns>
+    public static ApplicationService.ApplicationServiceClient ApplicationService(Options options) =>
+        GetClient<ApplicationService.ApplicationServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the project service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="Project.V2.ProjectService.ProjectServiceClient"/>.</returns>
+    public static ProjectService.ProjectServiceClient ProjectService(Options options) =>
+        GetClient<ProjectService.ProjectServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the action service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="Action.V2.ActionService.ActionServiceClient"/>.</returns>
+    public static ActionService.ActionServiceClient ActionService(Options options) =>
+        GetClient<ActionService.ActionServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the authorization service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="Authorization.V2.AuthorizationService.AuthorizationServiceClient"/>.</returns>
+    public static AuthorizationService.AuthorizationServiceClient AuthorizationService(Options options) =>
+        GetClient<AuthorizationService.AuthorizationServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the feature service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="Feature.V2.FeatureService.FeatureServiceClient"/>.</returns>
+    public static FeatureService.FeatureServiceClient FeatureService(Options options) =>
+        GetClient<FeatureService.FeatureServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the telemetry service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="TelemetryService.TelemetryServiceClient"/>.</returns>
+    public static TelemetryService.TelemetryServiceClient TelemetryService(Options options) =>
+        GetClient<TelemetryService.TelemetryServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the SAML service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="Saml.V2.SAMLService.SAMLServiceClient"/>.</returns>
+    public static SAMLService.SAMLServiceClient SAMLService(Options options) =>
+        GetClient<SAMLService.SAMLServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the web key service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="Webkey.V2.WebKeyService.WebKeyServiceClient"/>.</returns>
+    public static WebKeyService.WebKeyServiceClient WebKeyService(Options options) =>
+        GetClient<WebKeyService.WebKeyServiceClient>(options);
 
     /// <summary>
     /// Create a service client for the oidc service.
@@ -91,6 +166,31 @@ public static class Clients
     /// <returns>The <see cref="UserService.UserServiceClient"/>.</returns>
     public static UserService.UserServiceClient UserService(Options options) =>
         GetClient<UserService.UserServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the identity provider service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="IdentityProviderService.IdentityProviderServiceClient"/>.</returns>
+    public static IdentityProviderService.IdentityProviderServiceClient IdentityProviderService(Options options) =>
+        GetClient<IdentityProviderService.IdentityProviderServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the instance service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="Instance.V2.InstanceService.InstanceServiceClient"/>.</returns>
+    public static InstanceService.InstanceServiceClient InstanceService(Options options) =>
+        GetClient<InstanceService.InstanceServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the internal permission service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="InternalPermission.V2.InternalPermissionService.InternalPermissionServiceClient"/>.</returns>
+    public static InternalPermissionService.InternalPermissionServiceClient
+        InternalPermissionService(Options options) =>
+        GetClient<InternalPermissionService.InternalPermissionServiceClient>(options);
 
     private static TClient GetClient<TClient>(Options options)
         where TClient : ClientBase<TClient>
