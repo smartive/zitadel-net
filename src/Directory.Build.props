@@ -45,7 +45,7 @@
                 Version="9.32.0.97167"
                 PrivateAssets="all"
                 Condition="$(MSBuildProjectExtension) == '.csproj'" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.15.0" PrivateAssets="All" />
+        <PackageReference Include="Roslynator.Analyzers" Version="4.16.1" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
