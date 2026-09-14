@@ -133,8 +133,11 @@ public record ServiceAccount
     /// </summary>
     /// <param name="audience">The audience to authenticate against. Typically, this is a ZITADEL URL.</param>
     /// <param name="authOptions"><see cref="AuthOptions"/> that contain the parameters for the authentication process.</param>
-    /// <returns>An opaque access token which can be used to communicate with relying parties.</returns>
-    public async Task<string> AuthenticateAsync(string audience, AuthOptions? authOptions = null)
+    /// <returns>
+    /// An <see cref="AccessToken"/> that contains the opaque access token which can be used to
+    /// communicate with relying parties, together with the point in time it expires.
+    /// </returns>
+    public async Task<AccessToken> AuthenticateAsync(string audience, AuthOptions? authOptions = null)
     {
         authOptions ??= new();
         var manager = new ConfigurationManager<OpenIdConnectConfiguration>(
@@ -158,6 +161,9 @@ public record ServiceAccount
                 }),
         };
 
+        // Taken before the call so that a slow response shortens the assumed lifetime
+        // instead of overstating it.
+        var requestedAt = DateTimeOffset.UtcNow;
         var response = await HttpClient.SendAsync(request);
 
         try
@@ -166,7 +172,15 @@ public record ServiceAccount
                 .EnsureSuccessStatusCode()
                 .Content
                 .ReadFromJsonAsync<AccessTokenResponse>();
-            return token?.AccessToken ?? throw new AuthenticationException("Access token could not be parsed.");
+
+            if (token == null || string.IsNullOrWhiteSpace(token.AccessToken))
+            {
+                throw new AuthenticationException("Access token could not be parsed.");
+            }
+
+            return new(
+                token.AccessToken,
+                token.ExpiresIn is > 0 ? requestedAt.AddSeconds(token.ExpiresIn.Value) : null);
         }
         catch (HttpRequestException e)
         {
@@ -176,8 +190,8 @@ public record ServiceAccount
     }
 
     /// <inheritdoc cref="AuthenticateAsync"/>
-    public string Authenticate(string audience, AuthOptions? authOptions = null) =>
-        AuthenticateAsync(audience, authOptions).Result;
+    public AccessToken Authenticate(string audience, AuthOptions? authOptions = null) =>
+        Task.Run(() => AuthenticateAsync(audience, authOptions)).GetAwaiter().GetResult();
 
     private static string GetDiscoveryEndpoint(string discoveryEndpoint) =>
         discoveryEndpoint.EndsWith(ZitadelDefaults.DiscoveryEndpointPath)
@@ -284,9 +298,26 @@ public record ServiceAccount
                     .Where(s => !string.IsNullOrWhiteSpace(s)));
     }
 
+    /// <summary>
+    /// An access token that the token endpoint issued for a <see cref="ServiceAccount"/>.
+    /// </summary>
+    /// <param name="Token">The opaque access token used to communicate with relying parties.</param>
+    /// <param name="ExpiresAt">
+    /// The point in time at which the token expires, derived from the "expires_in" value of the
+    /// token response. <c>null</c> when the token endpoint did not report a lifetime.
+    /// </param>
+    public sealed record AccessToken(string Token, DateTimeOffset? ExpiresAt);
+
     private sealed record AccessTokenResponse
     {
         [JsonPropertyName("access_token")]
         public string AccessToken { get; init; } = string.Empty;
+
+        /// <summary>
+        /// Lifetime of the access token in seconds. The token endpoint is not required to
+        /// send this value, hence it is nullable.
+        /// </summary>
+        [JsonPropertyName("expires_in")]
+        public long? ExpiresIn { get; init; }
     }
 }
