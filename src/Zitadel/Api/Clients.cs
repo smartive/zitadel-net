@@ -210,9 +210,11 @@ public static class Clients
             }
         }
 
+        // DisposeHttpClient hands the lifetime of the client - and with it the token
+        // provider's handler chain - to the channel, so disposing the channel releases them.
         var channel = GrpcChannel.ForAddress(
             options.Endpoint,
-            new() { HttpClient = httpClient });
+            new() { HttpClient = httpClient, DisposeHttpClient = true });
         var serviceType = typeof(TClient);
 
         return Activator.CreateInstance(serviceType, channel) as TClient ??

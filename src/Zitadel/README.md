@@ -39,7 +39,8 @@ var serviceAccount = ServiceAccount.LoadFromJsonString(
   ""key"": ""RSA KEY"",
   ""userId"": ""user id""
 }");
-var token = await serviceAccount.AuthenticateAsync();
+var token = await serviceAccount.AuthenticateAsync("https://my-zitadel-instance.com");
+Console.WriteLine($"Token: {token.Token}, expires at: {token.ExpiresAt}");
 ```
 
 ## Accessing the ZITADEL API

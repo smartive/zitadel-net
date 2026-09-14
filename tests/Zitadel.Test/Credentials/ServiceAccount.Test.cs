@@ -21,7 +21,9 @@ public class ServiceAccountTest
         var sa = await ServiceAccount.LoadFromJsonStringAsync(TestData.ServiceAccountJson);
         var token = await sa.AuthenticateAsync(TestData.ApiUrl);
 
-        token.Should().NotBeEmpty();
+        token.Token.Should().NotBeEmpty();
+        token.ExpiresAt.Should().NotBeNull();
+        token.ExpiresAt.Should().BeAfter(DateTimeOffset.UtcNow);
     }
 
     [Fact]
