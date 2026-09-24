@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.26" />
-        <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.31" />
+        <PackageReference Include="Moq" Version="4.21.0" />
         <PackageReference Update="FluentAssertions" Version="6.12.2" />
         <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.14.1" />
         <PackageReference Update="xunit" Version="2.9.3" />
