@@ -185,10 +185,31 @@ builder.Services
 
 ### Caching
 
-The [OAuth2Introspection](https://github.com/IdentityModel/IdentityModel.AspNetCore.OAuth2Introspection)
-supports caching of the access token for a configured amount of time. This reduces the load on
-the issuer and allows faster requests for the same token. To enable caching, you need to configure
-caching in the options of `AddZitadelIntrospection` and add an implementation of `IDistributedCache`.
+The introspection handler is based on
+[Duende OAuth2Introspection](https://github.com/DuendeSoftware/foss/tree/main/introspection)
+and **always caches** introspection results using `HybridCache`. This reduces the load on
+the issuer and allows faster requests for the same token. By default, results are cached
+in memory for 5 minutes (`CacheDuration`), or shorter if the token expires earlier.
+If you register a distributed cache (`IDistributedCache`), it is used as the second level cache.
+
+Note that a token revoked in ZITADEL may still be accepted until its cache entry expires.
+Shorten `CacheDuration` or disable caching entirely via `SetCacheEntryFlags`:
+
+```csharp
+builder.Services
+    .AddAuthentication()
+    .AddZitadelIntrospection(
+        o =>
+        {
+            o.Authority = "https://zitadel-libraries-l8boqa.zitadel.cloud";
+            o.JwtProfile = Application.LoadFromJsonString("YOUR APPLICATION JSON");
+            o.SetCacheEntryFlags = HybridCacheEntryFlags.DisableLocalCacheWrite
+                                   | HybridCacheEntryFlags.DisableDistributedCacheWrite;
+        });
+```
+
+> **Migrating from 7.x:** `EnableCaching` has been removed. Caching is now always enabled
+> (see above), and `IdentityModel.*` types used in `Events` moved to the `Duende.*` namespaces.
 
 ## Faking / Mocking local Authentication
 
