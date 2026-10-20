@@ -155,6 +155,7 @@ public static class ApplicationBuilderExtensions
                     options.Events = zitadelOptions.Events;
                     options.AuthenticationType = zitadelOptions.AuthenticationType;
                     options.CacheDuration = zitadelOptions.CacheDuration;
+                    options.SetCacheEntryFlags = zitadelOptions.SetCacheEntryFlags;
                     options.ClientId = zitadelOptions.ClientId;
                     options.ClientSecret = zitadelOptions.ClientSecret;
                     options.DiscoveryPolicy = zitadelOptions.DiscoveryPolicy;
