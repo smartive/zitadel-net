@@ -1,4 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>smartive/renovate-config", ":disableMajorUpdates"]
+  "extends": ["gitlab>smartive/renovate-config:library", ":disableMajorUpdates"]
 }
