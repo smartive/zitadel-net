@@ -1,7 +1,9 @@
 ﻿using Grpc.Core;
 using Grpc.Net.Client;
 
+using Zitadel.Action.V2;
 using Zitadel.Admin.V1;
+using Zitadel.Application.V2;
 using Zitadel.Auth.V1;
 using Zitadel.Authentication;
 using Zitadel.Management.V1;
@@ -21,12 +23,28 @@ namespace Zitadel.Api;
 public static class Clients
 {
     /// <summary>
+    /// Create a service client for the action service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="ActionService.ActionServiceClient"/>.</returns>
+    public static ActionService.ActionServiceClient ActionService(Options options) =>
+        GetClient<ActionService.ActionServiceClient>(options);
+
+    /// <summary>
     /// Create a service client for the admin service.
     /// </summary>
     /// <param name="options">Options for the client like authorization method.</param>
     /// <returns>The <see cref="Admin.V1.AdminService.AdminServiceClient"/>.</returns>
     public static AdminService.AdminServiceClient AdminService(Options options) =>
         GetClient<AdminService.AdminServiceClient>(options);
+
+    /// <summary>
+    /// Create a service client for the application service.
+    /// </summary>
+    /// <param name="options">Options for the client like authorization method.</param>
+    /// <returns>The <see cref="ApplicationService.ApplicationServiceClient"/>.</returns>
+    public static ApplicationService.ApplicationServiceClient ApplicationService(Options options) =>
+        GetClient<ApplicationService.ApplicationServiceClient>(options);
 
     /// <summary>
     /// Create a service client for the auth service.
